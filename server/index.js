@@ -11,14 +11,24 @@ const session = require("express-session");
 const massive = require("massive");
 
 // AUTHENTICATION DEPENDENCIES
-// const passport = require("passport");
-// const Auth0Strategy = require("passport-auth0");
+const passport = require("passport");
+const Auth0Strategy = require("passport-auth0");
 
 // INITIALIZE APP
 const app = express();
 
+// SET ENVIRONMENTAL VARIABLES
+const {
+    AUTH_DOMAIN,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    PORT,
+    CONNECTION_STRING,
+    SESSION_SECRET
+} = process.env;
+
 // CONNECT TO DATABASE
-massive(process.env.CONNECTION_STRING)
+massive(CONNECTION_STRING)
     .then(db => {
         app.set("db", db);
     })
@@ -27,9 +37,75 @@ massive(process.env.CONNECTION_STRING)
 // SETUP MIDDLEWARES
 app.use(cors());
 app.use(json());
+app.use(
+    session({
+        secret: SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24
+        }
+    })
+);
+
+// SETUP AUTHENTICATION
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(
+    new Auth0Strategy(
+        {
+            domain: AUTH_DOMAIN,
+            clientSecret: CLIENT_SECRET,
+            clientID: CLIENT_ID,
+            callbackURL: "/auth",
+            scope: "openid profile"
+        },
+        (accessToken, refreshToken, extraParams, profile, done) => {
+            const createdDate = new Date().toISOString();
+            app
+                .get("db")
+                .get_user_id_by_auth_id(profile.id)
+                .then(response => {
+                    console.log(response);
+                    console.log(profile);
+                    if (!response[0]) {
+                        app
+                            .get("db")
+                            .create_user([
+                                profile.name.givenName,
+                                profile.name.familyName,
+                                profile.nickname,
+                                profile.email,
+                                profile.picture,
+                                profile.id,
+                                createdDate
+                            ])
+                            .then(created => {
+                                return done(null, created[0]);
+                            })
+                            .catch(console.log);
+                    } else {
+                        return done(null, response[0]);
+                    }
+                })
+                .catch(console.log);
+        }
+    )
+);
+passport.serializeUser((user_id, done) => done(null, user_id));
+passport.deserializeUser((user_id, done) => (null, user_id));
+
+// LOGIN AUTHENTICATION API
+app.get(
+    "/auth",
+    passport.authenticate("auth0", {
+        successRedirect: "http://localhost:3000/",
+        failureRedirect: "http://localhost:3001/auth"
+    })
+);
 
 // LISTEN ON PORT
-const port = process.env.PORT || 3001;
+const port = PORT || 3001;
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
