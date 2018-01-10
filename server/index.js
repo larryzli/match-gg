@@ -14,6 +14,9 @@ const massive = require("massive");
 const passport = require("passport");
 const Auth0Strategy = require("passport-auth0");
 
+// IMPORT CONTROLLERS
+const userController = require("./controllers/userController");
+
 // INITIALIZE APP
 const app = express();
 
@@ -66,8 +69,6 @@ passport.use(
                 .get("db")
                 .get_user_id_by_auth_id(profile.id)
                 .then(response => {
-                    console.log(response);
-                    console.log(profile);
                     if (!response[0]) {
                         app
                             .get("db")
@@ -81,10 +82,12 @@ passport.use(
                                 createdDate
                             ])
                             .then(created => {
+                                console.log("New User: ", created);
                                 return done(null, created[0]);
                             })
                             .catch(console.log);
                     } else {
+                        console.log("Existing User: ", response);
                         return done(null, response[0]);
                     }
                 })
@@ -93,16 +96,26 @@ passport.use(
     )
 );
 passport.serializeUser((user_id, done) => done(null, user_id));
-passport.deserializeUser((user_id, done) => (null, user_id));
+passport.deserializeUser((user_id, done) => done(null, user_id));
 
 // LOGIN AUTHENTICATION API
 app.get(
     "/auth",
     passport.authenticate("auth0", {
-        successRedirect: "http://localhost:3000/",
+        successRedirect: "http://localhost:3000/brackets",
         failureRedirect: "http://localhost:3001/auth"
     })
 );
+
+// TEST API FOR USER SESSION
+app.get("/api/me", (req, res) => {
+    console.log("Session: ", req.user);
+    if (req.user) {
+        return res.status(200).json(req.user);
+    } else {
+        return res.redirect("/auth");
+    }
+});
 
 // LISTEN ON PORT
 const port = PORT || 3001;

@@ -3,9 +3,6 @@ import React, { Component } from "react";
 import "./BracketViewer.css";
 
 export default class BracketViewer extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const rounds = [
             {
