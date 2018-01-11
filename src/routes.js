@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import BracketViewer from "./components/BracketViewer/BracketViewer";
 import Login from "./components/Login/Login";
 import About from "./components/About/About";
-import OrganizerDashboard from "./components/OrganizerDashboard/OrganizerDashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 const Routes = props => {
     return (
@@ -14,7 +14,7 @@ const Routes = props => {
             <Route exact path="/" component={Login} />
             <Route path="/about" component={About} />
             <Route path="/brackets" component={BracketViewer} />
-            <Route path="/dashboard" component={OrganizerDashboard} />
+            <Route path="/dashboard" component={Dashboard} />
         </Switch>
     );
 };

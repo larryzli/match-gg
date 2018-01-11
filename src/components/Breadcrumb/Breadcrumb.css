@@ -1,0 +1,26 @@
+.breadcrumb-container {
+    height: 75px;
+    min-height: 75px;
+    width: 100%;
+    background-color: #5b5b5b;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+.breadcrumb {
+    display: flex;
+    align-items: center;
+}
+.breadcrumb-name {
+    color: rgba(255, 255, 255, 0.514);
+    font-size: 18px;
+    text-decoration: none;
+}
+.breadcrumb-icon {
+    margin-left: 14px;
+    margin-right: 12px;
+    color: rgb(141, 141, 247);
+}
+.last-crumb {
+    color: white;
+}

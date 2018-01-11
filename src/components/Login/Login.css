@@ -14,9 +14,9 @@
     padding-bottom: 50px;
 }
 #login-site-name {
-    font-size: 60px;
+    font-size: 50px;
     color: rgb(87, 87, 182);
-    padding: 25px;
+    padding: 25px 0;
 }
 .login-box {
     padding: 40px;
