@@ -7,6 +7,8 @@ import BracketViewer from "./components/BracketViewer/BracketViewer";
 import Login from "./components/Login/Login";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Discover from "./components/Discover/Discover";
+import Manage from "./components/Manage/Manage";
 
 const Routes = props => {
     return (
@@ -15,6 +17,8 @@ const Routes = props => {
             <Route path="/about" component={About} />
             <Route path="/brackets" component={BracketViewer} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/discover" component={Discover} />
+            <Route path="/manage" component={Manage} />
         </Switch>
     );
 };

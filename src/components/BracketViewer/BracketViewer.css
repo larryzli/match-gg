@@ -1,6 +1,7 @@
 .bracket-viewer-container {
     background-color: rgb(58, 58, 58);
     height: 100vh;
+    width: 100%;
     overflow: scroll;
     display: flex;
 }

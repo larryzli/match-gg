@@ -3,12 +3,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
-// IMPORT STYLING
-import "./Dashboard.css";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
+// IMPORT STYLING
+import "./Discover.css";
 
 // COMPONENT
-class Dashboard extends Component {
+class Discover extends Component {
     render() {
         return (
             <div>
@@ -17,11 +17,10 @@ class Dashboard extends Component {
                     <div className="content-container">
                         <Breadcrumb
                             crumbsArray={[
-                                { name: "Dashboard", link: "/dashboard" },
-                                { name: "Bracket Name", link: "" }
+                                { name: "Discover", link: "/discover" }
                             ]}
                         />
-                        <div className="dashboard-container">Dashboard</div>
+                        <div className="discover-container">Discover</div>
                     </div>
                 </div>
             </div>
@@ -33,4 +32,4 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
     return state;
 };
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(Discover);

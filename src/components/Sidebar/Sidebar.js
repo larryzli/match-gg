@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import ExitToApp from "material-ui-icons/ExitToApp";
 import Search from "material-ui-icons/Search";
 import DashIcon from "material-ui-icons/Dashboard";
-import Add from "material-ui-icons/Add";
+import Assignment from "material-ui-icons/Assignment";
 import Group from "material-ui-icons/Group";
 import Inbox from "material-ui-icons/Inbox";
 // IMPORT STYLES
@@ -32,16 +32,16 @@ class Sidebar extends Component {
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
-                        to="/brackets"
+                        to="/discover"
                     >
                         <Search className="nav-icon" />Discover
                     </NavLink>
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
-                        to="/brackets"
+                        to="/manage"
                     >
-                        <Add className="nav-icon" />Create
+                        <Assignment className="nav-icon" />Manage
                     </NavLink>
                     <NavLink
                         className="sidebar-link"
@@ -60,6 +60,9 @@ class Sidebar extends Component {
                 </div>
                 <div className="sidebar-links-container dev">
                     <div className="sidebar-link">- - DEV LINKS - -</div>
+                    <NavLink className="sidebar-link" to="/brackets">
+                        Example Bracket
+                    </NavLink>
                     <NavLink className="sidebar-link" to="/about">
                         About
                     </NavLink>

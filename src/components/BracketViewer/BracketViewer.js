@@ -40,9 +40,9 @@ export default class BracketViewer extends Component {
             }
         ];
         return (
-            <div>
+            <div className="portal-container">
+                <Sidebar />
                 <div className="bracket-viewer-container">
-                    <Sidebar />
                     <div className="bracket-viewer">
                         <div className="bracket-column">
                             <div className="bracket-column-header">
