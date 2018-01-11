@@ -1,12 +1,12 @@
 // IMPORT DEPENDENCIES
 import React, { Component } from "react";
 import axios from "axios";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./App.css";
 
-import routes from "./routes";
+import Routes from "./Routes";
 
 class App extends Component {
     getUser() {
@@ -22,20 +22,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <header className="App-header">
-                    <h1 className="App-title">Match.gg</h1>
-                    {/* <a href="http://localhost:3001/auth">Login</a> */}
-                    <Link to="/">
-                        <button>HOME</button>
-                    </Link>
-                    <Link to="/brackets">
-                        <button>BRACKET</button>
-                    </Link>
-                    <Link to="/login">
-                        <button>LOGIN PAGE</button>
-                    </Link>
-                </header>
-                {routes}
+                <Routes />
             </div>
         );
     }

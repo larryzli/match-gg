@@ -1,6 +1,27 @@
 .header {
     background-color: #222;
     height: 80px;
-    padding: 20px;
+    padding: 0 20px;
     color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-logo {
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+}
+.site-logo span {
+    color: rgb(87, 87, 182);
+}
+
+.temp-nav button {
+    padding: 5px;
+    margin: 5px;
+}
+.logout {
+    color: rgb(255, 57, 57);
 }

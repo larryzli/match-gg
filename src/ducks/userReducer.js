@@ -1,19 +1,17 @@
-// DEPENDENCIES
+// ----- DEPENDENCIES ----- //
 import axios from "axios";
 
-// SET INITIAL STATE
+// ----- SET INITIAL STATE ----- //
 const initialState = {
     user: {},
     userLoading: false,
-    userError: false,
-    userType: ""
+    userError: false
 };
 
-// ACTION TYPES
+// ----- ACTION TYPES ----- //
 const RETRIEVE_USER = "RETRIEVE_USER";
-const SET_USER_TYPE = "SET_USER_TYPE";
 
-// ACTION CREATORS
+// ------ ACTION CREATORS ----- //
 export function retrieveUser() {
     return {
         type: RETRIEVE_USER,
@@ -23,14 +21,8 @@ export function retrieveUser() {
             .catch(console.log)
     };
 }
-export function setUserType(userType) {
-    return {
-        type: SET_USER_TYPE,
-        payload: userType
-    };
-}
 
-// REDUCER
+// ----- REDUCER ----- //
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         // RETRIEVE USER DATA
@@ -46,10 +38,6 @@ export default function reducer(state = initialState, action) {
                 // userLoading: false,
                 didError: true
             });
-
-        // SET USER TYPE OF ORGANIZER OR PLAYER
-        case SET_USER_TYPE:
-            return Object.assign({}, state, { userType: action.payload });
 
         default:
             return state;

@@ -1,1 +1,1 @@
-SELECT user_id FROM "user" WHERE auth_id = $1;
+SELECT user_id, alias FROM "user" WHERE auth_id = $1;

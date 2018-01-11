@@ -27,7 +27,8 @@ const {
     CLIENT_SECRET,
     PORT,
     CONNECTION_STRING,
-    SESSION_SECRET
+    SESSION_SECRET,
+    REACT_APP_LOGIN
 } = process.env;
 
 // CONNECT TO DATABASE
@@ -67,8 +68,10 @@ passport.use(
             const createdDate = new Date().toISOString();
             app
                 .get("db")
+                // Get user
                 .get_user_id_by_auth_id(profile.id)
                 .then(response => {
+                    // If user does not exist then create user
                     if (!response[0]) {
                         app
                             .get("db")
@@ -87,6 +90,7 @@ passport.use(
                             })
                             .catch(console.log);
                     } else {
+                        // Else return existing user
                         console.log("Existing User: ", response);
                         return done(null, response[0]);
                     }
@@ -102,8 +106,8 @@ passport.deserializeUser((user_id, done) => done(null, user_id));
 app.get(
     "/auth",
     passport.authenticate("auth0", {
-        successRedirect: "http://localhost:3000/brackets",
-        failureRedirect: "http://localhost:3001/auth"
+        successRedirect: "http://localhost:3000/dashboard",
+        failureRedirect: REACT_APP_LOGIN
     })
 );
 

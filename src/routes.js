@@ -1,14 +1,25 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import BracketViewer from "./components/BracketViewer/BracketViewer";
 import Login from "./components/Login/Login";
-import Home from "./components/Home/Home";
+import About from "./components/About/About";
+import OrganizerDashboard from "./components/OrganizerDashboard/OrganizerDashboard";
 
-export default (
-    <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/brackets/" component={BracketViewer} />
-        <Route path="/login" component={Login} />
-    </Switch>
-);
+const Routes = props => {
+    return (
+        <Switch>
+            <Route exact path="/" component={Login} />
+            <Route path="/about" component={About} />
+            <Route path="/brackets" component={BracketViewer} />
+            <Route path="/dashboard" component={OrganizerDashboard} />
+        </Switch>
+    );
+};
+
+const mapStateToProps = state => {
+    return state;
+};
+export default withRouter(connect(mapStateToProps)(Routes));
