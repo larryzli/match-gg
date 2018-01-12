@@ -5,7 +5,7 @@
     background-color: #5b5b5b;
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 60px;
 }
 .breadcrumb {
     display: flex;
@@ -19,8 +19,11 @@
 .breadcrumb-icon {
     margin-left: 14px;
     margin-right: 12px;
-    color: rgb(141, 141, 247);
+    color: #9fa8da;
 }
 .last-crumb {
+    color: white;
+}
+.link-crumb:hover {
     color: white;
 }

@@ -22,6 +22,60 @@
     font-size: large;
 }
 
+.content-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 200px);
+    background-color: rgb(58, 58, 58);
+}
+
+.portal-container {
+    display: flex;
+    height: 100vh;
+    min-width: fit-content;
+    min-height: 100vh;
+}
+
+.ui-button {
+    background-color: #5c6bc0;
+    padding: 12px;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    letter-spacing: 0.06em;
+    font-size: 14px;
+}
+
+.ui-button:hover {
+    color: #5c6bc0;
+    background-color: white;
+}
+/* .ui-form {
+    width: 500px;
+    min-width: 500px;
+} */
+.ui-form-half-container {
+    width: 47%;
+    display: inline-block;
+}
+
+.ui-form-container {
+    width: 100%;
+}
+.ui-form-divider {
+    width: 6%;
+    display: inline-block;
+}
+
+.ui-form-title {
+    color: white;
+    font-size: 25px;
+    letter-spacing: 0.06em;
+    text-align: left;
+}
+
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);

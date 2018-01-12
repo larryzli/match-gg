@@ -41,7 +41,7 @@
     margin: 10px 0;
 }
 .bracket-column-match > .winner {
-    background-color: rgb(87, 87, 182);
+    background-color: #7986cb;
     color: white;
     /* border: 1px solid white; */
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ChevronRight from "material-ui-icons/ChevronRight";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/fontawesome-free-solid";
 
 import "./Breadcrumb.css";
 
@@ -9,7 +10,7 @@ const Breadcrumb = props => {
     const displayCrumbs = props.crumbsArray.map((crumb, index) => {
         if (index + 1 === numCrumbs) {
             return (
-                <div className="breadcrumb">
+                <div key={index} className="breadcrumb">
                     <div className="breadcrumb-name last-crumb">
                         {crumb.name}
                     </div>
@@ -17,11 +18,17 @@ const Breadcrumb = props => {
             );
         } else {
             return (
-                <div className="breadcrumb">
-                    <Link to={crumb.link} className="breadcrumb-name">
+                <div key={index} className="breadcrumb">
+                    <Link
+                        to={crumb.link}
+                        className="breadcrumb-name link-crumb"
+                    >
                         {crumb.name}
                     </Link>
-                    <ChevronRight className="breadcrumb-icon" />
+                    <FontAwesomeIcon
+                        className="breadcrumb-icon"
+                        icon={faChevronRight}
+                    />
                 </div>
             );
         }

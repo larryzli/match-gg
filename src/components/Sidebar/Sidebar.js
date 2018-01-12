@@ -3,12 +3,16 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 // IMPORT ICONS
-import ExitToApp from "material-ui-icons/ExitToApp";
-import Search from "material-ui-icons/Search";
-import DashIcon from "material-ui-icons/Dashboard";
-import Assignment from "material-ui-icons/Assignment";
-import Group from "material-ui-icons/Group";
-import Inbox from "material-ui-icons/Inbox";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import {
+    faList,
+    faUsers,
+    faSearch,
+    faClipboard,
+    faInbox,
+    faSignInAlt,
+    faSignOutAlt
+} from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLES
 import "./Sidebar.css";
 // IMPORT REDUX FUNCTIONS
@@ -27,35 +31,43 @@ class Sidebar extends Component {
                         activeClassName="active-link"
                         to="/dashboard"
                     >
-                        <DashIcon className="nav-icon" />Dashboard
+                        <FontAwesomeIcon className="nav-icon" icon={faList} />
+                        Dashboard
                     </NavLink>
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
                         to="/discover"
                     >
-                        <Search className="nav-icon" />Discover
+                        <FontAwesomeIcon className="nav-icon" icon={faSearch} />
+                        Discover
                     </NavLink>
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
                         to="/manage"
                     >
-                        <Assignment className="nav-icon" />Manage
+                        <FontAwesomeIcon
+                            className="nav-icon"
+                            icon={faClipboard}
+                        />
+                        Manage
                     </NavLink>
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
                         to="/brackets"
                     >
-                        <Group className="nav-icon" />Teams
+                        <FontAwesomeIcon className="nav-icon" icon={faUsers} />
+                        Teams
                     </NavLink>
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
                         to="/brackets"
                     >
-                        <Inbox className="nav-icon" />Invites
+                        <FontAwesomeIcon className="nav-icon" icon={faInbox} />
+                        Invites
                     </NavLink>
                 </div>
                 <div className="sidebar-links-container dev">
@@ -68,10 +80,18 @@ class Sidebar extends Component {
                     </NavLink>
                     <div className="sidebar-link">Get User</div>
                     <NavLink className="sidebar-link" to="/">
+                        <FontAwesomeIcon
+                            className="nav-icon"
+                            icon={faSignInAlt}
+                        />
                         Login
                     </NavLink>
                     <NavLink className="sidebar-link logout" to="/">
-                        <ExitToApp className="nav-icon" />Logout
+                        <FontAwesomeIcon
+                            className="nav-icon"
+                            icon={faSignOutAlt}
+                        />
+                        Logout
                     </NavLink>
                 </div>
             </div>

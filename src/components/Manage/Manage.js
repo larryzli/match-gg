@@ -1,6 +1,7 @@
 // IMPORT DEPENDENCIES
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
@@ -18,7 +19,14 @@ class Manage extends Component {
                         <Breadcrumb
                             crumbsArray={[{ name: "Manage", link: "/manage" }]}
                         />
-                        <div className="manage-container">Manage</div>
+                        <div className="manage-container">
+                            <div>BRACKET LIST</div>
+                            <Link to="manage/create/bracket">
+                                <button className="ui-button">
+                                    Create New Bracket
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

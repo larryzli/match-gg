@@ -11,7 +11,7 @@ class About extends Component {
             <div className="about-container">
                 INTRO AND INFO GOES HERE
                 <Link to="/">
-                    <button className="login-button">GET STARTED</button>
+                    <button className="ui-button">GET STARTED</button>
                 </Link>
             </div>
         );

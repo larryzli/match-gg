@@ -15,7 +15,7 @@
 }
 #login-site-name {
     font-size: 50px;
-    color: rgb(87, 87, 182);
+    color: #7986cb;
     padding: 25px 0;
 }
 .login-box {
@@ -33,7 +33,7 @@
     padding: 15px;
     margin: 15px;
     border-radius: 5px;
-    background-color: rgb(87, 87, 182);
+    background-color: #7986cb;
     color: white;
     width: 200px;
     font-size: 16px;
@@ -44,5 +44,5 @@
 
 .login-button:hover {
     background: white;
-    color: rgb(87, 87, 182);
+    color: #7986cb;
 }

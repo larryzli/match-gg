@@ -27,7 +27,7 @@
     align-items: center;
 }
 .site-logo span {
-    color: rgb(87, 87, 182);
+    color: #7986cb;
 }
 .sidebar-links-container {
     width: 100%;
@@ -52,16 +52,16 @@
 }
 .nav-icon {
     margin-right: 10px;
+    min-width: 25px;
 }
 .active-link {
     background-color: #494949;
-    border-left: 10px solid rgb(87, 87, 182);
-    /* border-left: 10px solid rgb(158, 158, 252); */
+    border-left: 10px solid #7986cb;
     color: white;
 }
 .dev {
     background-color: black;
 }
 .logout {
-    color: rgb(255, 57, 57);
+    color: rgb(238, 61, 55);
 }

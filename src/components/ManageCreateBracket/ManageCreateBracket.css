@@ -1,0 +1,13 @@
+.manage-create-bracket-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 60px;
+    /* border: 2px solid red; */
+}
+.new-bracket-forms {
+    /* border: 2px solid white; */
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
