@@ -1,5 +1,6 @@
 .App {
     text-align: center;
+    font-family: "Roboto", sans-serif;
 }
 
 .App-logo {
@@ -23,7 +24,8 @@
 }
 
 .content-container {
-    height: 100vh;
+    /* height: 100vh;
+    min-height: 100vh; */
     display: flex;
     flex-direction: column;
     width: calc(100% - 200px);
@@ -32,24 +34,40 @@
 
 .portal-container {
     display: flex;
-    height: 100vh;
+    /* height: 100vh; */
     min-width: fit-content;
-    min-height: 100vh;
+    /* min-height: 100vh; */
 }
 
 .ui-button {
-    background-color: #5c6bc0;
     padding: 12px;
-    color: white;
     border: none;
     outline: none;
     border-radius: 5px;
     letter-spacing: 0.06em;
     font-size: 14px;
+    margin: 10px;
 }
-
-.ui-button:hover {
-    color: #5c6bc0;
+.button-medium {
+    width: 150px;
+}
+.button-long {
+    width: 300px;
+}
+.button-main {
+    background-color: #3f50aa;
+    color: white;
+}
+.button-secondary {
+    background-color: #f8a345;
+    color: white;
+}
+.button-secondary:hover {
+    background-color: white;
+    color: #f8a345;
+}
+.button-main:hover {
+    color: #3f50aa;
     background-color: white;
 }
 /* .ui-form {
@@ -63,6 +81,7 @@
 
 .ui-form-container {
     width: 100%;
+    text-align: left;
 }
 .ui-form-divider {
     width: 6%;
@@ -74,6 +93,26 @@
     font-size: 25px;
     letter-spacing: 0.06em;
     text-align: left;
+}
+
+.ui-form-label {
+    color: rgb(204, 204, 204);
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    text-align: left;
+    padding-top: 25px;
+    padding-bottom: 15px;
+}
+
+.ui-form-subtitle {
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.06em;
+    text-align: left;
+    padding-top: 25px;
+    padding-bottom: 15px;
 }
 
 @keyframes App-logo-spin {

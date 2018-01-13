@@ -3,7 +3,11 @@ import axios from "axios";
 
 // ----- SET INITIAL STATE ----- //
 const initialState = {
-    user: {},
+    // TEMP USER
+    user: {
+        user_id: 9,
+        alias: "larry.zy.li"
+    },
     userLoading: false,
     userError: false
 };

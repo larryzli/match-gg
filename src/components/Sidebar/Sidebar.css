@@ -12,6 +12,7 @@
     position: sticky;
     top: 0;
     left: 0;
+    z-index: 2;
 }
 .site-logo {
     font-size: 25px;
@@ -25,6 +26,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
 }
 .site-logo span {
     color: #7986cb;

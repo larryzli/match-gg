@@ -121,6 +121,9 @@ app.get("/api/me", (req, res) => {
     }
 });
 
+// BRACKET API
+// app.post("/api/brackets")
+
 // LISTEN ON PORT
 const port = PORT || 3001;
 app.listen(port, () => {

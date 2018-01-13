@@ -1,4 +1,5 @@
 .manage-create-bracket-container {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -10,4 +11,11 @@
     padding-top: 20px;
     display: flex;
     flex-direction: column;
+}
+.create-bracket-controls {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 20px;
+    margin-top: auto;
 }
