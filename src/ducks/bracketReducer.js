@@ -3,6 +3,7 @@ import axios from "axios";
 
 // ----- SET INITIAL STATE ----- //
 const initialState = {
+    // SINGLE BRACKET
     bracketID: null,
     bracketName: "",
     bracketDescription: "",
@@ -22,11 +23,17 @@ const initialState = {
     bracketStatus: "draft",
     bracketTeams: [],
     bracketCreating: false,
-    bracketCreateError: false
+    bracketCreateError: false,
+
+    // BRACKET LIST
+    bracketList: [],
+    bracketListLoading: false,
+    bracketListError: false
 };
 
 // ----- ACTION TYPES ----- //
 const CREATE_BRACKET = "CREATE_BRACKET";
+const RETRIEVE_BRACKETS_BY_CREATOR = "RETRIEVE_BRACKETS_BY_CREATOR";
 // const RETRIEVE_BRACKET_DATA = "RETRIEVE_BRACKET_DATA";
 const HANDLE_TEXT_CHANGE = "HANDLE_TEXT_CHANGE";
 const HANDLE_DATE_CHANGE = "HANDLE_DATE_CHANGE";
@@ -42,8 +49,21 @@ export function createBracket(bracketData) {
     return {
         type: CREATE_BRACKET,
         payload: axios
-            .post("/api/brackets", bracketData)
+            .post("/api/manage/brackets", bracketData)
             .then(response => response)
+            .catch(console.log)
+    };
+}
+// GET A CREATOR'S BRACKETS
+export function getCreatorBrackets() {
+    return {
+        type: RETRIEVE_BRACKETS_BY_CREATOR,
+        payload: axios
+            .get("/api/manage/brackets")
+            .then(response => {
+                console.log(response.data);
+                return response.data;
+            })
             .catch(console.log)
     };
 }
@@ -93,6 +113,7 @@ export function handleHasPasswordChange() {
 
 // ----- REDUCER ----- //
 export default function reducer(state = initialState, action) {
+    console.log(action);
     switch (action.type) {
         // CHANGE HANDLERS
         case `${HANDLE_TEXT_CHANGE}`:
@@ -132,8 +153,19 @@ export default function reducer(state = initialState, action) {
             });
         case `${CREATE_BRACKET}_REJECTED`:
             return Object.assign({}, state, { bracketCreateError: true });
+        // GET BRACKETS BY CREATOR
+        case `${RETRIEVE_BRACKETS_BY_CREATOR}_PENDING`:
+            return Object.assign({}, state, { bracketListLoading: true });
+        case `${RETRIEVE_BRACKETS_BY_CREATOR}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketList: action.payload,
+                bracketListLoading: false
+            });
+        case `${RETRIEVE_BRACKETS_BY_CREATOR}_REJECTED`:
+            return Object.assign({}, state, { bracketListError: true });
 
         default:
+            console.log("default state");
             return state;
     }
 }

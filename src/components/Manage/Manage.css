@@ -1,0 +1,16 @@
+.manage-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 60px;
+}
+.manage-brackets-list {
+    background-color: #222222;
+    width: 100%;
+    color: white;
+    padding: 20px;
+}
+.manage-bracket-list-entry {
+    color: white;
+}

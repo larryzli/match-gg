@@ -122,7 +122,8 @@ app.get("/api/me", (req, res) => {
 });
 
 // BRACKET API
-app.post("/api/brackets", bracketController.createBracket);
+app.post("/api/manage/brackets", bracketController.createBracket);
+app.get("/api/manage/brackets", bracketController.getCreatorBrackets);
 
 // LISTEN ON PORT
 const port = PORT || 3001;
