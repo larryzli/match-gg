@@ -16,6 +16,7 @@ const Auth0Strategy = require("passport-auth0");
 
 // IMPORT CONTROLLERS
 const userController = require("./controllers/userController");
+const bracketController = require("./controllers/bracketController");
 
 // INITIALIZE APP
 const app = express();
@@ -65,14 +66,13 @@ passport.use(
             scope: "openid profile"
         },
         (accessToken, refreshToken, extraParams, profile, done) => {
-            const createdDate = new Date().toISOString();
             app
                 .get("db")
-                // Get user
                 .get_user_id_by_auth_id(profile.id)
                 .then(response => {
                     // If user does not exist then create user
                     if (!response[0]) {
+                        let createdDate = new Date().toISOString();
                         app
                             .get("db")
                             .create_user([
@@ -122,7 +122,7 @@ app.get("/api/me", (req, res) => {
 });
 
 // BRACKET API
-// app.post("/api/brackets")
+app.post("/api/brackets", bracketController.createBracket);
 
 // LISTEN ON PORT
 const port = PORT || 3001;

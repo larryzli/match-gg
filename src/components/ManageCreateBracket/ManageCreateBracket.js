@@ -15,6 +15,17 @@ import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 // IMPORT STYLING
 import "./ManageCreateBracket.css";
+// IMPORT REDUX FUNCTIONS
+import {
+    handleTextChange,
+    handleDateChange,
+    handleTimeChange,
+    handleFormatChange,
+    handleBestOfChange,
+    handleInviteOnlyChange,
+    handleHasPasswordChange,
+    createBracket
+} from "../../ducks/bracketReducer";
 
 // COMPONENT
 class ManageCreateBracket extends Component {
@@ -63,11 +74,11 @@ class ManageCreateBracket extends Component {
         };
     }
 
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value
-        });
-    };
+    // handleChange = name => event => {
+    //     this.setState({
+    //         [name]: event.target.value
+    //     });
+    // };
     dateChange = (event, date) => {
         this.setState({
             bracketStartDate: date
@@ -101,6 +112,7 @@ class ManageCreateBracket extends Component {
     //         bracketMaxTeams: value
     //     });
     render() {
+        console.log(this.props);
         const breadcrumbs = [
             {
                 name: "Manage",
@@ -121,10 +133,16 @@ class ManageCreateBracket extends Component {
                             <h3 className="ui-form-title">Bracket Details</h3>
                             <div className="ui-form-container">
                                 <TextField
+                                    autoFocus={true}
                                     fullWidth={true}
                                     floatingLabelText="Name *"
-                                    value={this.state.bracketName}
-                                    onChange={this.handleChange("bracketName")}
+                                    value={this.props.brackets.bracketName}
+                                    onChange={e =>
+                                        this.props.handleTextChange(
+                                            "bracketName",
+                                            e.target.value
+                                        )
+                                    }
                                 />
                             </div>
                             <div className="ui-form-container">
@@ -144,8 +162,11 @@ class ManageCreateBracket extends Component {
                                         floatingLabelText="Start Date *"
                                         // container="inline"
                                         mode="landscape"
-                                        value={this.state.bracketStartDate}
-                                        onChange={this.dateChange}
+                                        value={
+                                            this.props.brackets.bracketStartDate
+                                        }
+                                        // onChange={this.dateChange}
+                                        onChange={this.props.handleDateChange}
                                     />
                                 </div>
                                 <div className="ui-form-divider" />
@@ -164,8 +185,10 @@ class ManageCreateBracket extends Component {
                                         format="ampm"
                                         fullWidth={true}
                                         floatingLabelText="Start Time *"
-                                        value={this.state.bracketStartTime}
-                                        onChange={this.timeChange}
+                                        value={
+                                            this.props.brackets.bracketStartTime
+                                        }
+                                        onChange={this.props.handleTimeChange}
                                     />
                                 </div>
                             </div>
@@ -175,10 +198,15 @@ class ManageCreateBracket extends Component {
                                         fullWidth={true}
                                         floatingLabelText="Subject *"
                                         hintText="e.g. Ping Pong"
-                                        value={this.state.bracketSubject}
-                                        onChange={this.handleChange(
-                                            "bracketSubject"
-                                        )}
+                                        value={
+                                            this.props.brackets.bracketSubject
+                                        }
+                                        onChange={e =>
+                                            this.props.handleTextChange(
+                                                "bracketSubject",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                 </div>
                                 <div className="ui-form-divider" />
@@ -186,10 +214,15 @@ class ManageCreateBracket extends Component {
                                     <TextField
                                         fullWidth={true}
                                         floatingLabelText="Custom Image URL"
-                                        value={this.state.bracketImageURL}
-                                        onChange={this.handleChange(
-                                            "bracketImageURL"
-                                        )}
+                                        value={
+                                            this.props.brackets.bracketImageURL
+                                        }
+                                        onChange={e =>
+                                            this.props.handleTextChange(
+                                                "bracketImageURL",
+                                                e.target.value
+                                            )
+                                        }
                                     />
                                 </div>
                             </div>
@@ -199,10 +232,15 @@ class ManageCreateBracket extends Component {
                                     multiLine={true}
                                     style={{ textAlign: "left" }}
                                     floatingLabelText="Description"
-                                    value={this.state.bracketDescription}
-                                    onChange={this.handleChange(
-                                        "bracketDescription"
-                                    )}
+                                    value={
+                                        this.props.brackets.bracketDescription
+                                    }
+                                    onChange={e =>
+                                        this.props.handleTextChange(
+                                            "bracketDescription",
+                                            e.target.value
+                                        )
+                                    }
                                 />
                             </div>
                             <div className="ui-form-container">
@@ -211,9 +249,9 @@ class ManageCreateBracket extends Component {
                                     <RadioButtonGroup
                                         name="format"
                                         defaultSelected={
-                                            this.state.bracketFormat
+                                            this.props.brackets.bracketFormat
                                         }
-                                        onChange={this.formatChange}
+                                        onChange={this.props.handleFormatChange}
                                     >
                                         <RadioButton
                                             style={{ marginBottom: "10px" }}
@@ -240,9 +278,9 @@ class ManageCreateBracket extends Component {
                                     <RadioButtonGroup
                                         name="best-of"
                                         defaultSelected={
-                                            this.state.bracketBestOf
+                                            this.props.brackets.bracketBestOf
                                         }
-                                        onChange={this.bestOfChange}
+                                        onChange={this.props.handleBestOfChange}
                                     >
                                         <RadioButton
                                             style={{ marginBottom: "10px" }}
@@ -280,10 +318,13 @@ class ManageCreateBracket extends Component {
                                         }}
                                         disabled
                                         label="Invite Only (Coming Soon)"
-                                        checked={this.state.bracketInviteOnly}
-                                        onCheck={this.inviteOnlyChange.bind(
-                                            this
-                                        )}
+                                        checked={
+                                            this.props.brackets
+                                                .bracketInviteOnly
+                                        }
+                                        onCheck={
+                                            this.props.handleInviteOnlyChange
+                                        }
                                     />
                                     <Checkbox
                                         style={{
@@ -293,10 +334,13 @@ class ManageCreateBracket extends Component {
                                         }}
                                         disabled
                                         label="Password (Coming Soon)"
-                                        checked={this.state.bracketHasPassword}
-                                        onCheck={this.hasPasswordChange.bind(
-                                            this
-                                        )}
+                                        checked={
+                                            this.props.brackets
+                                                .bracketHasPassword
+                                        }
+                                        onCheck={
+                                            this.props.handleHasPasswordChange
+                                        }
                                     />
                                 </div>
                                 <div className="ui-form-divider" />
@@ -327,8 +371,56 @@ class ManageCreateBracket extends Component {
                                         Cancel
                                     </button>
                                 </Link>
-                                <Link to="">
-                                    <button className="ui-button button-main button-medium">
+                                <Link
+                                    to={`/manage/bracket/${
+                                        this.props.bracketID
+                                    }`}
+                                >
+                                    <button
+                                        className="ui-button button-main button-medium"
+                                        onClick={e =>
+                                            this.props.createBracket({
+                                                bracketName: this.props.brackets
+                                                    .bracketName,
+                                                bracketDescription: this.props
+                                                    .brackets
+                                                    .bracketDescription,
+                                                bracketSubject: this.props
+                                                    .brackets.bracketSubject,
+                                                bracketStartDate: this.props
+                                                    .brackets.bracketStartDate,
+                                                bracketStartTime: this.props
+                                                    .brackets.bracketStartTime,
+                                                bracketImageURL: this.props
+                                                    .brackets.bracketImageURL,
+                                                bracketFormat: this.props
+                                                    .brackets.bracketFormat,
+                                                bracketTeamSizeLimit: this.props
+                                                    .brackets
+                                                    .bracketTeamSizeLimit,
+                                                bracketRandomizeSeeds: this
+                                                    .props.brackets
+                                                    .bracketRandomizeSeeds,
+                                                bracketRandomizeTeams: this
+                                                    .props.brackets
+                                                    .bracketRandomizeTeams,
+                                                bracketInviteOnly: this.props
+                                                    .brackets.bracketInviteOnly,
+                                                bracketBestOf: this.props
+                                                    .brackets.bracketBestOf,
+                                                bracketFinalsBestOf: this.props
+                                                    .brackets
+                                                    .bracketFinalsBestOf,
+                                                bracketHasPassword: this.props
+                                                    .brackets
+                                                    .bracketHasPassword,
+                                                bracketMaxTeams: this.props
+                                                    .brackets.bracketMaxTeams,
+                                                bracketStatus: this.props
+                                                    .brackets.bracketStatus
+                                            })
+                                        }
+                                    >
                                         Create
                                     </button>
                                 </Link>
@@ -345,4 +437,13 @@ class ManageCreateBracket extends Component {
 const mapStateToProps = state => {
     return state;
 };
-export default connect(mapStateToProps)(ManageCreateBracket);
+export default connect(mapStateToProps, {
+    handleTextChange,
+    handleDateChange,
+    handleTimeChange,
+    handleFormatChange,
+    handleBestOfChange,
+    handleInviteOnlyChange,
+    handleHasPasswordChange,
+    createBracket
+})(ManageCreateBracket);

@@ -1,7 +1,6 @@
 module.exports = {
     createBracket: (req, res) => {
-        const db = req.ap.get("db");
-        console.log(req.user);
+        const db = req.app.get("db");
         const { user_id } = req.user;
         const {
             bracketName,
@@ -18,10 +17,10 @@ module.exports = {
             bracketBestOf,
             bracketFinalsBestOf,
             bracketHasPassword,
-            bracketMaxTeams
+            bracketMaxTeams,
+            bracketStatus
         } = req.body;
         const createdAt = new Date();
-        const status = "draft";
         db
             .create_bracket([
                 bracketName,
@@ -41,7 +40,7 @@ module.exports = {
                 bracketInviteOnly,
                 bracketBestOf,
                 bracketFinalsBestOf,
-                status
+                bracketStatus
             ])
             .then(response => {
                 return res.status(200).json(response);

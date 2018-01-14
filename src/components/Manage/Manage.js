@@ -21,7 +21,7 @@ class Manage extends Component {
                         />
                         <div className="manage-container">
                             <div>BRACKET LIST</div>
-                            <Link to="manage/create/bracket">
+                            <Link to="/manage/create/bracket">
                                 <button className="ui-button button-main">
                                     Create New Bracket
                                 </button>
