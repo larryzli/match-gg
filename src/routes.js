@@ -10,6 +10,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Discover from "./components/Discover/Discover";
 import Manage from "./components/Manage/Manage";
 import ManageCreateBracket from "./components/ManageCreateBracket/ManageCreateBracket";
+import ManageViewBracket from "./components/ManageViewBracket/ManageViewBracket";
 
 const Routes = props => {
     return (
@@ -23,6 +24,7 @@ const Routes = props => {
                 path="/manage/create/bracket"
                 component={ManageCreateBracket}
             />
+            <Route path="/manage/:id" component={ManageViewBracket} />
             <Route path="/manage" component={Manage} />
         </Switch>
     );

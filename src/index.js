@@ -18,15 +18,23 @@ import store from "./store";
 const muiTheme = {
     palette: {
         textColor: "#FFFFFF",
-        primary1Color: "#5c6bc0",
-        primary2Color: "#5c6bc0",
-        primary3Color: "#5c6bc0",
+        primary1Color: "#7986cb",
+        primary2Color: "#7986cb",
+        primary3Color: "#7986cb",
         accent1Color: "#FFFFFF",
         accent2Color: "#FFFFFF",
         accent3Color: "#FFFFFF",
         // pickerHeaderColor: "#5c6bc0",
         alternateTextColor: "#FFFFFF"
         // secondaryTextColor: "#FFFFFF"
+    },
+    tableRow: {
+        hoverColor: "#5b5b5b",
+        borderColor: "#222222",
+        backgroundColor: "3A3A3A"
+    },
+    tableHeaderColumn: {
+        textColor: "#7986cb"
     }
 };
 

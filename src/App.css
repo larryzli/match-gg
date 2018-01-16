@@ -38,7 +38,9 @@
     min-width: fit-content;
     /* min-height: 100vh; */
 }
-
+.ui-link {
+    text-decoration: none;
+}
 .ui-button {
     padding: 12px;
     border: none;
@@ -47,6 +49,23 @@
     letter-spacing: 0.06em;
     font-size: 14px;
     margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ui-button-header {
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    letter-spacing: 0.06em;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ui-button-icon {
+    margin-right: 8px;
 }
 .button-medium {
     width: 150px;

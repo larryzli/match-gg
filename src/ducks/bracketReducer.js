@@ -113,7 +113,6 @@ export function handleHasPasswordChange() {
 
 // ----- REDUCER ----- //
 export default function reducer(state = initialState, action) {
-    console.log(action);
     switch (action.type) {
         // CHANGE HANDLERS
         case `${HANDLE_TEXT_CHANGE}`:
@@ -144,15 +143,34 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 bracketHasPassword: !state.bracketHasPassword
             });
+
         // CREATE BRACKET
         case `${CREATE_BRACKET}_PENDING`:
             return Object.assign({}, state, { bracketCreating: true });
         case `${CREATE_BRACKET}_FULFILLED`:
-            return Object.assign({}, initialState, {
-                bracketID: action.payload
+            return Object.assign({}, state, {
+                bracketID: action.payload,
+                bracketName: "",
+                bracketDescription: "",
+                bracketSubject: "",
+                bracketStartDate: {},
+                bracketStartTime: {},
+                bracketImageURL: "",
+                bracketFormat: "single-elimination",
+                bracketTeamSizeLimit: 1,
+                bracketRandomizeSeeds: false,
+                bracketRandomizeTeams: false,
+                bracketInviteOnly: false,
+                bracketBestOf: 1,
+                bracketFinalsBestOf: 1,
+                bracketHasPassword: false,
+                bracketMaxTeams: null,
+                bracketStatus: "draft",
+                bracketCreating: false
             });
         case `${CREATE_BRACKET}_REJECTED`:
             return Object.assign({}, state, { bracketCreateError: true });
+
         // GET BRACKETS BY CREATOR
         case `${RETRIEVE_BRACKETS_BY_CREATOR}_PENDING`:
             return Object.assign({}, state, { bracketListLoading: true });
@@ -165,7 +183,6 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { bracketListError: true });
 
         default:
-            console.log("default state");
             return state;
     }
 }

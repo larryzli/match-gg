@@ -8,10 +8,29 @@
 .manage-brackets-list {
     background-color: #222222;
     width: 100%;
+    height: 100%;
     color: white;
-    padding: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
-.manage-bracket-list-entry {
+.bracket-control-icon {
+    color: white;
+    padding: 0 5px;
+    text-align: center;
+}
+.bracket-control-icon:hover {
+    color: #7986cb;
+}
+.manage-brackets-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+    /* height: 75px; */
+}
+/* .manage-bracket-list-entry {
     color: white;
     display: flex;
 }
@@ -38,4 +57,4 @@
 }
 .status-column {
     width: 10%;
-}
+} */
