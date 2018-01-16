@@ -13,4 +13,29 @@
 }
 .manage-bracket-list-entry {
     color: white;
+    display: flex;
+}
+.manage-bracket-list-column {
+    padding: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.name-column {
+    width: 20%;
+    text-align: left;
+}
+.date-time-column {
+    width: 10%;
+}
+.subject-column {
+    width: 20%;
+    text-align: left;
+}
+.format-column {
+    width: 20%;
+    text-align: left;
+}
+.status-column {
+    width: 10%;
 }

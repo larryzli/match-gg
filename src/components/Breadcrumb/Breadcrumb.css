@@ -1,14 +1,14 @@
 .breadcrumb-container {
     height: 75px;
     min-height: 75px;
-    width: 100%;
+    width: calc(100vw - 200px);
     background-color: #5b5b5b;
     display: flex;
     align-items: center;
     padding-left: 60px;
     position: sticky;
     top: 0;
-    left: 0;
+    right: 0;
     z-index: 2;
 }
 .breadcrumb {

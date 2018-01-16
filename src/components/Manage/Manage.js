@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import moment from "moment";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
@@ -17,11 +18,41 @@ class Manage extends Component {
     }
     render() {
         console.log(this.props);
-        let userBrackets = <div>No Brackets</div>;
+        let userBrackets = (
+            <div className="manage-bracket-list-empty">No Brackets</div>
+        );
         if (this.props.brackets.bracketList) {
             userBrackets = this.props.brackets.bracketList.map(
                 (bracket, index) => {
-                    return <div key={index}>{bracket.bracket_name}</div>;
+                    let bracketDate = moment(bracket.start_date).format(
+                        "MM/DD/YY"
+                    );
+                    let bracketTime = moment(bracket.start_time).format(
+                        "hh:mm A"
+                    );
+                    console.log(bracket);
+                    return (
+                        <div className="manage-bracket-list-entry" key={index}>
+                            <div className="manage-bracket-list-column name-column">
+                                {bracket.bracket_name}{" "}
+                            </div>
+                            <div className="manage-bracket-list-column date-time-column">
+                                {bracketDate}{" "}
+                            </div>
+                            <div className="manage-bracket-list-column date-time-column">
+                                {bracketTime}{" "}
+                            </div>
+                            <div className="manage-bracket-list-column subject-column">
+                                {bracket.subject}{" "}
+                            </div>
+                            <div className="manage-bracket-list-column format-column">
+                                {bracket.format}{" "}
+                            </div>
+                            <div className="manage-bracket-list-column status-column">
+                                {bracket.status}{" "}
+                            </div>
+                        </div>
+                    );
                 }
             );
         }
@@ -35,6 +66,7 @@ class Manage extends Component {
                         />
                         <div className="manage-container">
                             <div className="manage-brackets-list">
+                                <div className="" />
                                 {userBrackets}
                             </div>
                             <Link to="/manage/create/bracket">
