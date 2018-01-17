@@ -35,6 +35,12 @@ const muiTheme = {
     },
     tableHeaderColumn: {
         textColor: "#7986cb"
+    },
+    tabs: {
+        backgroundColor: "#3A3A3A"
+    },
+    inkBar: {
+        backgroundColor: "#7986cb"
     }
 };
 

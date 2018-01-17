@@ -3,7 +3,7 @@ import axios from "axios";
 
 // ----- SET INITIAL STATE ----- //
 const initialState = {
-    // SINGLE BRACKET
+    // CREATE BRACKET
     bracketID: null,
     bracketName: "",
     bracketDescription: "",
@@ -24,6 +24,12 @@ const initialState = {
     bracketTeams: [],
     bracketCreating: false,
     bracketCreateError: false,
+    bracketParticipantType: "player",
+
+    //SINGLE BRACKET
+    bracketInfo: [],
+    bracketLoading: false,
+    bracketError: false,
 
     // BRACKET LIST
     bracketList: [],
@@ -32,9 +38,17 @@ const initialState = {
 };
 
 // ----- ACTION TYPES ----- //
-const CREATE_BRACKET = "CREATE_BRACKET";
+// GET BRACKET LIST BY CREATOR
 const RETRIEVE_BRACKETS_BY_CREATOR = "RETRIEVE_BRACKETS_BY_CREATOR";
-// const RETRIEVE_BRACKET_DATA = "RETRIEVE_BRACKET_DATA";
+
+// GET PUBLIC BRACKET LIST
+const RETRIEVE_PUBLIC_BRACKETS = "RETRIEVE_PUBLIC_BRACKETS";
+
+// LOAD SINGLE BRACKET
+const RETRIEVE_BRACKET_DATA = "RETRIEVE_BRACKET_DATA";
+
+// CREATE NEW BRACKET
+const CREATE_BRACKET = "CREATE_BRACKET";
 const HANDLE_TEXT_CHANGE = "HANDLE_TEXT_CHANGE";
 const HANDLE_DATE_CHANGE = "HANDLE_DATE_CHANGE";
 const HANDLE_TIME_CHANGE = "HANDLE_TIME_CHANGE";
@@ -42,8 +56,31 @@ const HANDLE_FORMAT_CHANGE = "HANDLE_FORMAT_CHANGE";
 const HANDLE_BESTOF_CHANGE = "HANDLE_BESTOF_CHANGE";
 const HANDLE_INVITE_ONLY_CHANGE = "HANDLE_INVITE_ONLY_CHANGE";
 const HANDLE_HAS_PASSWORD_CHANGE = "HANDLE_HAS_PASSWORD_CHANGE";
+const HANDLE_PARTICIPANT_TYPE_CHANGE = "HANDLE_PARTICIPANT_TYPE_CHANGE";
 
 // ------ ACTION CREATORS ----- //
+// GET PUBLIC BRACKETS
+export function retrievePublicBrackets() {
+    return {
+        type: RETRIEVE_PUBLIC_BRACKETS,
+        payload: axios
+            .get("/api/brackets")
+            .then(response => response.data)
+            .catch(console.log)
+    };
+}
+
+// GET BRACKET BY ID
+export function retrieveBracketData(bracketID) {
+    return {
+        type: RETRIEVE_BRACKET_DATA,
+        payload: axios
+            .get(`/api/bracket/${bracketID}`)
+            .then(response => response.data)
+            .catch(console.log)
+    };
+}
+
 // CREATE NEW BRACKET
 export function createBracket(bracketData) {
     return {
@@ -54,6 +91,7 @@ export function createBracket(bracketData) {
             .catch(console.log)
     };
 }
+
 // GET A CREATOR'S BRACKETS
 export function getCreatorBrackets() {
     return {
@@ -67,6 +105,7 @@ export function getCreatorBrackets() {
             .catch(console.log)
     };
 }
+
 // CHANGE HANDLERS
 export function handleTextChange(propName, value) {
     return {
@@ -110,6 +149,12 @@ export function handleHasPasswordChange() {
         payload: null
     };
 }
+export function handleParticipantTypeChange(event, value) {
+    return {
+        type: HANDLE_PARTICIPANT_TYPE_CHANGE,
+        payload: value
+    };
+}
 
 // ----- REDUCER ----- //
 export default function reducer(state = initialState, action) {
@@ -143,6 +188,10 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 bracketHasPassword: !state.bracketHasPassword
             });
+        case `${HANDLE_PARTICIPANT_TYPE_CHANGE}`:
+            return Object.assign({}, state, {
+                bracketParticipantType: action.payload
+            });
 
         // CREATE BRACKET
         case `${CREATE_BRACKET}_PENDING`:
@@ -166,7 +215,8 @@ export default function reducer(state = initialState, action) {
                 bracketHasPassword: false,
                 bracketMaxTeams: null,
                 bracketStatus: "draft",
-                bracketCreating: false
+                bracketCreating: false,
+                bracketParticipantType: "player"
             });
         case `${CREATE_BRACKET}_REJECTED`:
             return Object.assign({}, state, { bracketCreateError: true });
@@ -181,6 +231,28 @@ export default function reducer(state = initialState, action) {
             });
         case `${RETRIEVE_BRACKETS_BY_CREATOR}_REJECTED`:
             return Object.assign({}, state, { bracketListError: true });
+
+        // GET PUBLIC BRACKETS
+        case `${RETRIEVE_PUBLIC_BRACKETS}_PENDING`:
+            return Object.assign({}, state, { bracketListLoading: true });
+        case `${RETRIEVE_PUBLIC_BRACKETS}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketList: action.payload,
+                bracketListLoading: false
+            });
+        case `${RETRIEVE_PUBLIC_BRACKETS}_REJECTED`:
+            return Object.assign({}, state, { bracketListError: true });
+
+        // GET SINGLE BRACKET BY BRACKET ID
+        case `${RETRIEVE_BRACKET_DATA}_PENDING`:
+            return Object.assign({}, state, { bracketLoading: true });
+        case `${RETRIEVE_BRACKET_DATA}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketInfo: action.payload,
+                bracketLoading: false
+            });
+        case `${RETRIEVE_BRACKET_DATA}_REJECTED`:
+            return Object.assign({}, state, { bracketError: true });
 
         default:
             return state;

@@ -56,7 +56,7 @@ class Sidebar extends Component {
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
-                        to="/brackets"
+                        to="/teams"
                     >
                         <FontAwesomeIcon className="nav-icon" icon={faUsers} />
                         Teams
@@ -64,7 +64,7 @@ class Sidebar extends Component {
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
-                        to="/brackets"
+                        to="/invites"
                     >
                         <FontAwesomeIcon className="nav-icon" icon={faInbox} />
                         Invites

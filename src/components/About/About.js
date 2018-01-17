@@ -10,7 +10,7 @@ class About extends Component {
         return (
             <div className="about-container">
                 INTRO AND INFO GOES HERE
-                <Link to="/">
+                <Link to="/" className="ui-link">
                     <button className="ui-button">GET STARTED</button>
                 </Link>
             </div>

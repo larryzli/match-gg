@@ -5,15 +5,3 @@
     align-items: flex-start;
     padding: 40px 60px;
 }
-.new-bracket-forms {
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-}
-.create-bracket-controls {
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    padding-top: 20px;
-    margin-top: auto;
-}

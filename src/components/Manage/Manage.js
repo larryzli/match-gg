@@ -168,14 +168,13 @@ class Manage extends Component {
                 </Table>
             );
         }
+        const breadcrumbs = [{ name: "Manage", link: "/manage" }];
         return (
             <div>
                 <div className="portal-container">
                     <Sidebar />
                     <div className="content-container">
-                        <Breadcrumb
-                            crumbsArray={[{ name: "Manage", link: "/manage" }]}
-                        />
+                        <Breadcrumb crumbsArray={breadcrumbs} />
                         <div className="manage-container">
                             <div className="manage-brackets-list-header">
                                 <h2 className="ui-form-title">My Brackets</h2>
@@ -188,7 +187,7 @@ class Manage extends Component {
                                             icon={faPlus}
                                             className="ui-button-icon"
                                         />
-                                        Create Bracket
+                                        New Bracket
                                     </button>
                                 </Link>
                             </div>
