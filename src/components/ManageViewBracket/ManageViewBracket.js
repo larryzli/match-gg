@@ -93,6 +93,14 @@ class ManageViewBracket extends Component {
                 </div>
             );
         }
+        const bracketTabLabel =
+            this.props.brackets.bracketStatus !== "live"
+                ? "BRACKET (PREVIEW)"
+                : "BRACKET";
+        const matchesTabLabel =
+            this.props.brackets.bracketStatus !== "live"
+                ? "MATCHES (PREVIEW)"
+                : "MATCHES";
         return (
             <div className="portal-container">
                 <Sidebar />
@@ -197,16 +205,17 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
-                                label="BRACKET"
+                                label={bracketTabLabel}
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
                                     <h3>View Bracket</h3>
                                     <p>See Full Screen</p>
+                                    <p>Preview Bracket</p>
                                 </div>
                             </Tab>
                             <Tab
-                                label="MATCHES"
+                                label={matchesTabLabel}
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
