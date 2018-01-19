@@ -31,7 +31,7 @@ const muiTheme = {
     tableRow: {
         hoverColor: "#5b5b5b",
         borderColor: "#222222",
-        backgroundColor: "3A3A3A"
+        backgroundColor: "#3A3A3A"
     },
     tableHeaderColumn: {
         textColor: "#7986cb"

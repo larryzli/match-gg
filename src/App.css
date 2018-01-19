@@ -38,9 +38,19 @@
     min-width: fit-content;
     /* min-height: 100vh; */
 }
+
+.ui-title-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
 .ui-link {
     text-decoration: none;
 }
+
 .ui-button {
     padding: 12px;
     border: none;
@@ -48,7 +58,7 @@
     border-radius: 5px;
     letter-spacing: 0.06em;
     font-size: 14px;
-    margin: 10px;
+    margin: 0 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,11 +71,15 @@
     letter-spacing: 0.06em;
     font-size: 12px;
     display: flex;
+    margin-left: 10px;
     justify-content: center;
     align-items: center;
 }
 .ui-button-icon {
     margin-right: 8px;
+}
+.button-short {
+    width: 100px;
 }
 .button-medium {
     width: 150px;
@@ -83,13 +97,26 @@
     border: 1px solid white;
     color: white;
 }
-.button-secondary:hover {
-    background-color: white;
-    color: #222;
+.button-confirm {
+    background-color: #009688;
+    border: 1px solid transparent;
+    color: white;
 }
 .button-main:hover {
     color: #3f50aa;
     background-color: white;
+}
+.button-secondary:hover {
+    background-color: white;
+    color: #222222;
+}
+.button-confirm:hover {
+    background-color: white;
+    color: #009688;
+}
+.ui-header-controls {
+    display: flex;
+    align-items: center;
 }
 /* .ui-form {
     width: 500px;
@@ -114,6 +141,12 @@
     font-size: 25px;
     letter-spacing: 0.06em;
     text-align: left;
+    padding-right: 15px;
+}
+
+.ui-title-with-chip {
+    display: flex;
+    align-items: center;
 }
 
 .ui-form-label {

@@ -6,11 +6,30 @@
     padding: 40px 60px;
 }
 .bracket-tab-content-container {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     padding: 20px;
     color: white;
-    background-color: #222222;
+    background-color: #3a3a3a;
 }
 .bracket-data-pair {
-    margin: 15px 0;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.bracket-data-title {
+    padding-bottom: 5px;
+    color: rgb(201, 201, 201);
+    font-weight: 200;
+}
+.bracket-data-info {
+    font-size: 22px;
+}
+.bracket-pair-subtext {
+    display: block;
+    font-size: 14px;
+    color: #707070;
+}
+.description-text {
+    font-size: 16px;
+    text-transform: none;
 }

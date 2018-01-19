@@ -22,10 +22,7 @@ const Routes = props => {
             <Route path="/brackets" component={BracketViewer} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/discover" component={Discover} />
-            <Route
-                path="/manage/create/bracket"
-                component={ManageCreateBracket}
-            />
+            <Route path="/manage/create" component={ManageCreateBracket} />
             <Route path="/manage/:id" component={ManageViewBracket} />
             <Route path="/manage" component={Manage} />
             <Route path="/teams" component={Teams} />

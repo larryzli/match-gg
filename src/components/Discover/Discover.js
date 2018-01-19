@@ -17,7 +17,7 @@ import {
 } from "material-ui/Table";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/fontawesome-free-solid";
+import { faEye, faSearch } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./Discover.css";
 // IMPORT REDUX FUNCTIONS
@@ -180,7 +180,11 @@ class Discover extends Component {
                                 <h2 className="ui-form-title">
                                     Public Brackets
                                 </h2>
-                                <button className="ui-button-header button-main">
+                                <button className="ui-button-header button-main button-short">
+                                    <FontAwesomeIcon
+                                        icon={faSearch}
+                                        className="ui-button-icon"
+                                    />
                                     Search
                                 </button>
                             </div>

@@ -22,14 +22,6 @@
 .bracket-control-icon:hover {
     color: #7986cb;
 }
-.manage-brackets-list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding-bottom: 20px;
-    /* height: 75px; */
-}
 /* .manage-bracket-list-entry {
     color: white;
     display: flex;

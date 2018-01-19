@@ -14,7 +14,7 @@ import Checkbox from "material-ui/Checkbox";
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 // IMPORT STYLING
-import "./ManageCreateBracket.css";
+import "./ManageEditBracket.css";
 // IMPORT REDUX FUNCTIONS
 import {
     handleTextChange,
@@ -29,7 +29,10 @@ import {
 } from "../../ducks/bracketReducer";
 
 // COMPONENT
-class ManageCreateBracket extends Component {
+class ManageEditBracket extends Component {
+    componentDidMount() {
+        this.props.retrieveBracketData(this.props.match.params.id);
+    }
     render() {
         console.log(this.props);
         const breadcrumbs = [
@@ -38,8 +41,8 @@ class ManageCreateBracket extends Component {
                 link: "/manage"
             },
             {
-                name: "Create Bracket",
-                link: "/manage/create"
+                name: bracketInfo.bracket_name,
+                link: `/manage/${bracketInfo.bracket_id}`
             }
         ];
         return (
@@ -47,7 +50,7 @@ class ManageCreateBracket extends Component {
                 <Sidebar />
                 <div className="content-container">
                     <Breadcrumb crumbsArray={breadcrumbs} />
-                    <div className="manage-create-bracket-container">
+                    <div className="manage-edit-bracket-container">
                         <h3 className="ui-form-title">Bracket Details</h3>
                         <div className="ui-form-container">
                             <TextField
@@ -363,4 +366,4 @@ export default connect(mapStateToProps, {
     handleHasPasswordChange,
     handleParticipantTypeChange,
     createBracket
-})(ManageCreateBracket);
+})(ManageEditBracket);

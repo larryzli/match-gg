@@ -176,18 +176,15 @@ class Manage extends Component {
                     <div className="content-container">
                         <Breadcrumb crumbsArray={breadcrumbs} />
                         <div className="manage-container">
-                            <div className="manage-brackets-list-header">
+                            <div className="ui-title-header">
                                 <h2 className="ui-form-title">My Brackets</h2>
-                                <Link
-                                    to="/manage/create/bracket"
-                                    className="ui-link"
-                                >
-                                    <button className="ui-button-header button-main">
+                                <Link to="/manage/create" className="ui-link">
+                                    <button className="ui-button-header button-main button-short">
                                         <FontAwesomeIcon
                                             icon={faPlus}
                                             className="ui-button-icon"
                                         />
-                                        New Bracket
+                                        Create
                                     </button>
                                 </Link>
                             </div>

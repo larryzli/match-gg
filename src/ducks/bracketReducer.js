@@ -3,7 +3,7 @@ import axios from "axios";
 
 // ----- SET INITIAL STATE ----- //
 const initialState = {
-    // CREATE BRACKET
+    // BRACKET INFO
     bracketID: null,
     bracketName: "",
     bracketDescription: "",
@@ -21,13 +21,17 @@ const initialState = {
     bracketHasPassword: false,
     bracketMaxTeams: null,
     bracketStatus: "draft",
-    bracketTeams: [],
-    bracketCreating: false,
-    bracketCreateError: false,
     bracketParticipantType: "player",
 
-    //SINGLE BRACKET
-    bracketInfo: [],
+    // BRACKET PARTICIPANTS
+    bracketTeams: [],
+    bracketPlayers: [],
+
+    // CREATE BRACKET
+    bracketCreating: false,
+    bracketCreateError: false,
+
+    // SINGLE BRACKET LOAD
     bracketLoading: false,
     bracketError: false,
 
@@ -47,7 +51,7 @@ const RETRIEVE_PUBLIC_BRACKETS = "RETRIEVE_PUBLIC_BRACKETS";
 // LOAD SINGLE BRACKET
 const RETRIEVE_BRACKET_DATA = "RETRIEVE_BRACKET_DATA";
 
-// CREATE NEW BRACKET
+// CREATE OR EDIT BRACKET
 const CREATE_BRACKET = "CREATE_BRACKET";
 const HANDLE_TEXT_CHANGE = "HANDLE_TEXT_CHANGE";
 const HANDLE_DATE_CHANGE = "HANDLE_DATE_CHANGE";
@@ -57,6 +61,7 @@ const HANDLE_BESTOF_CHANGE = "HANDLE_BESTOF_CHANGE";
 const HANDLE_INVITE_ONLY_CHANGE = "HANDLE_INVITE_ONLY_CHANGE";
 const HANDLE_HAS_PASSWORD_CHANGE = "HANDLE_HAS_PASSWORD_CHANGE";
 const HANDLE_PARTICIPANT_TYPE_CHANGE = "HANDLE_PARTICIPANT_TYPE_CHANGE";
+const PUBLISH_BRACKET = "PUBLISH_BRACKET";
 
 // ------ ACTION CREATORS ----- //
 // GET PUBLIC BRACKETS
@@ -76,7 +81,7 @@ export function retrieveBracketData(bracketID) {
         type: RETRIEVE_BRACKET_DATA,
         payload: axios
             .get(`/api/bracket/${bracketID}`)
-            .then(response => response.data)
+            .then(response => response.data[0])
             .catch(console.log)
     };
 }
@@ -89,6 +94,14 @@ export function createBracket(bracketData) {
             .post("/api/manage/brackets", bracketData)
             .then(response => response)
             .catch(console.log)
+    };
+}
+
+// PUBLISH BRACKET DRAFT
+export function publishBracket(bracketID) {
+    return {
+        type: PUBLISH_BRACKET,
+        payload: "published"
     };
 }
 
@@ -248,7 +261,27 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { bracketLoading: true });
         case `${RETRIEVE_BRACKET_DATA}_FULFILLED`:
             return Object.assign({}, state, {
-                bracketInfo: action.payload,
+                bracketID: action.payload.bracket_id,
+                bracketName: action.payload.bracket_name,
+                bracketDescription: action.payload.description,
+                bracketSubject: action.payload.subject,
+                bracketStartDate: action.payload.start_date,
+                bracketStartTime: action.payload.start_time,
+                bracketImageURL: action.payload.image_url,
+                bracketFormat: action.payload.format,
+                bracketTeamSizeLimit: action.payload.team_size,
+                bracketRandomizeSeeds: action.payload.randomize_seeds,
+                bracketRandomizeTeams: action.payload.randomize_teams,
+                bracketInviteOnly: action.payload.invite_only,
+                bracketBestOf: action.payload.best_of,
+                bracketFinalsBestOf: action.payload.finals_best_of,
+                bracketHasPassword: action.payload.has_password,
+                bracketMaxTeams: action.payload.max_teams,
+                bracketStatus: action.payload.status,
+
+                bracketParticipantType: action.payload.participant_type,
+
+                // bracketInfo: action.payload,
                 bracketLoading: false
             });
         case `${RETRIEVE_BRACKET_DATA}_REJECTED`:
