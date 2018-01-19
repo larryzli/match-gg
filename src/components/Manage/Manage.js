@@ -156,7 +156,8 @@ class Manage extends Component {
                                     <TableRowColumn
                                         colSpan="2"
                                         style={{
-                                            textAlign: "center"
+                                            textAlign: "center",
+                                            textTransform: "capitalize"
                                         }}
                                     >
                                         {bracket.status}

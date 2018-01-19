@@ -29,7 +29,7 @@ class ManageViewBracket extends Component {
                 link: "/manage"
             },
             {
-                name: this.props.brackets.bracket_name,
+                name: this.props.brackets.bracketName,
                 link: `/manage/${this.props.brackets.bracketID}`
             }
         ];
@@ -44,7 +44,10 @@ class ManageViewBracket extends Component {
                         />
                         Publish
                     </button>
-                    <Link to="/manage/create" className="ui-link">
+                    <Link
+                        to={`/manage/${this.props.brackets.bracketID}/edit`}
+                        className="ui-link"
+                    >
                         <button className="ui-button-header button-main button-short">
                             <FontAwesomeIcon
                                 icon={faEdit}

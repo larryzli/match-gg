@@ -49,6 +49,54 @@ module.exports = {
             })
             .catch(console.log);
     },
+    editBracket: (req, res) => {
+        const db = req.app.get("db");
+        const bracket_id = req.params.id;
+        const {
+            bracketName,
+            bracketDescription,
+            bracketSubject,
+            bracketStartDate,
+            bracketStartTime,
+            bracketImageURL,
+            bracketFormat,
+            bracketTeamSizeLimit,
+            bracketRandomizeSeeds,
+            bracketRandomizeTeams,
+            bracketInviteOnly,
+            bracketBestOf,
+            bracketFinalsBestOf,
+            bracketHasPassword,
+            bracketMaxTeams,
+            bracketStatus,
+            bracketParticipantType
+        } = req.body;
+        db
+            .update_bracket_by_bracket_id([
+                bracket_id,
+                bracketName,
+                bracketStartTime,
+                bracketStartDate,
+                bracketDescription,
+                bracketSubject,
+                bracketFormat,
+                bracketImageURL,
+                bracketTeamSizeLimit,
+                bracketRandomizeSeeds,
+                bracketRandomizeTeams,
+                bracketMaxTeams,
+                bracketHasPassword,
+                bracketInviteOnly,
+                bracketBestOf,
+                bracketFinalsBestOf,
+                bracketStatus,
+                bracketParticipantType
+            ])
+            .then(response => {
+                return res.status(200).json(response);
+            })
+            .catch(console.log);
+    },
     getCreatorBrackets: (req, res) => {
         const db = req.app.get("db");
         // const creator_id = req.user.user_id;
@@ -74,6 +122,16 @@ module.exports = {
         const db = req.app.get("db");
         db
             .get_all_public_brackets()
+            .then(response => {
+                return res.status(200).json(response);
+            })
+            .catch(console.log);
+    },
+    deleteBracket: (req, res) => {
+        const db = req.app.get("db");
+        const bracket_id = req.params.id;
+        db
+            .delete_bracket_using_bracket_id([bracket_id])
             .then(response => {
                 return res.status(200).json(response);
             })

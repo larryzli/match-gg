@@ -31,6 +31,14 @@ const initialState = {
     bracketCreating: false,
     bracketCreateError: false,
 
+    // EDIT BRACKET
+    bracketEditing: false,
+    bracketEditError: false,
+
+    // DELETE BRACKET
+    bracketDeleting: false,
+    bracketDeleteError: false,
+
     // SINGLE BRACKET LOAD
     bracketLoading: false,
     bracketError: false,
@@ -51,8 +59,11 @@ const RETRIEVE_PUBLIC_BRACKETS = "RETRIEVE_PUBLIC_BRACKETS";
 // LOAD SINGLE BRACKET
 const RETRIEVE_BRACKET_DATA = "RETRIEVE_BRACKET_DATA";
 
-// CREATE OR EDIT BRACKET
+// CREATE, EDIT, OR DELETE BRACKET
+const RESET_INITIAL = "RESET_INITIAL";
 const CREATE_BRACKET = "CREATE_BRACKET";
+const EDIT_BRACKET = "EDIT_BRACKET";
+const DELETE_BRACKET = "DELETE BRACKET";
 const HANDLE_TEXT_CHANGE = "HANDLE_TEXT_CHANGE";
 const HANDLE_DATE_CHANGE = "HANDLE_DATE_CHANGE";
 const HANDLE_TIME_CHANGE = "HANDLE_TIME_CHANGE";
@@ -85,6 +96,13 @@ export function retrieveBracketData(bracketID) {
             .catch(console.log)
     };
 }
+// RESET INTIAL VALUES FOR SINGLE BRACKET
+export function resetInitial() {
+    return {
+        type: RESET_INITIAL,
+        payload: null
+    };
+}
 
 // CREATE NEW BRACKET
 export function createBracket(bracketData) {
@@ -92,6 +110,28 @@ export function createBracket(bracketData) {
         type: CREATE_BRACKET,
         payload: axios
             .post("/api/manage/brackets", bracketData)
+            .then(response => response.data[0])
+            .catch(console.log)
+    };
+}
+
+// EDIT BRACKET DATA
+export function editBracket(bracketID, bracketData) {
+    return {
+        type: EDIT_BRACKET,
+        payload: axios
+            .put(`/api/bracket/${bracketID}/edit`, bracketData)
+            .then(response => response)
+            .catch(console.log)
+    };
+}
+
+// DELETE BRACKET
+export function deleteBracket(bracketID) {
+    return {
+        type: DELETE_BRACKET,
+        payload: axios
+            .delete(`/api/bracket/${bracketID}`)
             .then(response => response)
             .catch(console.log)
     };
@@ -206,12 +246,10 @@ export default function reducer(state = initialState, action) {
                 bracketParticipantType: action.payload
             });
 
-        // CREATE BRACKET
-        case `${CREATE_BRACKET}_PENDING`:
-            return Object.assign({}, state, { bracketCreating: true });
-        case `${CREATE_BRACKET}_FULFILLED`:
+        // RESET INITIAL
+        case `${RESET_INITIAL}`:
             return Object.assign({}, state, {
-                bracketID: action.payload,
+                bracketID: null,
                 bracketName: "",
                 bracketDescription: "",
                 bracketSubject: "",
@@ -228,11 +266,34 @@ export default function reducer(state = initialState, action) {
                 bracketHasPassword: false,
                 bracketMaxTeams: null,
                 bracketStatus: "draft",
-                bracketCreating: false,
                 bracketParticipantType: "player"
+            });
+
+        // CREATE BRACKET
+        case `${CREATE_BRACKET}_PENDING`:
+            return Object.assign({}, state, { bracketCreating: true });
+        case `${CREATE_BRACKET}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketID: action.payload.bracket_id
             });
         case `${CREATE_BRACKET}_REJECTED`:
             return Object.assign({}, state, { bracketCreateError: true });
+
+        // EDIT BRACKET DATA
+        case `${EDIT_BRACKET}_PENDING`:
+            return Object.assign({}, state, { bracketEditing: true });
+        case `${EDIT_BRACKET}_FULFILLED`:
+            return Object.assign({}, state, { bracketEditing: false });
+        case `${EDIT_BRACKET}_REJECTED`:
+            return Object.assign({}, state, { bracketEditError: true });
+
+        // DELETE BRACKET
+        case `${DELETE_BRACKET}_PENDING`:
+            return Object.assign({}, state, { bracketDeleting: true });
+        case `${DELETE_BRACKET}_FULFILLED`:
+            return Object.assign({}, state, { bracketDeleting: false });
+        case `${DELETE_BRACKET}_REJECTED`:
+            return Object.assign({}, state, { bracketDeleteError: true });
 
         // GET BRACKETS BY CREATOR
         case `${RETRIEVE_BRACKETS_BY_CREATOR}_PENDING`:
@@ -265,8 +326,8 @@ export default function reducer(state = initialState, action) {
                 bracketName: action.payload.bracket_name,
                 bracketDescription: action.payload.description,
                 bracketSubject: action.payload.subject,
-                bracketStartDate: action.payload.start_date,
-                bracketStartTime: action.payload.start_time,
+                bracketStartDate: new Date(action.payload.start_date),
+                bracketStartTime: new Date(action.payload.start_time),
                 bracketImageURL: action.payload.image_url,
                 bracketFormat: action.payload.format,
                 bracketTeamSizeLimit: action.payload.team_size,
@@ -278,10 +339,8 @@ export default function reducer(state = initialState, action) {
                 bracketHasPassword: action.payload.has_password,
                 bracketMaxTeams: action.payload.max_teams,
                 bracketStatus: action.payload.status,
-
                 bracketParticipantType: action.payload.participant_type,
 
-                // bracketInfo: action.payload,
                 bracketLoading: false
             });
         case `${RETRIEVE_BRACKET_DATA}_REJECTED`:

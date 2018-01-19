@@ -102,9 +102,14 @@
     border: 1px solid transparent;
     color: white;
 }
+.button-reject {
+    background-color: transparent;
+    border: 1px solid #d32f2f;
+    color: white;
+}
 .button-main:hover {
-    color: #3f50aa;
-    background-color: white;
+    color: white;
+    background-color: #7986cb;
 }
 .button-secondary:hover {
     background-color: white;
@@ -113,6 +118,11 @@
 .button-confirm:hover {
     background-color: white;
     color: #009688;
+}
+.button-reject:hover {
+    background-color: #d32f2f;
+    border: 1px solid transparent;
+    color: white;
 }
 .ui-header-controls {
     display: flex;
@@ -175,6 +185,17 @@
     justify-content: flex-end;
     padding-top: 20px;
     margin-top: auto;
+}
+.ui-form-controls-left-right {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 20px;
+    margin-top: auto;
+}
+
+.ui-controls-group {
+    display: flex;
 }
 @keyframes App-logo-spin {
     from {

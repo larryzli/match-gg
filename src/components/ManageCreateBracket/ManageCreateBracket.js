@@ -25,11 +25,15 @@ import {
     handleInviteOnlyChange,
     handleHasPasswordChange,
     handleParticipantTypeChange,
-    createBracket
+    createBracket,
+    resetInitial
 } from "../../ducks/bracketReducer";
 
 // COMPONENT
 class ManageCreateBracket extends Component {
+    componentDidMount() {
+        this.props.resetInitial();
+    }
     render() {
         console.log(this.props);
         const breadcrumbs = [
@@ -293,14 +297,15 @@ class ManageCreateBracket extends Component {
                                     Cancel
                                 </button>
                             </Link>
-                            <Link
-                                to={`/manage/bracket/${this.props.bracketID}`}
+                            {/* <Link
+                                to={`/manage/${this.props.bracketID}`}
                                 className="ui-link"
-                            >
-                                <button
-                                    className="ui-button button-main button-medium"
-                                    onClick={e =>
-                                        this.props.createBracket({
+                            > */}
+                            <button
+                                className="ui-button button-main button-medium"
+                                onClick={e =>
+                                    this.props
+                                        .createBracket({
                                             bracketName: this.props.brackets
                                                 .bracketName,
                                             bracketDescription: this.props
@@ -336,11 +341,19 @@ class ManageCreateBracket extends Component {
                                             bracketParticipantType: this.props
                                                 .brackets.bracketParticipantType
                                         })
-                                    }
-                                >
-                                    Create
-                                </button>
-                            </Link>
+                                        .then(() => {
+                                            this.props.history.push(
+                                                `/manage/${
+                                                    this.props.brackets
+                                                        .bracketID
+                                                }`
+                                            );
+                                        })
+                                }
+                            >
+                                Create
+                            </button>
+                            {/* </Link> */}
                         </div>
                     </div>
                 </div>
@@ -362,5 +375,6 @@ export default connect(mapStateToProps, {
     handleInviteOnlyChange,
     handleHasPasswordChange,
     handleParticipantTypeChange,
-    createBracket
+    createBracket,
+    resetInitial
 })(ManageCreateBracket);
