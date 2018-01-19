@@ -78,15 +78,6 @@ class Discover extends Component {
                             >
                                 TIME
                             </TableHeaderColumn>
-                            <TableHeaderColumn
-                                colSpan="2"
-                                tooltip="Bracket Status"
-                                style={{
-                                    textAlign: "center"
-                                }}
-                            >
-                                STATUS
-                            </TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody
@@ -131,14 +122,6 @@ class Discover extends Component {
                                         {moment(bracket.start_time).format(
                                             "hh:mmA"
                                         )}
-                                    </TableRowColumn>
-                                    <TableRowColumn
-                                        colSpan="2"
-                                        style={{
-                                            textAlign: "center"
-                                        }}
-                                    >
-                                        {bracket.status}
                                     </TableRowColumn>
                                 </TableRow>
                             )
