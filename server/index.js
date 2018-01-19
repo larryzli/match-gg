@@ -121,13 +121,16 @@ app.get("/api/me", (req, res) => {
     }
 });
 
-// BRACKET API
-app.post("/api/manage/brackets", bracketController.createBracket);
+// BRACKET LIST API
 app.get("/api/manage/brackets", bracketController.getCreatorBrackets);
-app.get("/api/bracket/:id", bracketController.getBracketById);
 app.get("/api/brackets", bracketController.getPublicBrackets);
-app.put("/api/bracket/:id/edit", bracketController.editBracket);
-app.delete("/api/bracket/:id", bracketController.deleteBracket);
+
+// SINGLE BRACKET API
+app.put("/api/bracket/:id/edit", bracketController.editBracket); // Edit bracket info
+app.put("/api/bracket/:id/status", bracketController.updateStatus); // Update bracket status
+app.get("/api/bracket/:id", bracketController.getBracketById); // Get single bracket info
+app.post("/api/manage/brackets", bracketController.createBracket); // Create bracket
+app.delete("/api/bracket/:id", bracketController.deleteBracket); // Delete bracket
 
 // LISTEN ON PORT
 const port = PORT || 3001;

@@ -1,7 +1,7 @@
 // IMPORT DEPENDENCIES
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import moment from "moment";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
@@ -17,7 +17,7 @@ import {
 } from "material-ui/Table";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faEye, faSearch } from "@fortawesome/fontawesome-free-solid";
+import { faSearch } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./Discover.css";
 // IMPORT REDUX FUNCTIONS
@@ -25,6 +25,9 @@ import { retrievePublicBrackets } from "../../ducks/bracketReducer";
 
 // COMPONENT
 class Discover extends Component {
+    handleRowClick = bracketID => {
+        this.props.history.push(`/manage/${bracketID}`);
+    };
     componentDidMount() {
         this.props.retrievePublicBrackets();
     }
@@ -45,12 +48,6 @@ class Discover extends Component {
                                 backgroundColor: "#222222"
                             }}
                         >
-                            <TableHeaderColumn
-                                colSpan="1"
-                                style={{
-                                    textAlign: "center"
-                                }}
-                            />
                             <TableHeaderColumn
                                 colSpan="6"
                                 tooltip="Bracket Name"
@@ -105,28 +102,10 @@ class Discover extends Component {
                                     style={{
                                         backgroundColor: "#3a3a3a"
                                     }}
+                                    onClick={e =>
+                                        this.handleRowClick(bracket.bracket_id)
+                                    }
                                 >
-                                    <TableRowColumn
-                                        colSpan="1"
-                                        style={{
-                                            textAlign: "center"
-                                        }}
-                                    >
-                                        <Link
-                                            to={`/manage/${bracket.bracket_id}`}
-                                            className="bracket-control-icon"
-                                        >
-                                            <FontAwesomeIcon icon={faEye} />
-                                        </Link>
-                                        {/* <Link
-                                                to="/brackets"
-                                                className="bracket-control-icon"
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faEdit}
-                                                />
-                                            </Link> */}
-                                    </TableRowColumn>
                                     <TableRowColumn colSpan="6">
                                         {bracket.bracket_name}
                                     </TableRowColumn>

@@ -14,7 +14,7 @@ import {
 } from "material-ui/Table";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faEye, faPlus } from "@fortawesome/fontawesome-free-solid";
+import { faPlus } from "@fortawesome/fontawesome-free-solid";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
@@ -25,6 +25,9 @@ import { getCreatorBrackets } from "../../ducks/bracketReducer";
 
 // COMPONENT
 class Manage extends Component {
+    handleRowClick = bracketID => {
+        this.props.history.push(`/manage/${bracketID}`);
+    };
     componentDidMount() {
         this.props.getCreatorBrackets();
     }
@@ -45,12 +48,6 @@ class Manage extends Component {
                                 backgroundColor: "#222222"
                             }}
                         >
-                            <TableHeaderColumn
-                                colSpan="1"
-                                style={{
-                                    textAlign: "center"
-                                }}
-                            />
                             <TableHeaderColumn
                                 colSpan="6"
                                 tooltip="Bracket Name"
@@ -105,28 +102,10 @@ class Manage extends Component {
                                     style={{
                                         backgroundColor: "#3a3a3a"
                                     }}
+                                    onClick={e =>
+                                        this.handleRowClick(bracket.bracket_id)
+                                    }
                                 >
-                                    <TableRowColumn
-                                        colSpan="1"
-                                        style={{
-                                            textAlign: "center"
-                                        }}
-                                    >
-                                        <Link
-                                            to={`/manage/${bracket.bracket_id}`}
-                                            className="bracket-control-icon"
-                                        >
-                                            <FontAwesomeIcon icon={faEye} />
-                                        </Link>
-                                        {/* <Link
-                                                to="/brackets"
-                                                className="bracket-control-icon"
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faEdit}
-                                                />
-                                            </Link> */}
-                                    </TableRowColumn>
                                     <TableRowColumn colSpan="6">
                                         {bracket.bracket_name}
                                     </TableRowColumn>

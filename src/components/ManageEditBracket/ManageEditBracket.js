@@ -56,7 +56,6 @@ class ManageEditBracket extends Component {
         this.props.retrieveBracketData(this.props.match.params.id);
     }
     render() {
-        console.log(this.props);
         const breadcrumbs = [
             {
                 name: "Manage",

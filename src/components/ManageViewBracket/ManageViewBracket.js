@@ -15,7 +15,10 @@ import { faEdit, faCheck, faPlay } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./ManageViewBracket.css";
 // IMPORT REDUX FUNCTIONS
-import { retrieveBracketData } from "./../../ducks/bracketReducer";
+import {
+    retrieveBracketData,
+    publishBracket
+} from "./../../ducks/bracketReducer";
 
 class ManageViewBracket extends Component {
     componentDidMount() {
@@ -37,7 +40,14 @@ class ManageViewBracket extends Component {
         if (this.props.brackets.bracketStatus === "draft") {
             headerControls = (
                 <div className="ui-header-controls">
-                    <button className="ui-button-header button-confirm button-short">
+                    <button
+                        onClick={() =>
+                            this.props.publishBracket(
+                                this.props.brackets.bracketID
+                            )
+                        }
+                        className="ui-button-header button-confirm button-short"
+                    >
                         <FontAwesomeIcon
                             icon={faCheck}
                             className="ui-button-icon"
@@ -58,7 +68,7 @@ class ManageViewBracket extends Component {
                     </Link>
                 </div>
             );
-        } else if (this.props.brackets.bracketStatus === "published") {
+        } else if (this.props.brackets.bracketStatus === "ready") {
             headerControls = (
                 <div className="ui-header-controls">
                     <button className="ui-button-header button-confirm button-short">
@@ -68,7 +78,10 @@ class ManageViewBracket extends Component {
                         />
                         Start
                     </button>
-                    <Link to="/manage/create" className="ui-link">
+                    <Link
+                        to={`/manage/${this.props.brackets.bracketID}/edit`}
+                        className="ui-link"
+                    >
                         <button className="ui-button-header button-main button-short">
                             <FontAwesomeIcon
                                 icon={faEdit}
@@ -203,21 +216,6 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                         </Tabs>
-                        {/* <div className="manage-brackets-list-header">
-                            <h2 className="ui-form-title">Bracket Overview</h2>
-                            <Link
-                                to="/manage/create/bracket"
-                                className="ui-link"
-                            >
-                                <button className="ui-button-header button-main">
-                                    <FontAwesomeIcon
-                                        icon={faEdit}
-                                        className="ui-button-icon"
-                                    />
-                                    Edit Bracket
-                                </button>
-                            </Link>
-                        </div> */}
                     </div>
                 </div>
             </div>
@@ -227,6 +225,7 @@ class ManageViewBracket extends Component {
 const mapStateToProps = state => {
     return state;
 };
-export default connect(mapStateToProps, { retrieveBracketData })(
-    ManageViewBracket
-);
+export default connect(mapStateToProps, {
+    retrieveBracketData,
+    publishBracket
+})(ManageViewBracket);

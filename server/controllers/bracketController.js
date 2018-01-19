@@ -136,5 +136,16 @@ module.exports = {
                 return res.status(200).json(response);
             })
             .catch(console.log);
+    },
+    updateStatus: (req, res) => {
+        const db = req.app.get("db");
+        const bracket_id = req.params.id;
+        const { newStatus } = req.body;
+        db
+            .update_status_by_bracket_id([bracket_id, newStatus])
+            .then(response => {
+                return res.status(200).json(response);
+            })
+            .catch(console.log);
     }
 };

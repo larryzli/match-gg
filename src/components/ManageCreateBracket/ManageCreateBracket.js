@@ -69,16 +69,6 @@ class ManageCreateBracket extends Component {
                         </div>
                         <div className="ui-form-container">
                             <div className="ui-form-half-container">
-                                {/* <TextField
-                                        fullWidth={true}
-                                        floatingLabelText="Start Date"
-                                        floatingLabelFixed={true}
-                                        type="date"
-                                        value={this.state.bracketStartDate}
-                                        onChange={this.handleChange(
-                                            "bracketStartDate"
-                                        )}
-                                    /> */}
                                 <DatePicker
                                     fullWidth={true}
                                     floatingLabelText="Start Date *"
@@ -91,16 +81,6 @@ class ManageCreateBracket extends Component {
                             </div>
                             <div className="ui-form-divider" />
                             <div className="ui-form-half-container">
-                                {/* <TextField
-                                        fullWidth={true}
-                                        floatingLabelText="Start Time"
-                                        floatingLabelFixed={true}
-                                        type="time"
-                                        value={this.state.bracketStartTime}
-                                        onChange={this.handleChange(
-                                            "bracketStartTime"
-                                        )}
-                                    /> */}
                                 <TimePicker
                                     format="ampm"
                                     fullWidth={true}

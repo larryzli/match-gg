@@ -35,6 +35,10 @@ const initialState = {
     bracketEditing: false,
     bracketEditError: false,
 
+    // UPDATE STATUS
+    bracketPublishing: false,
+    bracketPublishError: false,
+
     // DELETE BRACKET
     bracketDeleting: false,
     bracketDeleteError: false,
@@ -126,6 +130,17 @@ export function editBracket(bracketID, bracketData) {
     };
 }
 
+// PUBLISH BRACKET
+export function publishBracket(bracketID) {
+    return {
+        type: PUBLISH_BRACKET,
+        payload: axios
+            .put(`/api/bracket/${bracketID}/status`, { newStatus: "ready" })
+            .then(response => response.data[0].status)
+            .catch(console.log)
+    };
+}
+
 // DELETE BRACKET
 export function deleteBracket(bracketID) {
     return {
@@ -134,14 +149,6 @@ export function deleteBracket(bracketID) {
             .delete(`/api/bracket/${bracketID}`)
             .then(response => response)
             .catch(console.log)
-    };
-}
-
-// PUBLISH BRACKET DRAFT
-export function publishBracket(bracketID) {
-    return {
-        type: PUBLISH_BRACKET,
-        payload: "published"
     };
 }
 
@@ -286,6 +293,17 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { bracketEditing: false });
         case `${EDIT_BRACKET}_REJECTED`:
             return Object.assign({}, state, { bracketEditError: true });
+
+        // PUBLISH BRACKET
+        case `${PUBLISH_BRACKET}_PENDING`:
+            return Object.assign({}, state, { bracketPublishing: true });
+        case `${PUBLISH_BRACKET}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketPublishing: false,
+                bracketStatus: action.payload
+            });
+        case `${PUBLISH_BRACKET}_REJECTED`:
+            return Object.assign({}, state, { bracketPublishError: true });
 
         // DELETE BRACKET
         case `${DELETE_BRACKET}_PENDING`:
