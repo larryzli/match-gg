@@ -101,6 +101,8 @@ class ManageViewBracket extends Component {
             this.props.brackets.bracketStatus !== "live"
                 ? "MATCHES (PREVIEW)"
                 : "MATCHES";
+        const disableOtherTabs =
+            this.props.brackets.bracketStatus === "draft" ? true : false;
         return (
             <div className="portal-container">
                 <Sidebar />
@@ -193,6 +195,7 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
+                                disabled={disableOtherTabs}
                                 label="PARTICIPANTS"
                                 style={{
                                     borderBottom: "2px solid #5a5a5a"
@@ -205,6 +208,7 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
+                                disabled={disableOtherTabs}
                                 label={bracketTabLabel}
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
@@ -215,6 +219,7 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
+                                disabled={disableOtherTabs}
                                 label={matchesTabLabel}
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >

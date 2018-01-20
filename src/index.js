@@ -25,8 +25,9 @@ const muiTheme = {
         accent2Color: "#FFFFFF",
         accent3Color: "#FFFFFF",
         // pickerHeaderColor: "#5c6bc0",
-        alternateTextColor: "#FFFFFF"
+        alternateTextColor: "#FFFFFF",
         // secondaryTextColor: "#FFFFFF"
+        disabledColor: "#5b5b5b"
     },
     tableRow: {
         hoverColor: "#5b5b5b",
@@ -35,6 +36,9 @@ const muiTheme = {
     },
     tableHeaderColumn: {
         textColor: "#7986cb"
+    },
+    textField: {
+        floatingLabelColor: "#9a9a9a"
     },
     tabs: {
         backgroundColor: "#3A3A3A"
