@@ -26,7 +26,7 @@ import { retrievePublicBrackets } from "../../ducks/bracketReducer";
 // COMPONENT
 class Discover extends Component {
     handleRowClick = bracketID => {
-        this.props.history.push(`/manage/${bracketID}`);
+        this.props.history.push(`/discover/view/${bracketID}`);
     };
     componentDidMount() {
         this.props.retrievePublicBrackets();

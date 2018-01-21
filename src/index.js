@@ -27,7 +27,7 @@ const muiTheme = {
         // pickerHeaderColor: "#5c6bc0",
         alternateTextColor: "#FFFFFF",
         // secondaryTextColor: "#FFFFFF"
-        disabledColor: "#5b5b5b"
+        disabledColor: "red"
     },
     tableRow: {
         hoverColor: "#5b5b5b",

@@ -1,7 +1,7 @@
 // IMPORT DEPENDENCIES
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import moment from "moment";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
@@ -14,20 +14,15 @@ import Chip from "material-ui/Chip";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
-    faEdit,
-    faCheck,
-    faPlay,
-    faEnvelope
+    faPlus
+    // faEnvelope
 } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
-import "./ManageViewBracket.css";
+import "./ViewBracket.css";
 // IMPORT REDUX FUNCTIONS
-import {
-    retrieveBracketData,
-    publishBracket
-} from "./../../ducks/bracketReducer";
+import { retrieveBracketData } from "./../../ducks/bracketReducer";
 
-class ManageViewBracket extends Component {
+class ViewBracket extends Component {
     componentDidMount() {
         this.props.retrieveBracketData(this.props.match.params.id);
     }
@@ -47,72 +42,39 @@ class ManageViewBracket extends Component {
             }
         ];
         let headerControls = null;
-        if (this.props.brackets.bracketStatus === "draft") {
+        if (this.props.brackets.bracketStatus === "ready") {
             headerControls = (
                 <div className="ui-header-controls">
                     <button
-                        onClick={() =>
-                            this.props.publishBracket(
-                                this.props.brackets.bracketID
-                            )
-                        }
+                        // onClick={() =>
+                        //     this.props.publishBracket(
+                        //         this.props.brackets.bracketID
+                        //     )
+                        // }
                         className="ui-button-header button-confirm button-short"
                     >
                         <FontAwesomeIcon
-                            icon={faCheck}
+                            icon={faPlus}
                             className="ui-button-icon"
                         />
-                        Publish
+                        Join
                     </button>
-                    <Link
-                        to={`/manage/${this.props.brackets.bracketID}/edit`}
-                        className="ui-link"
-                    >
-                        <button className="ui-button-header button-main button-short">
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                className="ui-button-icon"
-                            />
-                            Edit
-                        </button>
-                    </Link>
                 </div>
             );
-        } else if (this.props.brackets.bracketStatus === "ready") {
-            headerControls = (
-                <div className="ui-header-controls">
-                    <button className="ui-button-header button-confirm button-short">
-                        <FontAwesomeIcon
-                            icon={faPlay}
-                            className="ui-button-icon"
-                        />
-                        Start
-                    </button>
-                    <Link
-                        to={`/manage/${this.props.brackets.bracketID}/edit`}
-                        className="ui-link"
-                    >
-                        <button className="ui-button-header button-main button-short">
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                className="ui-button-icon"
-                            />
-                            Edit
-                        </button>
-                    </Link>
-                </div>
-            );
+        } else if (
+            this.props.brackets.bracketStatus === "live" ||
+            this.props.brackets.bracketStatus === "completed"
+        ) {
+            headerControls = <div className="ui-header-controls" />;
         }
-        // const bracketTabLabel =
-        //     this.props.brackets.bracketStatus !== "live"
-        //         ? "BRACKET (PREVIEW)"
-        //         : "BRACKET";
-        // const matchesTabLabel =
-        //     this.props.brackets.bracketStatus !== "live"
-        //         ? "MATCHES (PREVIEW)"
-        //         : "MATCHES";
-        // const disableOtherTabs =
-        //     this.props.brackets.bracketStatus === "draft" ? true : false;
+        const bracketTabLabel =
+            this.props.brackets.bracketStatus !== "live"
+                ? "BRACKET (PREVIEW)"
+                : "BRACKET";
+        const matchesTabLabel =
+            this.props.brackets.bracketStatus !== "live"
+                ? "MATCHES (PREVIEW)"
+                : "MATCHES";
         const participants =
             this.props.brackets.bracketParticipantType === "player"
                 ? this.props.brackets.bracketPlayers
@@ -213,7 +175,6 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
-                                // disabled={disableOtherTabs}
                                 label="PARTICIPANTS"
                                 style={{
                                     borderBottom: "2px solid #5a5a5a"
@@ -222,27 +183,27 @@ class ManageViewBracket extends Component {
                                 <div className="bracket-tab-content-container">
                                     <div className="ui-subtitle-header">
                                         <h2 className="ui-form-subtitle">
-                                            Current
+                                            Current Participants
                                         </h2>
-                                        <Link
+                                        {/* <Link
                                             to="/manage/create"
                                             className="ui-link"
                                         >
-                                            <button className="ui-button-header button-main button-short">
+                                            <button className="ui-button-header button-main button-medium">
                                                 <FontAwesomeIcon
                                                     icon={faEnvelope}
                                                     className="ui-button-icon"
                                                 />
-                                                Invite
+                                                Invite Friends
                                             </button>
-                                        </Link>
+                                        </Link> */}
                                     </div>
                                     <ParticipantTable
                                         participantType={
-                                            this.props.bracketParticipantType
+                                            this.props.brackets
+                                                .bracketParticipantType
                                         }
                                         participantList={participants}
-                                        showControls={true}
                                     />
                                     <div className="ui-subtitle-header">
                                         <h2 className="ui-form-subtitle">
@@ -255,13 +216,11 @@ class ManageViewBracket extends Component {
                                                 .bracketParticipantType
                                         }
                                         invitedList={invited}
-                                        showControls={true}
                                     />
                                 </div>
                             </Tab>
                             <Tab
-                                // disabled={disableOtherTabs}
-                                label="BRACKET"
+                                label={bracketTabLabel}
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
@@ -271,8 +230,7 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
-                                // disabled={disableOtherTabs}
-                                label="MATCHES"
+                                label={matchesTabLabel}
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
@@ -292,6 +250,5 @@ const mapStateToProps = state => {
     return state;
 };
 export default connect(mapStateToProps, {
-    retrieveBracketData,
-    publishBracket
-})(ManageViewBracket);
+    retrieveBracketData
+})(ViewBracket);

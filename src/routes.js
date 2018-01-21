@@ -14,6 +14,7 @@ import ManageViewBracket from "./components/ManageViewBracket/ManageViewBracket"
 import ManageEditBracket from "./components/ManageEditBracket/ManageEditBracket";
 import Teams from "./components/Teams/Teams";
 import Invites from "./components/Invites/Invites";
+import ViewBracket from "./components/ViewBracket/ViewBracket";
 
 const Routes = props => {
     return (
@@ -22,6 +23,7 @@ const Routes = props => {
             <Route path="/about" component={About} />
             <Route path="/brackets" component={BracketViewer} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/discover/view/:id" component={ViewBracket} />
             <Route path="/discover" component={Discover} />
             <Route path="/manage/create" component={ManageCreateBracket} />
             <Route path="/manage/:id/edit" component={ManageEditBracket} />
