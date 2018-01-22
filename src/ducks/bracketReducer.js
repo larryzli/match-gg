@@ -24,10 +24,8 @@ const initialState = {
     bracketParticipantType: "player",
 
     // BRACKET PARTICIPANTS
-    bracketTeams: [],
-    bracketPlayers: [],
-    bracketInvitedTeams: [],
-    bracketInvitedPlayers: [],
+    bracketParticipants: [],
+    bracketInvited: [],
 
     // CREATE BRACKET
     bracketCreating: false,
@@ -52,7 +50,15 @@ const initialState = {
     // BRACKET LIST
     bracketList: [],
     bracketListLoading: false,
-    bracketListError: false
+    bracketListError: false,
+
+    // PLAYER JOINING BRACKET
+    playerJoining: false,
+    playerJoinError: false,
+
+    // BRACKET PLAYERS
+    bracketPlayersLoading: false,
+    bracketPlayersError: false
 };
 
 // ----- ACTION TYPES ----- //
@@ -80,8 +86,9 @@ const HANDLE_HAS_PASSWORD_CHANGE = "HANDLE_HAS_PASSWORD_CHANGE";
 const HANDLE_PARTICIPANT_TYPE_CHANGE = "HANDLE_PARTICIPANT_TYPE_CHANGE";
 const PUBLISH_BRACKET = "PUBLISH_BRACKET";
 
-// JOIN & LEAVE BRACKET
+// MANAGE PARTICIPANTS
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
+const RETRIEVE_BRACKET_PLAYERS = "RETRIEVE_BRACKET_PLAYERS";
 
 // ------ ACTION CREATORS ----- //
 // GET PUBLIC BRACKETS
@@ -167,6 +174,28 @@ export function getCreatorBrackets() {
                 console.log(response.data);
                 return response.data;
             })
+            .catch(console.log)
+    };
+}
+
+// PLAYER JOINS BRACKET
+export function playerJoinBracket(bracketID) {
+    return {
+        type: PLAYER_JOIN_BRACKET,
+        payload: axios
+            .post(`/api/player/join/${bracketID}`)
+            .then(response => response.data)
+            .catch(console.log)
+    };
+}
+
+// RETRIEVE ALL PLAYERS
+export function retrieveBracketPlayers(bracketID) {
+    return {
+        type: RETRIEVE_BRACKET_PLAYERS,
+        payload: axios
+            .get(`/api/bracket/${bracketID}/players`)
+            .then(response => response.data)
             .catch(console.log)
     };
 }
@@ -368,6 +397,28 @@ export default function reducer(state = initialState, action) {
             });
         case `${RETRIEVE_BRACKET_DATA}_REJECTED`:
             return Object.assign({}, state, { bracketError: true });
+
+        // JOIN BRACKET AS PLAYER
+        case `${PLAYER_JOIN_BRACKET}_PENDING`:
+            return Object.assign({}, state, { playerJoining: true });
+        case `${PLAYER_JOIN_BRACKET}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketParticipants: action.payload,
+                playerJoining: false
+            });
+        case `${PLAYER_JOIN_BRACKET}_REJECTED`:
+            return Object.assign({}, state, { playerJoinError: true });
+
+        // RETRIEVE ALL PLAYERS FOR BRACKET
+        case `${RETRIEVE_BRACKET_PLAYERS}_PENDING`:
+            return Object.assign({}, state, { bracketPlayersLoading: true });
+        case `${RETRIEVE_BRACKET_PLAYERS}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketParticipants: action.payload,
+                bracketPlayersLoading: false
+            });
+        case `${RETRIEVE_BRACKET_PLAYERS}_REJECTED`:
+            return Object.assign({}, state, { bracketPlayersError: true });
 
         default:
             return state;

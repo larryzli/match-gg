@@ -1,0 +1,1 @@
+SELECT COUNT(*) AS num_players FROM bracket_player WHERE bracket_id = $1;

@@ -132,6 +132,10 @@ app.get("/api/bracket/:id", bracketController.getBracketById); // Get single bra
 app.post("/api/manage/brackets", bracketController.createBracket); // Create bracket
 app.delete("/api/bracket/:id", bracketController.deleteBracket); // Delete bracket
 
+// PARTICIPANT API
+app.post("/api/player/join/:id", bracketController.joinBracketAsPlayer); // Join bracket as player
+app.get("/api/bracket/:id/players/", bracketController.getBracketPlayers); // Get all players for bracket
+
 // LISTEN ON PORT
 const port = PORT || 3001;
 app.listen(port, () => {

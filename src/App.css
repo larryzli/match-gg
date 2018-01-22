@@ -206,6 +206,16 @@
 .ui-controls-group {
     display: flex;
 }
+
+.ui-table-container {
+    background-color: #222222;
+    width: 100%;
+    max-height: 500px;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);

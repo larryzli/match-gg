@@ -24,12 +24,23 @@ import "./ManageViewBracket.css";
 // IMPORT REDUX FUNCTIONS
 import {
     retrieveBracketData,
-    publishBracket
+    publishBracket,
+    retrieveBracketPlayers
 } from "./../../ducks/bracketReducer";
 
 class ManageViewBracket extends Component {
     componentDidMount() {
-        this.props.retrieveBracketData(this.props.match.params.id);
+        this.props
+            .retrieveBracketData(this.props.match.params.id)
+            .then(() => {
+                return this.props.brackets.bracketParticipantType === "player"
+                    ? this.props.retrieveBracketPlayers(
+                          this.props.brackets.bracketID
+                      )
+                    : null;
+                // : this.props.retrieveBracketTeams
+            })
+            .catch(console.log);
     }
     // handleRowClick = bracketID => {
     //     this.props.history.push(`/manage/${bracketID}`);
@@ -113,14 +124,6 @@ class ManageViewBracket extends Component {
         //         : "MATCHES";
         // const disableOtherTabs =
         //     this.props.brackets.bracketStatus === "draft" ? true : false;
-        const participants =
-            this.props.brackets.bracketParticipantType === "player"
-                ? this.props.brackets.bracketPlayers
-                : this.props.brackets.bracketTeams;
-        const invited =
-            this.props.brackets.bracketParticipantType === "player"
-                ? this.props.brackets.bracketInvitedPlayers
-                : this.props.brackets.bracketInvitedTeams;
         return (
             <div className="portal-container">
                 <Sidebar />
@@ -241,7 +244,10 @@ class ManageViewBracket extends Component {
                                         participantType={
                                             this.props.bracketParticipantType
                                         }
-                                        participantList={participants}
+                                        participantList={
+                                            this.props.brackets
+                                                .bracketParticipants
+                                        }
                                         showControls={true}
                                     />
                                     <div className="ui-subtitle-header">
@@ -254,7 +260,9 @@ class ManageViewBracket extends Component {
                                             this.props.brackets
                                                 .bracketParticipantType
                                         }
-                                        invitedList={invited}
+                                        invitedList={
+                                            this.props.brackets.bracketInvited
+                                        }
                                         showControls={true}
                                     />
                                 </div>
@@ -293,5 +301,6 @@ const mapStateToProps = state => {
 };
 export default connect(mapStateToProps, {
     retrieveBracketData,
-    publishBracket
+    publishBracket,
+    retrieveBracketPlayers
 })(ManageViewBracket);

@@ -49,7 +49,7 @@ const ParticipantTable = ({
                             : "TEAM NAME"}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                        colSpan="2"
+                        colSpan="1"
                         style={{
                             textAlign: "center"
                         }}
@@ -78,23 +78,27 @@ const ParticipantTable = ({
                         //     )
                         // }
                     >
-                        <TableRowColumn colSpan="6">
-                            {// participant.seed
-                            index + 1}
-                        </TableRowColumn>
-                        <TableRowColumn colSpan="6">
-                            {
-                                // participant.name
-                                "Name Here"
-                            }
-                        </TableRowColumn>
                         <TableRowColumn
-                            colSpan="2"
+                            colSpan="1"
                             style={{
                                 textAlign: "center"
                             }}
                         >
-                            <FontAwesomeIcon icon={faTimes} />
+                            {index + 1}
+                        </TableRowColumn>
+                        <TableRowColumn colSpan="6">
+                            {participant.name}
+                        </TableRowColumn>
+                        <TableRowColumn
+                            colSpan="1"
+                            style={{
+                                textAlign: "center"
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                style={{ color: "#d32f2f" }}
+                                icon={faTimes}
+                            />
                         </TableRowColumn>
                     </TableRow>
                 ))}
@@ -147,15 +151,16 @@ const ParticipantTable = ({
                         //     )
                         // }
                     >
-                        <TableRowColumn colSpan="6">
-                            {// participant.seed
-                            index + 1}
+                        <TableRowColumn
+                            colSpan="1"
+                            style={{
+                                textAlign: "center"
+                            }}
+                        >
+                            {index + 1}
                         </TableRowColumn>
                         <TableRowColumn colSpan="6">
-                            {
-                                // participant.name
-                                "Name Here"
-                            }
+                            {participant.name}
                         </TableRowColumn>
                     </TableRow>
                 ))}
@@ -163,7 +168,7 @@ const ParticipantTable = ({
         );
     }
     return (
-        <div>
+        <div className="ui-table-container">
             <Table height="100%" fixedHeader={true}>
                 {TableHeaders}
                 {TableContent}

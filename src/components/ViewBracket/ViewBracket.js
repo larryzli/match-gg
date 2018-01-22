@@ -20,11 +20,25 @@ import {
 // IMPORT STYLING
 import "./ViewBracket.css";
 // IMPORT REDUX FUNCTIONS
-import { retrieveBracketData } from "./../../ducks/bracketReducer";
+import {
+    retrieveBracketData,
+    playerJoinBracket,
+    retrieveBracketPlayers
+} from "./../../ducks/bracketReducer";
 
 class ViewBracket extends Component {
     componentDidMount() {
-        this.props.retrieveBracketData(this.props.match.params.id);
+        this.props
+            .retrieveBracketData(this.props.match.params.id)
+            .then(() => {
+                return this.props.brackets.bracketParticipantType === "player"
+                    ? this.props.retrieveBracketPlayers(
+                          this.props.brackets.bracketID
+                      )
+                    : null;
+                // : this.props.retrieveBracketTeams
+            })
+            .catch(console.log);
     }
     // handleRowClick = bracketID => {
     //     this.props.history.push(`/manage/${bracketID}`);
@@ -46,11 +60,11 @@ class ViewBracket extends Component {
             headerControls = (
                 <div className="ui-header-controls">
                     <button
-                        // onClick={() =>
-                        //     this.props.publishBracket(
-                        //         this.props.brackets.bracketID
-                        //     )
-                        // }
+                        onClick={() =>
+                            this.props.playerJoinBracket(
+                                this.props.brackets.bracketID
+                            )
+                        }
                         className="ui-button-header button-confirm button-short"
                     >
                         <FontAwesomeIcon
@@ -67,22 +81,6 @@ class ViewBracket extends Component {
         ) {
             headerControls = <div className="ui-header-controls" />;
         }
-        const bracketTabLabel =
-            this.props.brackets.bracketStatus !== "live"
-                ? "BRACKET (PREVIEW)"
-                : "BRACKET";
-        const matchesTabLabel =
-            this.props.brackets.bracketStatus !== "live"
-                ? "MATCHES (PREVIEW)"
-                : "MATCHES";
-        const participants =
-            this.props.brackets.bracketParticipantType === "player"
-                ? this.props.brackets.bracketPlayers
-                : this.props.brackets.bracketTeams;
-        const invited =
-            this.props.brackets.bracketParticipantType === "player"
-                ? this.props.brackets.bracketInvitedPlayers
-                : this.props.brackets.bracketInvitedTeams;
         return (
             <div className="portal-container">
                 <Sidebar />
@@ -203,7 +201,10 @@ class ViewBracket extends Component {
                                             this.props.brackets
                                                 .bracketParticipantType
                                         }
-                                        participantList={participants}
+                                        participantList={
+                                            this.props.brackets
+                                                .bracketParticipants
+                                        }
                                     />
                                     <div className="ui-subtitle-header">
                                         <h2 className="ui-form-subtitle">
@@ -215,12 +216,14 @@ class ViewBracket extends Component {
                                             this.props.brackets
                                                 .bracketParticipantType
                                         }
-                                        invitedList={invited}
+                                        invitedList={
+                                            this.props.brackets.bracketInvited
+                                        }
                                     />
                                 </div>
                             </Tab>
                             <Tab
-                                label={bracketTabLabel}
+                                label="BRACKET"
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
@@ -230,7 +233,7 @@ class ViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
-                                label={matchesTabLabel}
+                                label="MATCHES"
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
@@ -250,5 +253,7 @@ const mapStateToProps = state => {
     return state;
 };
 export default connect(mapStateToProps, {
-    retrieveBracketData
+    retrieveBracketData,
+    playerJoinBracket,
+    retrieveBracketPlayers
 })(ViewBracket);

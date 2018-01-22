@@ -147,5 +147,32 @@ module.exports = {
                 return res.status(200).json(response);
             })
             .catch(console.log);
+    },
+    joinBracketAsPlayer: (req, res) => {
+        const db = req.app.get("db");
+        const { user_id } = req.user;
+        const bracket_id = req.params.id;
+        db
+            .join_bracket_as_player([bracket_id, user_id])
+            .then(() =>
+                db
+                    .get_bracket_players_by_bracket_id([bracket_id])
+                    .then(response2 => {
+                        return res.status(200).json(response2);
+                    })
+                    .catch(console.log)
+            )
+            .catch(console.log);
+    },
+    getBracketPlayers: (req, res) => {
+        const db = req.app.get("db");
+        const bracket_id = req.params.id;
+        db
+            .get_bracket_players_by_bracket_id([bracket_id])
+            .then(response => {
+                console.log(response);
+                return res.status(200).json(response);
+            })
+            .catch(console.log);
     }
 };
