@@ -23,6 +23,10 @@ const initialState = {
     bracketStatus: "draft",
     bracketParticipantType: "player",
 
+    bracketMatches: [],
+    bracketRoundOneGenerating: false,
+    bracketRoundOneError: false,
+
     // BRACKET PARTICIPANTS
     bracketParticipants: [],
     bracketInvited: [],
@@ -89,6 +93,8 @@ const HANDLE_INVITE_ONLY_CHANGE = "HANDLE_INVITE_ONLY_CHANGE";
 const HANDLE_HAS_PASSWORD_CHANGE = "HANDLE_HAS_PASSWORD_CHANGE";
 const HANDLE_PARTICIPANT_TYPE_CHANGE = "HANDLE_PARTICIPANT_TYPE_CHANGE";
 const PUBLISH_BRACKET = "PUBLISH_BRACKET";
+
+const GENERATE_FIRST_ROUND = "GENERATE_FIRST_ROUND";
 
 // MANAGE PARTICIPANTS
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
@@ -179,6 +185,19 @@ export function getCreatorBrackets() {
                 console.log(response.data);
                 return response.data;
             })
+            .catch(console.log)
+    };
+}
+
+// GENERATE FIRST ROUND FOR BRACKET
+export function generateFirstRound(bracketID, participantList) {
+    return {
+        type: GENERATE_FIRST_ROUND,
+        payload: axios
+            .post(`/api/bracket/${bracketID}/generate/firstround`, {
+                participantList
+            })
+            .then(response => response.data)
             .catch(console.log)
     };
 }
@@ -412,6 +431,19 @@ export default function reducer(state = initialState, action) {
             });
         case `${RETRIEVE_BRACKET_DATA}_REJECTED`:
             return Object.assign({}, state, { bracketError: true });
+
+        // GENERATE FIRST ROUND FOR BRACKET
+        case `${GENERATE_FIRST_ROUND}_PENDING`:
+            return Object.assign({}, state, {
+                bracketRoundOneGenerating: true
+            });
+        case `${GENERATE_FIRST_ROUND}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketMatches: action.payload,
+                bracketRoundOneGenerating: false
+            });
+        case `${GENERATE_FIRST_ROUND}_REJECTED`:
+            return Object.assign({}, state, { bracketRoundOneError: true });
 
         // JOIN BRACKET AS PLAYER
         case `${PLAYER_JOIN_BRACKET}_PENDING`:
