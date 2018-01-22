@@ -96,6 +96,12 @@ const ParticipantTable = ({
                             }}
                         >
                             <FontAwesomeIcon
+                                onClick={() =>
+                                    kickParticipant(
+                                        participant.bracket_id,
+                                        participant.id
+                                    )
+                                }
                                 style={{ color: "#d32f2f" }}
                                 icon={faTimes}
                             />
@@ -177,5 +183,4 @@ const ParticipantTable = ({
     );
 };
 
-// EXPORT COMPONENT
 export default ParticipantTable;

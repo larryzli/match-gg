@@ -56,6 +56,10 @@ const initialState = {
     playerJoining: false,
     playerJoinError: false,
 
+    // KICK PLAYER FROM BRACKET
+    bracketKickingPlayer: false,
+    bracketKickPlayerError: false,
+
     // BRACKET PLAYERS
     bracketPlayersLoading: false,
     bracketPlayersError: false
@@ -88,6 +92,7 @@ const PUBLISH_BRACKET = "PUBLISH_BRACKET";
 
 // MANAGE PARTICIPANTS
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
+const BRACKET_KICK_PLAYER = "BRACKET_KICK_PLAYER";
 const RETRIEVE_BRACKET_PLAYERS = "RETRIEVE_BRACKET_PLAYERS";
 
 // ------ ACTION CREATORS ----- //
@@ -184,6 +189,16 @@ export function playerJoinBracket(bracketID) {
         type: PLAYER_JOIN_BRACKET,
         payload: axios
             .post(`/api/player/join/${bracketID}`)
+            .then(response => response.data)
+            .catch(console.log)
+    };
+}
+
+export function bracketKickPlayer(bracketID, user_id) {
+    return {
+        type: BRACKET_KICK_PLAYER,
+        payload: axios
+            .delete(`/api/bracket/${bracketID}/kickplayer/${user_id}`)
             .then(response => response.data)
             .catch(console.log)
     };
@@ -408,6 +423,17 @@ export default function reducer(state = initialState, action) {
             });
         case `${PLAYER_JOIN_BRACKET}_REJECTED`:
             return Object.assign({}, state, { playerJoinError: true });
+
+        // KICK BRACKET PLAYER
+        case `${BRACKET_KICK_PLAYER}_PENDING`:
+            return Object.assign({}, state, { bracketKickingPlayer: true });
+        case `${BRACKET_KICK_PLAYER}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketParticipants: action.payload,
+                bracketKickingPlayer: false
+            });
+        case `${BRACKET_KICK_PLAYER}_REJECTED`:
+            return Object.assign({}, state, { bracketKickPlayerError: true });
 
         // RETRIEVE ALL PLAYERS FOR BRACKET
         case `${RETRIEVE_BRACKET_PLAYERS}_PENDING`:

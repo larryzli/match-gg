@@ -139,7 +139,7 @@ const InvitedTable = ({
         );
     }
     return (
-        <div>
+        <div className="ui-table-container">
             <Table height="100%" fixedHeader={true}>
                 {TableHeaders}
                 {TableContent}

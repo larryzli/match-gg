@@ -134,6 +134,10 @@ app.delete("/api/bracket/:id", bracketController.deleteBracket); // Delete brack
 
 // PARTICIPANT API
 app.post("/api/player/join/:id", bracketController.joinBracketAsPlayer); // Join bracket as player
+app.delete(
+    "/api/bracket/:bracket_id/kickplayer/:user_id",
+    bracketController.kickBracketPlayer
+);
 app.get("/api/bracket/:id/players/", bracketController.getBracketPlayers); // Get all players for bracket
 
 // LISTEN ON PORT

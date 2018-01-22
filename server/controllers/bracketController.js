@@ -174,5 +174,22 @@ module.exports = {
                 return res.status(200).json(response);
             })
             .catch(console.log);
+    },
+    kickBracketPlayer: (req, res) => {
+        const db = req.app.get("db");
+        const { bracket_id, user_id } = req.params;
+        console.log(req.body);
+        console.log(bracket_id);
+        db
+            .remove_player_from_bracket([bracket_id, user_id])
+            .then(() =>
+                db
+                    .get_bracket_players_by_bracket_id([bracket_id])
+                    .then(response2 => {
+                        return res.status(200).json(response2);
+                    })
+                    .catch(console.log)
+            )
+            .catch(console.log);
     }
 };

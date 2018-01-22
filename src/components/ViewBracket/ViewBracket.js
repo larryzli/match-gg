@@ -40,6 +40,7 @@ class ViewBracket extends Component {
             })
             .catch(console.log);
     }
+
     // handleRowClick = bracketID => {
     //     this.props.history.push(`/manage/${bracketID}`);
     // };

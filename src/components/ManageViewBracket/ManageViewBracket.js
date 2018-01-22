@@ -25,7 +25,8 @@ import "./ManageViewBracket.css";
 import {
     retrieveBracketData,
     publishBracket,
-    retrieveBracketPlayers
+    retrieveBracketPlayers,
+    bracketKickPlayer
 } from "./../../ducks/bracketReducer";
 
 class ManageViewBracket extends Component {
@@ -41,6 +42,9 @@ class ManageViewBracket extends Component {
                 // : this.props.retrieveBracketTeams
             })
             .catch(console.log);
+    }
+    kickPlayerHandler(bracketID, user_id) {
+        this.props.bracketKickPlayer(bracketID, user_id);
     }
     // handleRowClick = bracketID => {
     //     this.props.history.push(`/manage/${bracketID}`);
@@ -249,6 +253,9 @@ class ManageViewBracket extends Component {
                                                 .bracketParticipants
                                         }
                                         showControls={true}
+                                        kickParticipant={
+                                            this.props.bracketKickPlayer
+                                        }
                                     />
                                     <div className="ui-subtitle-header">
                                         <h2 className="ui-form-subtitle">
@@ -302,5 +309,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
     retrieveBracketData,
     publishBracket,
-    retrieveBracketPlayers
+    retrieveBracketPlayers,
+    bracketKickPlayer
 })(ManageViewBracket);
