@@ -190,7 +190,7 @@ module.exports = {
             )
             .catch(console.log);
     },
-    generateBracketFirstRound: (req, res) => {
+    generateBracket: (req, res) => {
         const db = req.app.get("db");
         const bracket_id = req.params.id;
         const { participantList } = req.body; // Sorted by seed asc
@@ -215,8 +215,8 @@ module.exports = {
             };
         };
 
-        // Create first round of bracket with participant list
-        const createFirstRound = participants => {
+        // Create empty final round of bracket
+        const createRoundsWithMatches = async participants => {
             const participantsCount = participants.length;
             const rounds = Math.ceil(Math.log(participantsCount) / Math.log(2));
             const bracketSize = Math.pow(2, rounds);
@@ -229,13 +229,35 @@ module.exports = {
 
             // Create seeding for final round
             let matches = [[1, 2]];
+            // Insert final round into DB
+            let next_matches = await db
+                .create_bracket_round([rounds, `Round ${rounds}`, bracket_id])
+                .then(async response => {
+                    // Insert final match into DB
+                    const roundID = response[0].round_id;
+                    const matchIdResponse = await db.create_round_match([
+                        roundID,
+                        null,
+                        null,
+                        bracket_id,
+                        null
+                    ]);
+                    console.log("matchIdResponse[0]: ", matchIdResponse[0]);
+                    return [matchIdResponse[0].match_id];
+                })
+                .catch(console.log);
+            console.log("next_matches: ", next_matches);
+            let matchStructure = [];
+            matchStructure.unshift(next_matches);
 
             // Create matches for each round going backwards from final match
             for (let round = 1; round < rounds; round++) {
+                let currentRound = rounds - round;
+                console.log("currentRound: ", currentRound);
                 let tempMatches = [];
                 const sum = Math.pow(2, round + 1) + 1;
 
-                // Insert matches for each round
+                // Insert matches for each round into temporary array
                 for (let i = 0; i < matches.length; i++) {
                     let home = changeIntoBye(matches[i][0], participantsCount);
                     let away = changeIntoBye(
@@ -250,64 +272,76 @@ module.exports = {
                     away = changeIntoBye(matches[i][1], participantsCount);
                     tempMatches.push([home, away]);
                 }
-                matches = tempMatches;
-            }
 
-            // Insert team values based on seeding numbers
-            let matchesWithParticipants = [];
-            for (let j in matches) {
-                matchesWithParticipants.push(
-                    MatchMaker(
-                        1,
-                        participants[matches[j][0] - 1] || bye,
-                        participants[matches[j][1] - 1] || bye
-                    )
-                );
-            }
-            return {
-                round_number: 1,
-                round_name: "Round 1",
-                matchesArray: matchesWithParticipants
-            };
-        };
-
-        const first_round = createFirstRound(participantList);
-
-        // Insert round into DB
-        db
-            .create_bracket_round([
-                first_round.round_number,
-                first_round.round_name,
-                bracket_id
-            ])
-            .then(response => {
-                console.log("response 1: ", response);
-                // Insert matches array into DB
-                const roundID = response[0].round_id;
-                let matchUploads = first_round.matchesArray.map(async match => {
-                    // Insert match into DB
-                    try {
-                        const response2 = await db.create_round_match([
-                            roundID,
-                            match.team1.id,
-                            match.team2.id,
-                            bracket_id
-                        ]);
-                        console.log("response 2: ", response2);
-                        return response2[0].match_id;
-                    } catch (e) {
-                        console.log(e);
-                    }
-                });
-
-                // Bundle up promises and return them
-                Promise.all(matchUploads)
-                    .then(responses => {
-                        console.log("response 3: ", responses);
-                        return res.status(200).json(responses);
+                // Create current round with matches
+                let temp_next_matches = await db
+                    .create_bracket_round([
+                        currentRound,
+                        `Round ${currentRound}`,
+                        bracket_id
+                    ])
+                    .then(async response => {
+                        const roundID = response[0].round_id;
+                        const matchIdResponses = tempMatches.map(
+                            async (match, index) => {
+                                if (currentRound !== 1) {
+                                    return await db.create_round_match([
+                                        roundID,
+                                        null,
+                                        null,
+                                        bracket_id,
+                                        next_matches[Math.floor(index / 2)]
+                                    ]);
+                                } else {
+                                    return await db.create_round_match([
+                                        roundID,
+                                        participantList[match[0] - 1]
+                                            ? participantList[match[0] - 1].id
+                                            : null,
+                                        participantList[match[1] - 1]
+                                            ? participantList[match[1] - 1].id
+                                            : null,
+                                        bracket_id,
+                                        next_matches[Math.floor(index / 2)]
+                                    ]);
+                                }
+                            }
+                        );
+                        return await Promise.all(matchIdResponses)
+                            .then(async responses => {
+                                let resArr = responses
+                                    .map(c => c.pop().match_id)
+                                    .sort((a, b) => a - b);
+                                return resArr;
+                            })
+                            .catch(console.log);
                     })
                     .catch(console.log);
-            })
-            .catch(console.log);
+
+                console.log("temp_next_matches: ", temp_next_matches);
+                matchStructure.unshift(temp_next_matches);
+                console.log("matchStructure: ", matchStructure);
+
+                next_matches = temp_next_matches;
+                matches = tempMatches;
+            }
+            return matchStructure;
+
+            // // Insert team values based on seeding numbers
+            // let matchesWithParticipants = [];
+            // for (let j in matches) {
+            //     matchesWithParticipants.push(
+            //         MatchMaker(
+            //             1,
+            //             participants[matches[j][0] - 1] || bye,
+            //             participants[matches[j][1] - 1] || bye
+            //         )
+            //     );
+            // }
+            // return something;
+        };
+        const matchList = createRoundsWithMatches(participantList);
+
+        return res.status(200).json(matchList);
     }
 };

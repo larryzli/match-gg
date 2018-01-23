@@ -27,7 +27,7 @@ import {
     publishBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
-    generateFirstRound
+    generateBracketStructure
 } from "./../../ducks/bracketReducer";
 
 class ManageViewBracket extends Component {
@@ -286,14 +286,14 @@ class ManageViewBracket extends Component {
                                     <button
                                         className="ui-button-header button-secondary button-long"
                                         onClick={() =>
-                                            this.props.generateFirstRound(
+                                            this.props.generateBracketStructure(
                                                 this.props.brackets.bracketID,
                                                 this.props.brackets
                                                     .bracketParticipants
                                             )
                                         }
                                     >
-                                        Generate First Round
+                                        Generate Preview
                                     </button>
                                 </div>
                             </Tab>
@@ -323,5 +323,5 @@ export default connect(mapStateToProps, {
     publishBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
-    generateFirstRound
+    generateBracketStructure
 })(ManageViewBracket);

@@ -94,7 +94,7 @@ const HANDLE_HAS_PASSWORD_CHANGE = "HANDLE_HAS_PASSWORD_CHANGE";
 const HANDLE_PARTICIPANT_TYPE_CHANGE = "HANDLE_PARTICIPANT_TYPE_CHANGE";
 const PUBLISH_BRACKET = "PUBLISH_BRACKET";
 
-const GENERATE_FIRST_ROUND = "GENERATE_FIRST_ROUND";
+const GENERATE_BRACKET_STRUCTURE = "GENERATE_BRACKET_STRUCTURE";
 
 // MANAGE PARTICIPANTS
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
@@ -190,11 +190,11 @@ export function getCreatorBrackets() {
 }
 
 // GENERATE FIRST ROUND FOR BRACKET
-export function generateFirstRound(bracketID, participantList) {
+export function generateBracketStructure(bracketID, participantList) {
     return {
-        type: GENERATE_FIRST_ROUND,
+        type: GENERATE_BRACKET_STRUCTURE,
         payload: axios
-            .post(`/api/bracket/${bracketID}/generate/firstround`, {
+            .post(`/api/bracket/${bracketID}/generate`, {
                 participantList
             })
             .then(response => response.data)
@@ -433,16 +433,16 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { bracketError: true });
 
         // GENERATE FIRST ROUND FOR BRACKET
-        case `${GENERATE_FIRST_ROUND}_PENDING`:
+        case `${GENERATE_BRACKET_STRUCTURE}_PENDING`:
             return Object.assign({}, state, {
                 bracketRoundOneGenerating: true
             });
-        case `${GENERATE_FIRST_ROUND}_FULFILLED`:
+        case `${GENERATE_BRACKET_STRUCTURE}_FULFILLED`:
             return Object.assign({}, state, {
                 bracketMatches: action.payload,
                 bracketRoundOneGenerating: false
             });
-        case `${GENERATE_FIRST_ROUND}_REJECTED`:
+        case `${GENERATE_BRACKET_STRUCTURE}_REJECTED`:
             return Object.assign({}, state, { bracketRoundOneError: true });
 
         // JOIN BRACKET AS PLAYER

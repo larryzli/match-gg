@@ -131,10 +131,7 @@ app.put("/api/bracket/:id/status", bracketController.updateStatus); // Update br
 app.get("/api/bracket/:id", bracketController.getBracketById); // Get single bracket info
 app.post("/api/manage/brackets", bracketController.createBracket); // Create bracket
 app.delete("/api/bracket/:id", bracketController.deleteBracket); // Delete bracket
-app.post(
-    "/api/bracket/:id/generate/firstround",
-    bracketController.generateBracketFirstRound
-); // Generate matches of first round of bracket
+app.post("/api/bracket/:id/generate", bracketController.generateBracket); // Generate matches of first round of bracket
 
 // PARTICIPANT API
 app.post("/api/player/join/:id", bracketController.joinBracketAsPlayer); // Join bracket as player
