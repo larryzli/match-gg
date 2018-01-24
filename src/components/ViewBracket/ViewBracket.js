@@ -8,6 +8,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import ParticipantTable from "../ParticipantTable/ParticipantTable";
 import InvitedTable from "../InvitedTable/InvitedTable";
+import RoundMatchCards from "../RoundMatchCards/RoundMatchCards";
 // MATERIAL UI
 import { Tabs, Tab } from "material-ui/Tabs";
 import Chip from "material-ui/Chip";
@@ -23,7 +24,8 @@ import "./ViewBracket.css";
 import {
     retrieveBracketData,
     playerJoinBracket,
-    retrieveBracketPlayers
+    retrieveBracketPlayers,
+    retrieveBracketStructure
 } from "./../../ducks/bracketReducer";
 
 class ViewBracket extends Component {
@@ -32,9 +34,14 @@ class ViewBracket extends Component {
             .retrieveBracketData(this.props.match.params.id)
             .then(() => {
                 return this.props.brackets.bracketParticipantType === "player"
-                    ? this.props.retrieveBracketPlayers(
-                          this.props.brackets.bracketID
-                      )
+                    ? this.props
+                          .retrieveBracketPlayers(this.props.brackets.bracketID)
+                          .then(() => {
+                              return this.props.retrieveBracketStructure(
+                                  this.props.brackets.bracketID
+                              );
+                          })
+                          .catch(console.log)
                     : null;
                 // : this.props.retrieveBracketTeams
             })
@@ -238,9 +245,12 @@ class ViewBracket extends Component {
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
-                                    <h3>Match List</h3>
-                                    <p>Edit / Submit Scores</p>
-                                    <p>Change Winner</p>
+                                    <RoundMatchCards
+                                        bracketStructure={
+                                            this.props.brackets.bracketStructure
+                                        }
+                                    />
+                                    <p>Submit Scores</p>
                                 </div>
                             </Tab>
                         </Tabs>
@@ -256,5 +266,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
     retrieveBracketData,
     playerJoinBracket,
-    retrieveBracketPlayers
+    retrieveBracketPlayers,
+    retrieveBracketStructure
 })(ViewBracket);

@@ -8,6 +8,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import ParticipantTable from "../ParticipantTable/ParticipantTable";
 import InvitedTable from "../InvitedTable/InvitedTable";
+import RoundMatchCards from "../RoundMatchCards/RoundMatchCards";
 // MATERIAL UI
 import { Tabs, Tab } from "material-ui/Tabs";
 import Chip from "material-ui/Chip";
@@ -27,7 +28,8 @@ import {
     publishBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
-    generateBracketStructure
+    generateBracketStructure,
+    retrieveBracketStructure
 } from "./../../ducks/bracketReducer";
 
 class ManageViewBracket extends Component {
@@ -36,9 +38,14 @@ class ManageViewBracket extends Component {
             .retrieveBracketData(this.props.match.params.id)
             .then(() => {
                 return this.props.brackets.bracketParticipantType === "player"
-                    ? this.props.retrieveBracketPlayers(
-                          this.props.brackets.bracketID
-                      )
+                    ? this.props
+                          .retrieveBracketPlayers(this.props.brackets.bracketID)
+                          .then(() => {
+                              return this.props.retrieveBracketStructure(
+                                  this.props.brackets.bracketID
+                              );
+                          })
+                          .catch(console.log)
                     : null;
                 // : this.props.retrieveBracketTeams
             })
@@ -303,9 +310,14 @@ class ManageViewBracket extends Component {
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
                                 <div className="bracket-tab-content-container">
-                                    <h3>Match List</h3>
+                                    <RoundMatchCards
+                                        bracketStructure={
+                                            this.props.brackets.bracketStructure
+                                        }
+                                        showControls={true}
+                                    />
                                     <p>Edit / Submit Scores</p>
-                                    <p>Change Winner</p>
+                                    <p>Complete Match</p>
                                 </div>
                             </Tab>
                         </Tabs>
@@ -323,5 +335,6 @@ export default connect(mapStateToProps, {
     publishBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
-    generateBracketStructure
+    generateBracketStructure,
+    retrieveBracketStructure
 })(ManageViewBracket);

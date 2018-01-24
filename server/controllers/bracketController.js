@@ -170,7 +170,6 @@ module.exports = {
         db
             .get_bracket_players_by_bracket_id([bracket_id])
             .then(response => {
-                console.log(response);
                 return res.status(200).json(response);
             })
             .catch(console.log);
@@ -190,29 +189,15 @@ module.exports = {
             )
             .catch(console.log);
     },
-    generateBracket: (req, res) => {
+    generateBracket: async (req, res) => {
         const db = req.app.get("db");
         const bracket_id = req.params.id;
         const { participantList } = req.body; // Sorted by seed asc
-
-        // Create BYE participant data
-        const bye = {
-            id: null,
-            name: "BYE"
-        };
+        console.log("participantList: ", participantList);
 
         // Change seeds into null value if it is a BYE
         const changeIntoBye = (seed, participantsCount) => {
             return seed <= participantsCount ? seed : null;
-        };
-
-        // Object factory for matches
-        const MatchMaker = (round, team1, team2) => {
-            return {
-                round,
-                team1,
-                team2
-            };
         };
 
         // Create empty final round of bracket
@@ -237,23 +222,20 @@ module.exports = {
                     const roundID = response[0].round_id;
                     const matchIdResponse = await db.create_round_match([
                         roundID,
-                        null,
-                        null,
+                        rounds === 1 ? participantList[0].id : null,
+                        rounds === 1 ? participantList[1].id : null,
                         bracket_id,
                         null
                     ]);
-                    console.log("matchIdResponse[0]: ", matchIdResponse[0]);
                     return [matchIdResponse[0].match_id];
                 })
                 .catch(console.log);
-            console.log("next_matches: ", next_matches);
             let matchStructure = [];
             matchStructure.unshift(next_matches);
 
             // Create matches for each round going backwards from final match
             for (let round = 1; round < rounds; round++) {
                 let currentRound = rounds - round;
-                console.log("currentRound: ", currentRound);
                 let tempMatches = [];
                 const sum = Math.pow(2, round + 1) + 1;
 
@@ -317,31 +299,45 @@ module.exports = {
                             .catch(console.log);
                     })
                     .catch(console.log);
-
-                console.log("temp_next_matches: ", temp_next_matches);
                 matchStructure.unshift(temp_next_matches);
-                console.log("matchStructure: ", matchStructure);
 
                 next_matches = temp_next_matches;
                 matches = tempMatches;
             }
             return matchStructure;
-
-            // // Insert team values based on seeding numbers
-            // let matchesWithParticipants = [];
-            // for (let j in matches) {
-            //     matchesWithParticipants.push(
-            //         MatchMaker(
-            //             1,
-            //             participants[matches[j][0] - 1] || bye,
-            //             participants[matches[j][1] - 1] || bye
-            //         )
-            //     );
-            // }
-            // return something;
         };
-        const matchList = createRoundsWithMatches(participantList);
+        const matchList = await createRoundsWithMatches(participantList);
+        console.log("matchList: ", matchList);
 
         return res.status(200).json(matchList);
+    },
+    getBracketStructure: (req, res) => {
+        const db = req.app.get("db");
+        const bracket_id = req.params.id;
+        db.get_bracket_structure([bracket_id]).then(response => {
+            console.log(response);
+            // Determine number of rounds in bracket
+            const numRounds =
+                response.length > 0
+                    ? response[response.length - 1].round_number
+                    : 0;
+
+            // Split matches into rounds
+            const roundsArr = [];
+            for (let i = 1; i <= numRounds; i++) {
+                roundsArr.push({
+                    roundNum: i,
+                    roundName: response.filter(
+                        match => match.round_number === i
+                    )[0].round_name,
+                    matchArr: response.filter(match => match.round_number === i)
+                });
+            }
+            const structure = {
+                numRounds,
+                roundsArr
+            };
+            return res.status(200).json(structure);
+        });
     }
 };

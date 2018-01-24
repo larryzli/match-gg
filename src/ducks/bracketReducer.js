@@ -23,9 +23,15 @@ const initialState = {
     bracketStatus: "draft",
     bracketParticipantType: "player",
 
-    bracketMatches: [],
-    bracketRoundOneGenerating: false,
-    bracketRoundOneError: false,
+    bracketStructure: [],
+
+    // GENERATE BRACKET
+    bracketGenerating: false,
+    bracketGenerateError: false,
+
+    // GET BRACKET STRUCTURE
+    bracketStructureRetrieving: false,
+    bracketStructureError: false,
 
     // BRACKET PARTICIPANTS
     bracketParticipants: [],
@@ -79,7 +85,7 @@ const RETRIEVE_PUBLIC_BRACKETS = "RETRIEVE_PUBLIC_BRACKETS";
 // LOAD SINGLE BRACKET
 const RETRIEVE_BRACKET_DATA = "RETRIEVE_BRACKET_DATA";
 
-// MANAGE BRACKET
+// MANAGE BRACKET INFO
 const RESET_INITIAL = "RESET_INITIAL";
 const CREATE_BRACKET = "CREATE_BRACKET";
 const EDIT_BRACKET = "EDIT_BRACKET";
@@ -94,7 +100,9 @@ const HANDLE_HAS_PASSWORD_CHANGE = "HANDLE_HAS_PASSWORD_CHANGE";
 const HANDLE_PARTICIPANT_TYPE_CHANGE = "HANDLE_PARTICIPANT_TYPE_CHANGE";
 const PUBLISH_BRACKET = "PUBLISH_BRACKET";
 
+// BRACKET STRUCTURE
 const GENERATE_BRACKET_STRUCTURE = "GENERATE_BRACKET_STRUCTURE";
+const RETRIEVE_BRACKET_STRUCTURE = "RETRIEVE_BRACKET_STRUCTURE";
 
 // MANAGE PARTICIPANTS
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
@@ -189,7 +197,7 @@ export function getCreatorBrackets() {
     };
 }
 
-// GENERATE FIRST ROUND FOR BRACKET
+// GENERATE STRUCTURE FOR BRACKET
 export function generateBracketStructure(bracketID, participantList) {
     return {
         type: GENERATE_BRACKET_STRUCTURE,
@@ -199,6 +207,16 @@ export function generateBracketStructure(bracketID, participantList) {
             })
             .then(response => response.data)
             .catch(console.log)
+    };
+}
+
+// RETRIEVE STRUCTURE FOR BRACKET
+export function retrieveBracketStructure(bracketID) {
+    return {
+        type: RETRIEVE_BRACKET_STRUCTURE,
+        payload: axios
+            .get(`/api/bracket/${bracketID}/structure`)
+            .then(response => response.data)
     };
 }
 
@@ -213,6 +231,7 @@ export function playerJoinBracket(bracketID) {
     };
 }
 
+// KICK BRACKET PLAYER
 export function bracketKickPlayer(bracketID, user_id) {
     return {
         type: BRACKET_KICK_PLAYER,
@@ -432,18 +451,31 @@ export default function reducer(state = initialState, action) {
         case `${RETRIEVE_BRACKET_DATA}_REJECTED`:
             return Object.assign({}, state, { bracketError: true });
 
-        // GENERATE FIRST ROUND FOR BRACKET
+        // GENERATE STRUCTURE FOR BRACKET
         case `${GENERATE_BRACKET_STRUCTURE}_PENDING`:
             return Object.assign({}, state, {
-                bracketRoundOneGenerating: true
+                bracketGenerating: true
             });
         case `${GENERATE_BRACKET_STRUCTURE}_FULFILLED`:
             return Object.assign({}, state, {
-                bracketMatches: action.payload,
-                bracketRoundOneGenerating: false
+                // bracketStructure: action.payload,
+                bracketGenerating: false
             });
         case `${GENERATE_BRACKET_STRUCTURE}_REJECTED`:
-            return Object.assign({}, state, { bracketRoundOneError: true });
+            return Object.assign({}, state, { bracketGenerateError: true });
+
+        // RETRIEVE BRACKET STRUCTURE
+        case `${RETRIEVE_BRACKET_STRUCTURE}_PENDING`:
+            return Object.assign({}, state, {
+                bracketStructureRetrieving: true
+            });
+        case `${RETRIEVE_BRACKET_STRUCTURE}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketStructure: action.payload,
+                bracketStructureRetrieving: false
+            });
+        case `${RETRIEVE_BRACKET_STRUCTURE}_REJECTED`:
+            return Object.assign({}, state, { bracketStructureError: true });
 
         // JOIN BRACKET AS PLAYER
         case `${PLAYER_JOIN_BRACKET}_PENDING`:

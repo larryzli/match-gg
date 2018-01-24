@@ -1,0 +1,29 @@
+.card-match {
+    width: 100%;
+    background-color: #3a3a3a;
+    /* padding: 15px 20px; */
+    margin-bottom: 15px;
+}
+.card-match:hover {
+    background-color: #5a5a5a;
+}
+.card-match:hover .card-team-winner {
+    background-color: #7986cb;
+}
+.card-match:last-child {
+    margin-bottom: 0px;
+}
+.card-team {
+    /* padding: 15px 10%; */
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.card-team-winner {
+    background-color: #3f50aa;
+}
+.card-team-divider {
+    height: 1px;
+    width: 100%;
+    background-color: #222222;
+}
