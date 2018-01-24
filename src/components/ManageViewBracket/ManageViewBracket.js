@@ -9,6 +9,7 @@ import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import ParticipantTable from "../ParticipantTable/ParticipantTable";
 import InvitedTable from "../InvitedTable/InvitedTable";
 import RoundMatchCards from "../RoundMatchCards/RoundMatchCards";
+import Bracket from "../Bracket/Bracket";
 // MATERIAL UI
 import { Tabs, Tab } from "material-ui/Tabs";
 import Chip from "material-ui/Chip";
@@ -18,7 +19,8 @@ import {
     faEdit,
     faCheck,
     faPlay,
-    faEnvelope
+    faEnvelope,
+    faExpandArrowsAlt
 } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./ManageViewBracket.css";
@@ -315,9 +317,22 @@ class ManageViewBracket extends Component {
                                 label="BRACKET"
                                 style={{ borderBottom: "2px solid #5a5a5a" }}
                             >
-                                <div className="bracket-tab-content-container">
-                                    <h3>View Bracket</h3>
-                                    <p>See Full Screen</p>
+                                <div className="bracket-tab-content-container bracket-tab-content-fixed">
+                                    <div className="bracket-tab-controls">
+                                        <button className="ui-button-header button-secondary button-medium">
+                                            <FontAwesomeIcon
+                                                icon={faExpandArrowsAlt}
+                                                className="ui-button-icon"
+                                            />
+                                            Fullscreen
+                                        </button>
+                                    </div>
+                                    <Bracket
+                                        bracketStructure={
+                                            this.props.brackets.bracketStructure
+                                        }
+                                        matchClick={this.handleMatchRowClick}
+                                    />
                                 </div>
                             </Tab>
                             <Tab

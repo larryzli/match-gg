@@ -3,6 +3,8 @@
     background-color: #3a3a3a;
     /* padding: 15px 20px; */
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
 }
 .card-match:hover {
     background-color: #5a5a5a;
@@ -12,6 +14,39 @@
 }
 .card-match:last-child {
     margin-bottom: 0px;
+}
+.card-match-info {
+    flex-grow: 5;
+    border-right: 1px solid #222222;
+}
+.card-match-controls-container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.card-match-control {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 92px;
+    width: 50%;
+}
+.card-match-control:first-child {
+    border-right: 1px solid #222222;
+}
+.card-match-control:first-child:hover {
+    background-color: #7986cb;
+}
+
+.card-match-control:hover {
+    background-color: #009688;
+}
+
+.card-control-label {
+    padding-top: 10px;
+    font-size: 10px;
 }
 .card-team {
     /* padding: 15px 10%; */

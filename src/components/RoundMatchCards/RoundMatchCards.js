@@ -3,6 +3,8 @@ import React from "react";
 // MATERIAL UI
 import { Card, CardHeader, CardText } from "material-ui/Card";
 // IMPORT ICONS
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { faCheck, faEdit } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./RoundMatchCards.css";
 
@@ -21,7 +23,7 @@ const RoundMatchCards = ({ bracketStructure, showControls, rowClick }) => {
                                 ? "Finals"
                                 : index + 1 === bracketStructure.numRounds - 1
                                   ? "Semifinals"
-                                  : `Round of ${round.matchArr.length}`
+                                  : `Round of ${round.matchArr.length * 2}`
                         }
                         actAsExpander={true}
                         showExpandableButton={true}
@@ -30,12 +32,11 @@ const RoundMatchCards = ({ bracketStructure, showControls, rowClick }) => {
                         {round.matchArr.map((match, index2) => {
                             console.log("match: ", match);
                             return (
-                                <div
-                                    key={index2}
-                                    className="card-match"
-                                    onClick={() => rowClick(match.match_id)}
-                                >
-                                    <div className={"card-match-info"}>
+                                <div key={index2} className="card-match">
+                                    <div
+                                        className={"card-match-info"}
+                                        onClick={() => rowClick(match.match_id)}
+                                    >
                                         <div
                                             className={
                                                 match.winner_team_id ===
@@ -84,6 +85,28 @@ const RoundMatchCards = ({ bracketStructure, showControls, rowClick }) => {
                                             <span>{match.team2_score}</span>
                                         </div>
                                     </div>
+                                    {showControls &&
+                                    !match.completed &&
+                                    (match.team1_name || match.team2_name) ? (
+                                        <div className="card-match-controls-container">
+                                            <div className="card-match-control">
+                                                <FontAwesomeIcon
+                                                    icon={faEdit}
+                                                />
+                                                <span className="card-control-label">
+                                                    EDIT
+                                                </span>
+                                            </div>
+                                            <div className="card-match-control">
+                                                <FontAwesomeIcon
+                                                    icon={faCheck}
+                                                />
+                                                <span className="card-control-label">
+                                                    CONIFRM
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ) : null}
                                 </div>
                             );
                         })}

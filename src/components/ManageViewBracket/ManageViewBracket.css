@@ -11,6 +11,10 @@
     color: white;
     background-color: #3a3a3a;
 }
+
+.bracket-tab-content-fixed {
+    height: calc(100vh - 300px);
+}
 .bracket-data-pair {
     margin-top: 10px;
     margin-bottom: 20px;
@@ -32,4 +36,11 @@
 .description-text {
     font-size: 16px;
     text-transform: none;
+}
+.bracket-tab-controls {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
 }

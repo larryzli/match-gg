@@ -4,6 +4,7 @@
     width: 100%;
     overflow: scroll;
     display: flex;
+    flex-direction: row;
 }
 .bracket-viewer {
     display: flex;
@@ -16,18 +17,19 @@
     width: 180px;
     display: flex;
     flex-direction: column;
-    background-color: rgb(37, 37, 37);
+    background-color: #222222;
     min-width: 180px;
 }
 .bracket-column-header {
     padding: 10px;
-    background-color: rgb(110, 110, 110);
+    background-color: #3a3a3a;
     margin-bottom: 10px;
 }
 .column-title {
     font-size: 20px;
     margin-bottom: 5px;
     color: white;
+    text-align: center;
 }
 .best-of {
     font-size: 12px;
@@ -38,7 +40,11 @@
 }
 
 .bracket-column-match {
+    background-color: #3a3a3a;
     margin: 10px 0;
+}
+.bracket-column-match:hover {
+    background-color: #5a5a5a;
 }
 .bracket-column-match > .winner {
     background-color: #7986cb;
@@ -50,10 +56,10 @@
     color: rgba(255, 255, 255, 0.432);
 }
 .bracket-match-team {
-    background-color: rgb(126, 126, 126);
+    /* background-color: #3a3a3a; */
     color: rgb(207, 207, 207);
-    border-top: 1px solid rgb(37, 37, 37);
-    border-bottom: 1px solid rgb(37, 37, 37);
+    border-top: 1px solid #222222;
+    border-bottom: 1px solid #222222;
     display: flex;
     justify-content: space-between;
     align-content: center;
@@ -65,6 +71,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
+    padding: 0 5px;
 }
 .bracket-team-name {
     display: flex;
@@ -76,7 +83,7 @@
     align-items: center;
     justify-content: center;
     width: 40px;
-    border-left: 1px solid rgb(37, 37, 37);
+    border-left: 1px solid #222222;
 }
 .bracket-column-divider {
     width: 30px;

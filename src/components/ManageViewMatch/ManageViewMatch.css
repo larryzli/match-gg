@@ -5,3 +5,22 @@
     align-items: flex-start;
     padding: 40px 60px;
 }
+.view-match-name-score {
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222222;
+    padding: 20px;
+}
+.view-match-team-name {
+    font-size: 20px;
+}
+.match-score-divider {
+    padding: 0 30px;
+    color: #5a5a5a;
+}
+.match-score {
+    font-size: 20px;
+}
