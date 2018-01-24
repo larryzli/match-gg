@@ -339,5 +339,15 @@ module.exports = {
             };
             return res.status(200).json(structure);
         });
+    },
+    deleteBracketStructure: (req, res) => {
+        const db = req.app.get("db");
+        const bracket_id = req.params.id;
+        db
+            .delete_bracket_structure([bracket_id])
+            .then(response => {
+                return res.status(200).json(response);
+            })
+            .catch(console.log);
     }
 };

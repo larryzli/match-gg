@@ -1,0 +1,7 @@
+.manage-view-match-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 40px 60px;
+}

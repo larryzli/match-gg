@@ -117,8 +117,8 @@
     color: white;
 }
 .button-main:hover {
-    color: white;
-    background-color: #7986cb;
+    color: #3f50aa;
+    background-color: white;
 }
 .button-secondary:hover {
     background-color: white;

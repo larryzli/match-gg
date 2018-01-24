@@ -1,0 +1,1 @@
+DELETE FROM round WHERE bracket_id = $1;

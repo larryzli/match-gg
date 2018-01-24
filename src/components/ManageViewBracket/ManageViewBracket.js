@@ -54,9 +54,11 @@ class ManageViewBracket extends Component {
     kickPlayerHandler(bracketID, user_id) {
         this.props.bracketKickPlayer(bracketID, user_id);
     }
-    // handleRowClick = bracketID => {
-    //     this.props.history.push(`/manage/${bracketID}`);
-    // };
+    handleMatchRowClick = matchID => {
+        this.props.history.push(
+            `/manage/${this.props.brackets.bracketID}/${matchID}`
+        );
+    };
     render() {
         console.log(this.props);
         const breadcrumbs = [
@@ -104,6 +106,17 @@ class ManageViewBracket extends Component {
         } else if (this.props.brackets.bracketStatus === "ready") {
             headerControls = (
                 <div className="ui-header-controls">
+                    <button
+                        className="ui-button-header button-secondary button-medium"
+                        onClick={() =>
+                            this.props.generateBracketStructure(
+                                this.props.brackets.bracketID,
+                                this.props.brackets.bracketParticipants
+                            )
+                        }
+                    >
+                        Generate Preview
+                    </button>
                     <button className="ui-button-header button-confirm button-short">
                         <FontAwesomeIcon
                             icon={faPlay}
@@ -290,18 +303,6 @@ class ManageViewBracket extends Component {
                                 <div className="bracket-tab-content-container">
                                     <h3>View Bracket</h3>
                                     <p>See Full Screen</p>
-                                    <button
-                                        className="ui-button-header button-secondary button-long"
-                                        onClick={() =>
-                                            this.props.generateBracketStructure(
-                                                this.props.brackets.bracketID,
-                                                this.props.brackets
-                                                    .bracketParticipants
-                                            )
-                                        }
-                                    >
-                                        Generate Preview
-                                    </button>
                                 </div>
                             </Tab>
                             <Tab
@@ -315,6 +316,7 @@ class ManageViewBracket extends Component {
                                             this.props.brackets.bracketStructure
                                         }
                                         showControls={true}
+                                        rowClick={this.handleMatchRowClick}
                                     />
                                     <p>Edit / Submit Scores</p>
                                     <p>Complete Match</p>

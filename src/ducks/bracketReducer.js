@@ -23,15 +23,18 @@ const initialState = {
     bracketStatus: "draft",
     bracketParticipantType: "player",
 
-    bracketStructure: [],
+    bracketStructure: {},
 
     // GENERATE BRACKET
     bracketGenerating: false,
     bracketGenerateError: false,
 
-    // GET BRACKET STRUCTURE
+    // BRACKET STRUCTURE GET
     bracketStructureRetrieving: false,
     bracketStructureError: false,
+    // BRACKET STRUCTURE DELETE
+    bracketStructureDeleting: false,
+    bracketStructureDeleteError: false,
 
     // BRACKET PARTICIPANTS
     bracketParticipants: [],
@@ -103,6 +106,7 @@ const PUBLISH_BRACKET = "PUBLISH_BRACKET";
 // BRACKET STRUCTURE
 const GENERATE_BRACKET_STRUCTURE = "GENERATE_BRACKET_STRUCTURE";
 const RETRIEVE_BRACKET_STRUCTURE = "RETRIEVE_BRACKET_STRUCTURE";
+const DELETE_BRACKET_STRUCTURE = "DELETE_BRACKET_STRUCTURE";
 
 // MANAGE PARTICIPANTS
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
@@ -209,7 +213,6 @@ export function generateBracketStructure(bracketID, participantList) {
             .catch(console.log)
     };
 }
-
 // RETRIEVE STRUCTURE FOR BRACKET
 export function retrieveBracketStructure(bracketID) {
     return {
@@ -217,6 +220,16 @@ export function retrieveBracketStructure(bracketID) {
         payload: axios
             .get(`/api/bracket/${bracketID}/structure`)
             .then(response => response.data)
+    };
+}
+// DELETE STRUCTURE FOR BRACKET
+export function deleteBracketStructure(bracketID) {
+    return {
+        type: DELETE_BRACKET_STRUCTURE,
+        payload: axios
+            .delete(`/api/bracket/${bracketID}/structure`)
+            .then(response => response)
+            .catch(console.log)
     };
 }
 
@@ -476,6 +489,21 @@ export default function reducer(state = initialState, action) {
             });
         case `${RETRIEVE_BRACKET_STRUCTURE}_REJECTED`:
             return Object.assign({}, state, { bracketStructureError: true });
+
+        // DELETE BRACKET STRUCTURE
+        case `${DELETE_BRACKET_STRUCTURE}_PENDING`:
+            return Object.assign({}, state, {
+                bracketStructureDeleting: true
+            });
+        case `${DELETE_BRACKET_STRUCTURE}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketStructure: {},
+                bracketStructureDeleting: false
+            });
+        case `${DELETE_BRACKET_STRUCTURE}_REJECTED`:
+            return Object.assign({}, state, {
+                bracketStructureDeleteError: true
+            });
 
         // JOIN BRACKET AS PLAYER
         case `${PLAYER_JOIN_BRACKET}_PENDING`:

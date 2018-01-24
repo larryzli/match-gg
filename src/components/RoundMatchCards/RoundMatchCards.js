@@ -7,10 +7,10 @@ import { Card, CardHeader, CardText } from "material-ui/Card";
 import "./RoundMatchCards.css";
 
 // COMPONENT
-const RoundMatchCard = ({ bracketStructure, showControls }) => {
+const RoundMatchCard = ({ bracketStructure, showControls, rowClick }) => {
     console.log(bracketStructure);
     let roundCards;
-    if (bracketStructure.roundsArr) {
+    if (bracketStructure.numRounds > 0) {
         roundCards = bracketStructure.roundsArr.map((round, index) => {
             return (
                 <Card key={index} style={{ marginBottom: "15px" }}>
@@ -30,7 +30,11 @@ const RoundMatchCard = ({ bracketStructure, showControls }) => {
                         {round.matchArr.map((match, index2) => {
                             console.log("match: ", match);
                             return (
-                                <div key={index2} className="card-match">
+                                <div
+                                    key={index2}
+                                    className="card-match"
+                                    onClick={() => rowClick(match.match_id)}
+                                >
                                     <div className={"card-match-info"}>
                                         <div
                                             className={
@@ -87,6 +91,8 @@ const RoundMatchCard = ({ bracketStructure, showControls }) => {
                 </Card>
             );
         });
+    } else {
+        roundCards = <div>Bracket has not started</div>;
     }
 
     return <div>{roundCards}</div>;

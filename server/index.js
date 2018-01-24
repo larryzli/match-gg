@@ -133,6 +133,10 @@ app.post("/api/manage/brackets", bracketController.createBracket); // Create bra
 app.delete("/api/bracket/:id", bracketController.deleteBracket); // Delete bracket
 app.post("/api/bracket/:id/generate", bracketController.generateBracket); // Generate matches of first round of bracket
 app.get("/api/bracket/:id/structure", bracketController.getBracketStructure); // Get all rounds and matches for bracket
+app.delete(
+    "/api/bracket/:id/structure",
+    bracketController.deleteBracketStructure
+); // Remove all rounds and matches for bracket
 
 // PARTICIPANT API
 app.post("/api/player/join/:id", bracketController.joinBracketAsPlayer); // Join bracket as player
