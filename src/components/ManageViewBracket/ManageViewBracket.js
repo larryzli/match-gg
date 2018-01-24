@@ -29,7 +29,8 @@ import {
     retrieveBracketPlayers,
     bracketKickPlayer,
     generateBracketStructure,
-    retrieveBracketStructure
+    retrieveBracketStructure,
+    deleteBracketStructure
 } from "./../../ducks/bracketReducer";
 
 class ManageViewBracket extends Component {
@@ -59,6 +60,25 @@ class ManageViewBracket extends Component {
             `/manage/${this.props.brackets.bracketID}/${matchID}`
         );
     };
+    handleGenerateClick() {
+        this.props
+            .deleteBracketStructure(this.props.brackets.bracketID)
+            .then(() => {
+                this.props
+                    .generateBracketStructure(
+                        this.props.brackets.bracketID,
+                        this.props.brackets.bracketParticipants
+                    )
+                    .then(() => {
+                        return this.props.retrieveBracketStructure(
+                            this.props.brackets.bracketID
+                        );
+                    })
+                    .catch(console.log);
+            })
+
+            .catch(console.log);
+    }
     render() {
         console.log(this.props);
         const breadcrumbs = [
@@ -108,12 +128,7 @@ class ManageViewBracket extends Component {
                 <div className="ui-header-controls">
                     <button
                         className="ui-button-header button-secondary button-medium"
-                        onClick={() =>
-                            this.props.generateBracketStructure(
-                                this.props.brackets.bracketID,
-                                this.props.brackets.bracketParticipants
-                            )
-                        }
+                        onClick={() => this.handleGenerateClick()}
                     >
                         Generate Preview
                     </button>
@@ -338,5 +353,6 @@ export default connect(mapStateToProps, {
     retrieveBracketPlayers,
     bracketKickPlayer,
     generateBracketStructure,
-    retrieveBracketStructure
+    retrieveBracketStructure,
+    deleteBracketStructure
 })(ManageViewBracket);

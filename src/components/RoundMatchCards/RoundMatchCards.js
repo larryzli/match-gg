@@ -7,7 +7,7 @@ import { Card, CardHeader, CardText } from "material-ui/Card";
 import "./RoundMatchCards.css";
 
 // COMPONENT
-const RoundMatchCard = ({ bracketStructure, showControls, rowClick }) => {
+const RoundMatchCards = ({ bracketStructure, showControls, rowClick }) => {
     console.log(bracketStructure);
     let roundCards;
     if (bracketStructure.numRounds > 0) {
@@ -98,4 +98,4 @@ const RoundMatchCard = ({ bracketStructure, showControls, rowClick }) => {
     return <div>{roundCards}</div>;
 };
 
-export default RoundMatchCard;
+export default RoundMatchCards;

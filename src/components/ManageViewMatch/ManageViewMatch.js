@@ -3,21 +3,33 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
+import Breadcrumb from "../Breadcrumb/Breadcrumb";
 // IMPORT STYLING
 import "./ManageViewMatch.css";
-import Breadcrumb from "../Breadcrumb/Breadcrumb";
+// IMPORT REDUX FUNCTIONS
+import { retrieveMatchData } from "../../ducks/matchReducer";
 
 // COMPONENT
 class ManageViewMatch extends Component {
+    componentDidMount() {
+        this.props.retrieveMatchData(this.props.match.params.matchid);
+    }
     render() {
+        console.log(this.props);
         const breadcrumbs = [
             { name: "Manage", link: "/manage" },
             {
-                name: this.props.brackets.bracketName,
-                link: `/manage/${this.props.brackets.bracketID}`
+                name: this.props.matches.matchBracketName,
+                link: `/manage/${this.props.matches.matchBracketID}`
             },
             {
-                name: `Match ${this.props.match.params.matchid}`,
+                name: `${this.props.matches.team1Name ||
+                    (this.props.matches.matchRoundNumber === 1
+                        ? "BYE"
+                        : "TBD")} vs ${this.props.matches.team2Name ||
+                    (this.props.matches.matchRoundNumber === 1
+                        ? "BYE"
+                        : "TBD")}`,
                 link: `/manage/${this.props.brackets.bracketID}`
             }
         ];
@@ -41,4 +53,4 @@ class ManageViewMatch extends Component {
 const mapStateToProps = state => {
     return state;
 };
-export default connect(mapStateToProps)(ManageViewMatch);
+export default connect(mapStateToProps, { retrieveMatchData })(ManageViewMatch);

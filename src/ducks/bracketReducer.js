@@ -148,7 +148,7 @@ export function createBracket(bracketData) {
     return {
         type: CREATE_BRACKET,
         payload: axios
-            .post("/api/manage/brackets", bracketData)
+            .post("/api/bracket", bracketData)
             .then(response => response.data[0])
             .catch(console.log)
     };

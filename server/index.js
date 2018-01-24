@@ -17,6 +17,7 @@ const Auth0Strategy = require("passport-auth0");
 // IMPORT CONTROLLERS
 const userController = require("./controllers/userController");
 const bracketController = require("./controllers/bracketController");
+const matchController = require("./controllers/matchController");
 
 // INITIALIZE APP
 const app = express();
@@ -129,7 +130,7 @@ app.get("/api/brackets", bracketController.getPublicBrackets);
 app.put("/api/bracket/:id/edit", bracketController.editBracket); // Edit bracket info
 app.put("/api/bracket/:id/status", bracketController.updateStatus); // Update bracket status
 app.get("/api/bracket/:id", bracketController.getBracketById); // Get single bracket info
-app.post("/api/manage/brackets", bracketController.createBracket); // Create bracket
+app.post("/api/bracket", bracketController.createBracket); // Create bracket
 app.delete("/api/bracket/:id", bracketController.deleteBracket); // Delete bracket
 app.post("/api/bracket/:id/generate", bracketController.generateBracket); // Generate matches of first round of bracket
 app.get("/api/bracket/:id/structure", bracketController.getBracketStructure); // Get all rounds and matches for bracket
@@ -137,6 +138,9 @@ app.delete(
     "/api/bracket/:id/structure",
     bracketController.deleteBracketStructure
 ); // Remove all rounds and matches for bracket
+
+// SINLGE MATCH API
+app.get("/api/match/:id", matchController.getMatchData);
 
 // PARTICIPANT API
 app.post("/api/player/join/:id", bracketController.joinBracketAsPlayer); // Join bracket as player
