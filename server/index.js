@@ -41,6 +41,7 @@ massive(CONNECTION_STRING)
     .catch(console.log);
 
 // SETUP MIDDLEWARES
+app.use(express.static(`${__dirname}/../build`));
 app.use(cors());
 app.use(json());
 app.use(
@@ -152,6 +153,10 @@ app.delete(
 ); // Kick player from bracket participants
 app.get("/api/bracket/:id/players/", bracketController.getBracketPlayers); // Get all players for bracket
 
+const path = require("path");
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html"));
+});
 // LISTEN ON PORT
 const port = PORT || 3001;
 app.listen(port, () => {
