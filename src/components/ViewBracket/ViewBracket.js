@@ -49,7 +49,11 @@ class ViewBracket extends Component {
             })
             .catch(console.log);
     }
-
+    handleMatchRowClick = matchID => {
+        this.props.history.push(
+            `/discover/view/${this.props.brackets.bracketID}/${matchID}`
+        );
+    };
     // handleRowClick = bracketID => {
     //     this.props.history.push(`/manage/${bracketID}`);
     // };
@@ -263,6 +267,7 @@ class ViewBracket extends Component {
                                         bracketStructure={
                                             this.props.brackets.bracketStructure
                                         }
+                                        infoClick={this.handleMatchRowClick}
                                     />
                                     <p>Submit Scores</p>
                                 </div>

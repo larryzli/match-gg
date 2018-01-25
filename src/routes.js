@@ -18,6 +18,7 @@ import Invites from "./components/Invites/Invites";
 import ViewBracket from "./components/ViewBracket/ViewBracket";
 import ManageViewMatch from "./components/ManageViewMatch/ManageViewMatch";
 import ManageEditMatch from "./components/ManageEditMatch/ManageEditMatch";
+import ViewMatch from "./components/ViewMatch/ViewMatch";
 
 // APP ROUTES
 const Routes = props => {
@@ -27,6 +28,7 @@ const Routes = props => {
             <Route path="/about" component={About} />
             <Route path="/brackets" component={BracketViewer} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/discover/view/:id/:matchid" component={ViewMatch} />
             <Route path="/discover/view/:id" component={ViewBracket} />
             <Route path="/discover" component={Discover} />
             <Route path="/manage/create" component={ManageCreateBracket} />

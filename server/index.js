@@ -142,6 +142,7 @@ app.delete(
 // SINLGE MATCH API
 app.get("/api/match/:id", matchController.getMatchData);
 app.put("/api/match/:id", matchController.updateMatch);
+app.put("/api/match/:id/autocomplete", matchController.autoCompleteMatch);
 
 // PARTICIPANT API
 app.post("/api/player/join/:id", bracketController.joinBracketAsPlayer); // Join bracket as player

@@ -74,12 +74,14 @@ class ManageEditBracket extends Component {
             <button
                 onClick={this.closeDelete}
                 className="ui-button button-secondary button-medium"
+                style={{ marginBottom: "10px" }}
             >
                 No
             </button>,
             <button
                 onClick={this.deleteHandler}
                 className="ui-button button-reject button-medium"
+                style={{ marginBottom: "10px" }}
             >
                 Yes
             </button>

@@ -1,11 +1,11 @@
 // IMPORT DEPENDENCIES
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // IMPORT MATERIAL UI COMPONENTS
 import TextField from "material-ui/TextField";
-import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
-import Checkbox from "material-ui/Checkbox";
+// import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
+// import Checkbox from "material-ui/Checkbox";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
@@ -122,7 +122,7 @@ class ManageEditMatch extends Component {
                                     />
                                 </div>
                             </div>
-                            <div className="ui-form-half-container">
+                            {/* <div className="ui-form-half-container">
                                 <h4 className="ui-form-label">Completed</h4>
                                 <Checkbox
                                     style={{
@@ -188,18 +188,21 @@ class ManageEditMatch extends Component {
                                         />
                                     </RadioButtonGroup>
                                 </div>
-                            ) : null}
+                            ) : null} */}
                             <div className="ui-form-controls">
-                                <Link
+                                {/* <Link
                                     to={`/manage/${
                                         this.props.matches.matchBracketID
                                     }/${this.props.matches.matchID}`}
                                     className="ui-link"
+                                > */}
+                                <button
+                                    className="ui-button button-secondary button-medium"
+                                    onClick={() => this.props.history.goBack()}
                                 >
-                                    <button className="ui-button button-secondary button-medium">
-                                        Cancel
-                                    </button>
-                                </Link>
+                                    Cancel
+                                </button>
+                                {/* </Link> */}
                                 <button
                                     className="ui-button button-confirm button-medium"
                                     onClick={e => this.saveHandler()}

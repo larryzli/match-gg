@@ -193,7 +193,6 @@ module.exports = {
         const db = req.app.get("db");
         const bracket_id = req.params.id;
         const { participantList } = req.body; // Sorted by seed asc
-        console.log("participantList: ", participantList);
 
         // Change seeds into null value if it is a BYE
         const changeIntoBye = (seed, participantsCount) => {

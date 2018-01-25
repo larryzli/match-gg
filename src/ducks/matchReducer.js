@@ -24,7 +24,10 @@ const initialState = {
     matchLoadingError: false,
 
     matchUpdating: false,
-    matchUpdatingError: false
+    matchUpdatingError: false,
+
+    matchAutoCompleting: false,
+    matchAutoCompleteError: false
 };
 
 // ----- ACTION TYPES ----- //
@@ -36,6 +39,8 @@ const HANDLE_TEAM1_SCORE_CHANGE = "HANDLE_TEAM1_SCORE_CHANGE";
 const HANDLE_TEAM2_SCORE_CHANGE = "HANDLE_TEAM2_SCORE_CHANGE";
 const HANDLE_COMPLETE_CHANGE = "HANDLE_COMPLETE_CHANGE";
 const HANDLE_WINNER_CHANGE = "HANDLE_WINNER_CHANGE";
+// AUTOCOMPLETE MATCH
+const MATCH_AUTOCOMPLETE = "MATCH_AUTOCOMPLETE";
 
 // ------ ACTION CREATORS ----- //
 // GET MATCH INFO
@@ -86,6 +91,17 @@ export function handleWinnerChange(event, value) {
     return {
         type: HANDLE_WINNER_CHANGE,
         payload: value
+    };
+}
+
+// AUTOCOMPLETE MATCH
+export function matchAutoComplete(matchID) {
+    return {
+        type: MATCH_AUTOCOMPLETE,
+        payload: axios
+            .put(`/api/match/${matchID}/autocomplete`)
+            .then(response => response)
+            .catch(console.log)
     };
 }
 
@@ -149,6 +165,18 @@ export default function reducer(state = initialState, action) {
         case `${UPDATE_MATCH_DATA}_REJECTED`:
             return Object.assign({}, state, {
                 matchUpdatingError: true
+            });
+
+        // AUTOCOMPLETE MATCH
+        case `${MATCH_AUTOCOMPLETE}_PENDING`:
+            return Object.assign({}, state, { matchAutoCompleting: true });
+        case `${MATCH_AUTOCOMPLETE}_FULFILLED`:
+            return Object.assign({}, state, {
+                matchAutoCompleting: false
+            });
+        case `${MATCH_AUTOCOMPLETE}_REJECTED`:
+            return Object.assign({}, state, {
+                matchAutoCompleteError: true
             });
 
         default:

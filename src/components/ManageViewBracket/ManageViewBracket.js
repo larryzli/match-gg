@@ -13,6 +13,7 @@ import Bracket from "../Bracket/Bracket";
 // MATERIAL UI
 import { Tabs, Tab } from "material-ui/Tabs";
 import Chip from "material-ui/Chip";
+import Dialog from "material-ui/Dialog";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
@@ -28,14 +29,24 @@ import "./ManageViewBracket.css";
 import {
     retrieveBracketData,
     publishBracket,
+    startBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
     generateBracketStructure,
     retrieveBracketStructure,
     deleteBracketStructure
 } from "./../../ducks/bracketReducer";
+import { matchAutoComplete } from "../../ducks/matchReducer";
 
 class ManageViewBracket extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            startDialog: false
+        };
+        this.openStart = this.openStart.bind(this);
+        this.closeStart = this.closeStart.bind(this);
+    }
     componentDidMount() {
         this.props
             .retrieveBracketData(this.props.match.params.id)
@@ -65,6 +76,11 @@ class ManageViewBracket extends Component {
     handleMatchEditClick = (bracketID, matchID) => {
         this.props.history.push(`/manage/${bracketID}/${matchID}/edit`);
     };
+    handleMatchConfirmClick = matchID => {
+        this.props.matchAutoComplete(matchID).then(response => {
+            this.props.retrieveBracketStructure(this.props.brackets.bracketID);
+        });
+    };
     handleGenerateClick() {
         this.props
             .deleteBracketStructure(this.props.brackets.bracketID)
@@ -84,6 +100,18 @@ class ManageViewBracket extends Component {
 
             .catch(console.log);
     }
+    openStart = () => {
+        this.setState({ startDialog: true });
+    };
+    closeStart = () => {
+        this.setState({ startDialog: false });
+    };
+    startHandler = () => {
+        this.props.startBracket(this.props.brackets.bracketID).then(() => {
+            this.handleGenerateClick();
+        });
+        this.setState({ startDialog: false });
+    };
     render() {
         console.log(this.props);
         const breadcrumbs = [
@@ -95,6 +123,22 @@ class ManageViewBracket extends Component {
                 name: this.props.brackets.bracketName,
                 link: `/manage/${this.props.brackets.bracketID}`
             }
+        ];
+        const startActions = [
+            <button
+                onClick={this.closeStart}
+                className="ui-button button-secondary button-medium"
+                style={{ marginBottom: "10px" }}
+            >
+                Cancel
+            </button>,
+            <button
+                onClick={this.startHandler}
+                className="ui-button button-confirm button-medium"
+                style={{ marginBottom: "10px" }}
+            >
+                Start
+            </button>
         ];
         let headerControls = null;
         if (this.props.brackets.bracketStatus === "draft") {
@@ -137,13 +181,48 @@ class ManageViewBracket extends Component {
                     >
                         Generate Preview
                     </button>
-                    <button className="ui-button-header button-confirm button-short">
+                    <button
+                        className="ui-button-header button-confirm button-short"
+                        onClick={this.openStart}
+                    >
                         <FontAwesomeIcon
                             icon={faPlay}
                             className="ui-button-icon"
                         />
                         Start
                     </button>
+                    <Dialog
+                        title={`Start ${this.props.brackets.bracketName}`}
+                        actions={startActions}
+                        modal={false}
+                        open={this.state.startDialog}
+                        onRequestClose={this.closeStart}
+                        actionsContainerClassName="ui-form-controls"
+                    >
+                        {`Once a bracket has started, no more participants can
+                        join and you can not update seeding.`}
+                        <br />
+                        <br />
+                        {`Are you sure you
+                        want to start this bracket?`}
+                    </Dialog>
+                    <Link
+                        to={`/manage/${this.props.brackets.bracketID}/edit`}
+                        className="ui-link"
+                    >
+                        <button className="ui-button-header button-main button-short">
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                className="ui-button-icon"
+                            />
+                            Edit
+                        </button>
+                    </Link>
+                </div>
+            );
+        } else if (this.props.brackets.bracketStatus === "live") {
+            headerControls = (
+                <div className="ui-header-controls">
                     <Link
                         to={`/manage/${this.props.brackets.bracketID}/edit`}
                         className="ui-link"
@@ -348,9 +427,17 @@ class ManageViewBracket extends Component {
                                         bracketStructure={
                                             this.props.brackets.bracketStructure
                                         }
-                                        showControls={true}
+                                        showControls={
+                                            this.props.brackets
+                                                .bracketStatus === "live"
+                                                ? true
+                                                : false
+                                        }
                                         infoClick={this.handleMatchRowClick}
                                         editClick={this.handleMatchEditClick}
+                                        confirmClick={
+                                            this.handleMatchConfirmClick
+                                        }
                                     />
                                     <p>Edit / Submit Scores</p>
                                     <p>Complete Match</p>
@@ -369,9 +456,11 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
     retrieveBracketData,
     publishBracket,
+    startBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
     generateBracketStructure,
     retrieveBracketStructure,
-    deleteBracketStructure
+    deleteBracketStructure,
+    matchAutoComplete
 })(ManageViewBracket);

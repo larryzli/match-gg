@@ -9,21 +9,14 @@ import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faEdit, faCheck, faTrophy } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
-import "./ManageViewMatch.css";
+import "./ViewMatch.css";
 // IMPORT REDUX FUNCTIONS
-import { retrieveMatchData, matchAutoComplete } from "../../ducks/matchReducer";
+import { retrieveMatchData } from "../../ducks/matchReducer";
 
 // COMPONENT
-class ManageViewMatch extends Component {
+class ViewMatch extends Component {
     componentDidMount() {
         this.props.retrieveMatchData(this.props.match.params.matchid);
-    }
-    autoCompleteHandler() {
-        this.props
-            .matchAutoComplete(this.props.match.params.matchid)
-            .then(response => {
-                this.props.retrieveMatchData(this.props.match.params.matchid);
-            });
     }
     render() {
         console.log(this.props);
@@ -52,15 +45,10 @@ class ManageViewMatch extends Component {
                     <div className="manage-view-match-container">
                         <div className="ui-title-header">
                             <h2 className="ui-form-title">Match Details</h2>
-                            {this.props.matches.team1ID ||
+                            {/* {this.props.matches.team1ID ||
                             this.props.matches.team2ID ? (
                                 <div className="ui-header-controls">
-                                    <button
-                                        className="ui-button-header button-confirm button-short"
-                                        onClick={e =>
-                                            this.autoCompleteHandler()
-                                        }
-                                    >
+                                    <button className="ui-button-header button-confirm button-short">
                                         <FontAwesomeIcon
                                             icon={faCheck}
                                             className="ui-button-icon"
@@ -82,7 +70,7 @@ class ManageViewMatch extends Component {
                                         </button>
                                     </Link>
                                 </div>
-                            ) : null}
+                            ) : null} */}
                         </div>
                         <div className="view-match-name-score">
                             <div
@@ -157,7 +145,4 @@ class ManageViewMatch extends Component {
 const mapStateToProps = state => {
     return state;
 };
-export default connect(mapStateToProps, {
-    retrieveMatchData,
-    matchAutoComplete
-})(ManageViewMatch);
+export default connect(mapStateToProps, { retrieveMatchData })(ViewMatch);

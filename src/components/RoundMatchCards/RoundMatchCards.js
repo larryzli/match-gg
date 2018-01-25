@@ -112,7 +112,12 @@ const RoundMatchCards = ({
                                                     EDIT
                                                 </span>
                                             </div>
-                                            <div className="card-match-control">
+                                            <div
+                                                className="card-match-control"
+                                                onClick={e =>
+                                                    confirmClick(match.match_id)
+                                                }
+                                            >
                                                 <FontAwesomeIcon
                                                     icon={faCheck}
                                                 />
