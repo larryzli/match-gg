@@ -16,6 +16,22 @@
 }
 .view-match-team-name {
     font-size: 20px;
+    width: 30%;
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    max-width: 300px;
+}
+.view-match-winner-name {
+    font-size: 20px;
+    color: #7986cb;
+    width: 30%;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 300px;
+    word-wrap: break-word;
 }
 .match-score-divider {
     padding: 0 30px;

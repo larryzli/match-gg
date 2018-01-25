@@ -17,6 +17,7 @@ import Teams from "./components/Teams/Teams";
 import Invites from "./components/Invites/Invites";
 import ViewBracket from "./components/ViewBracket/ViewBracket";
 import ManageViewMatch from "./components/ManageViewMatch/ManageViewMatch";
+import ManageEditMatch from "./components/ManageEditMatch/ManageEditMatch";
 
 // APP ROUTES
 const Routes = props => {
@@ -29,6 +30,10 @@ const Routes = props => {
             <Route path="/discover/view/:id" component={ViewBracket} />
             <Route path="/discover" component={Discover} />
             <Route path="/manage/create" component={ManageCreateBracket} />
+            <Route
+                path="/manage/:id/:matchid/edit"
+                component={ManageEditMatch}
+            />
             <Route path="/manage/:id/edit" component={ManageEditBracket} />
             <Route path="/manage/:id/:matchid" component={ManageViewMatch} />
             <Route path="/manage/:id" component={ManageViewBracket} />

@@ -9,7 +9,13 @@ import { faCheck, faEdit } from "@fortawesome/fontawesome-free-solid";
 import "./RoundMatchCards.css";
 
 // COMPONENT
-const RoundMatchCards = ({ bracketStructure, showControls, rowClick }) => {
+const RoundMatchCards = ({
+    bracketStructure,
+    showControls,
+    infoClick,
+    editClick,
+    confirmClick
+}) => {
     console.log(bracketStructure);
     let roundCards;
     if (bracketStructure.numRounds > 0) {
@@ -35,7 +41,9 @@ const RoundMatchCards = ({ bracketStructure, showControls, rowClick }) => {
                                 <div key={index2} className="card-match">
                                     <div
                                         className={"card-match-info"}
-                                        onClick={() => rowClick(match.match_id)}
+                                        onClick={() =>
+                                            infoClick(match.match_id)
+                                        }
                                     >
                                         <div
                                             className={
@@ -89,7 +97,15 @@ const RoundMatchCards = ({ bracketStructure, showControls, rowClick }) => {
                                     !match.completed &&
                                     (match.team1_name || match.team2_name) ? (
                                         <div className="card-match-controls-container">
-                                            <div className="card-match-control">
+                                            <div
+                                                className="card-match-control"
+                                                onClick={e =>
+                                                    editClick(
+                                                        match.bracket_id,
+                                                        match.match_id
+                                                    )
+                                                }
+                                            >
                                                 <FontAwesomeIcon
                                                     icon={faEdit}
                                                 />

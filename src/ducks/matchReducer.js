@@ -21,13 +21,24 @@ const initialState = {
     nextMatchID: null,
 
     matchLoading: false,
-    matchLoadingError: false
+    matchLoadingError: false,
+
+    matchUpdating: false,
+    matchUpdatingError: false
 };
 
 // ----- ACTION TYPES ----- //
+// MATCH DATA
 const RETRIEVE_MATCH_DATA = "RETRIEVE_MATCH_DATA";
+const UPDATE_MATCH_DATA = "UPDATE_MATCH_DATA";
+// CHANGE HANDLERS
+const HANDLE_TEAM1_SCORE_CHANGE = "HANDLE_TEAM1_SCORE_CHANGE";
+const HANDLE_TEAM2_SCORE_CHANGE = "HANDLE_TEAM2_SCORE_CHANGE";
+const HANDLE_COMPLETE_CHANGE = "HANDLE_COMPLETE_CHANGE";
+const HANDLE_WINNER_CHANGE = "HANDLE_WINNER_CHANGE";
 
 // ------ ACTION CREATORS ----- //
+// GET MATCH INFO
 export function retrieveMatchData(match_id) {
     return {
         type: RETRIEVE_MATCH_DATA,
@@ -37,10 +48,67 @@ export function retrieveMatchData(match_id) {
             .catch(console.log)
     };
 }
+export function updateMatchData(matchID, matchData) {
+    return {
+        type: UPDATE_MATCH_DATA,
+        payload: axios
+            .put(`/api/match/${matchID}`, matchData)
+            .then(response => response)
+            .catch(console.log)
+    };
+}
+// CHANGE HANDLERS
+export function handleScore1Change(event, value) {
+    if (!value) {
+        value = 0;
+    }
+    return {
+        type: HANDLE_TEAM1_SCORE_CHANGE,
+        payload: value
+    };
+}
+export function handleScore2Change(event, value) {
+    if (!value) {
+        value = 0;
+    }
+    return {
+        type: HANDLE_TEAM2_SCORE_CHANGE,
+        payload: value
+    };
+}
+export function handleCompleteChange() {
+    return {
+        type: HANDLE_COMPLETE_CHANGE,
+        payload: null
+    };
+}
+export function handleWinnerChange(event, value) {
+    return {
+        type: HANDLE_WINNER_CHANGE,
+        payload: value
+    };
+}
 
 // ----- REDUCER ----- //
 export default function reducer(state = initialState, action) {
     switch (action.type) {
+        // CHANGE HANDLERS
+        case `${HANDLE_TEAM1_SCORE_CHANGE}`:
+            return Object.assign({}, state, {
+                team1Score: action.payload
+            });
+        case `${HANDLE_TEAM2_SCORE_CHANGE}`:
+            return Object.assign({}, state, {
+                team2Score: action.payload
+            });
+        case `${HANDLE_COMPLETE_CHANGE}`:
+            return Object.assign({}, state, {
+                matchCompleted: !state.matchCompleted
+            });
+        case `${HANDLE_WINNER_CHANGE}`:
+            return Object.assign({}, state, {
+                matchWinnerID: action.payload
+            });
         // RETRIEVE MATCH DATA
         case `${RETRIEVE_MATCH_DATA}_PENDING`:
             return Object.assign({}, state, { matchLoading: true });
@@ -69,6 +137,18 @@ export default function reducer(state = initialState, action) {
         case `${RETRIEVE_MATCH_DATA}_REJECTED`:
             return Object.assign({}, state, {
                 matchLoadingError: true
+            });
+
+        // UPDATE MATCH DATA
+        case `${UPDATE_MATCH_DATA}_PENDING`:
+            return Object.assign({}, state, { matchUpdating: true });
+        case `${UPDATE_MATCH_DATA}_FULFILLED`:
+            return Object.assign({}, state, {
+                matchUpdating: false
+            });
+        case `${UPDATE_MATCH_DATA}_REJECTED`:
+            return Object.assign({}, state, {
+                matchUpdatingError: true
             });
 
         default:

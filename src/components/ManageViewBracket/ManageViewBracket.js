@@ -62,6 +62,9 @@ class ManageViewBracket extends Component {
             `/manage/${this.props.brackets.bracketID}/${matchID}`
         );
     };
+    handleMatchEditClick = (bracketID, matchID) => {
+        this.props.history.push(`/manage/${bracketID}/${matchID}/edit`);
+    };
     handleGenerateClick() {
         this.props
             .deleteBracketStructure(this.props.brackets.bracketID)
@@ -346,7 +349,8 @@ class ManageViewBracket extends Component {
                                             this.props.brackets.bracketStructure
                                         }
                                         showControls={true}
-                                        rowClick={this.handleMatchRowClick}
+                                        infoClick={this.handleMatchRowClick}
+                                        editClick={this.handleMatchEditClick}
                                     />
                                     <p>Edit / Submit Scores</p>
                                     <p>Complete Match</p>
