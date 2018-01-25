@@ -7,9 +7,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faEdit, faCheck } from "@fortawesome/fontawesome-free-solid";
-// IMPORT MATERIAL UI
-import Chip from "material-ui/Chip";
+import { faEdit, faCheck, faTrophy } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./ManageViewMatch.css";
 // IMPORT REDUX FUNCTIONS
@@ -47,29 +45,32 @@ class ManageViewMatch extends Component {
                     <div className="manage-view-match-container">
                         <div className="ui-title-header">
                             <h2 className="ui-form-title">Match Details</h2>
-                            <div className="ui-header-controls">
-                                <button className="ui-button-header button-confirm button-short">
-                                    <FontAwesomeIcon
-                                        icon={faCheck}
-                                        className="ui-button-icon"
-                                    />
-                                    Confirm
-                                </button>
-                                <Link
-                                    to={`/manage/${
-                                        this.props.matches.matchBracketID
-                                    }/${this.props.matches.matchID}/edit`}
-                                    className="ui-link"
-                                >
-                                    <button className="ui-button-header button-main button-short">
+                            {this.props.matches.team1ID ||
+                            this.props.matches.team2ID ? (
+                                <div className="ui-header-controls">
+                                    <button className="ui-button-header button-confirm button-short">
                                         <FontAwesomeIcon
-                                            icon={faEdit}
+                                            icon={faCheck}
                                             className="ui-button-icon"
                                         />
-                                        Edit
+                                        Confirm
                                     </button>
-                                </Link>
-                            </div>
+                                    <Link
+                                        to={`/manage/${
+                                            this.props.matches.matchBracketID
+                                        }/${this.props.matches.matchID}/edit`}
+                                        className="ui-link"
+                                    >
+                                        <button className="ui-button-header button-main button-short">
+                                            <FontAwesomeIcon
+                                                icon={faEdit}
+                                                className="ui-button-icon"
+                                            />
+                                            Edit
+                                        </button>
+                                    </Link>
+                                </div>
+                            ) : null}
                         </div>
                         <div className="view-match-name-score">
                             <div
@@ -84,12 +85,13 @@ class ManageViewMatch extends Component {
                                 {this.props.matches.matchWinnerID &&
                                 this.props.matches.matchWinnerID ===
                                     this.props.matches.team1ID ? (
-                                    <Chip
-                                        style={{ padding: "1px" }}
-                                        labelStyle={{ fontSize: "12px" }}
-                                    >
-                                        WINNER
-                                    </Chip>
+                                    <FontAwesomeIcon
+                                        icon={faTrophy}
+                                        style={{
+                                            color: "#FFEE58",
+                                            marginRight: "10px"
+                                        }}
+                                    />
                                 ) : null}
                                 {this.props.matches.team1Name ||
                                     (this.props.matches.matchRoundNumber === 1
@@ -122,14 +124,13 @@ class ManageViewMatch extends Component {
                                 {this.props.matches.matchWinnerID &&
                                 this.props.matches.matchWinnerID ===
                                     this.props.matches.team2ID ? (
-                                    <Chip
+                                    <FontAwesomeIcon
+                                        icon={faTrophy}
                                         style={{
-                                            padding: "1px"
+                                            color: "#FFEE58",
+                                            marginLeft: "10px"
                                         }}
-                                        labelStyle={{ fontSize: "12px" }}
-                                    >
-                                        WINNER
-                                    </Chip>
+                                    />
                                 ) : null}
                             </div>
                         </div>

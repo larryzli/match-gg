@@ -5,7 +5,11 @@ import React from "react";
 import "./Bracket.css";
 
 // COMPONENT
-const Bracket = ({ bracketStructure, showControls, matchClick }) => {
+const Bracket = ({
+    bracketStructure = {},
+    showControls = false,
+    matchClick = () => null
+}) => {
     let bracketView;
     if (bracketStructure.numRounds > 0) {
         bracketView = bracketStructure.roundsArr.map((round, index) => {
@@ -36,7 +40,15 @@ const Bracket = ({ bracketStructure, showControls, matchClick }) => {
                                             matchClick(match.match_id)
                                         }
                                     >
-                                        <div className="bracket-match-team">
+                                        <div
+                                            className={
+                                                match.winner_team_id ===
+                                                    match.team1_id &&
+                                                match.winner_team_id !== null
+                                                    ? "bracket-match-team bracket-match-winner"
+                                                    : "bracket-match-team"
+                                            }
+                                        >
                                             <span
                                                 style={
                                                     match.team1_name
@@ -57,8 +69,13 @@ const Bracket = ({ bracketStructure, showControls, matchClick }) => {
                                             </span>
                                         </div>
                                         <div
-                                            key={index2}
-                                            className="bracket-match-team"
+                                            className={
+                                                match.winner_team_id ===
+                                                    match.team2_id &&
+                                                match.winner_team_id !== null
+                                                    ? "bracket-match-team bracket-match-winner"
+                                                    : "bracket-match-team"
+                                            }
                                         >
                                             <span
                                                 style={

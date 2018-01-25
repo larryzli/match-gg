@@ -16,9 +16,9 @@ import { faTimes } from "@fortawesome/fontawesome-free-solid";
 // COMPONENT
 const ParticipantTable = ({
     participantList = [],
-    participantType = "team",
-    rowClick,
-    kickParticipant,
+    participantType = "player",
+    rowClick = () => null,
+    kickParticipant = () => null,
     showControls = false
 }) => {
     let TableHeaders;

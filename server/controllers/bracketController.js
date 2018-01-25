@@ -307,7 +307,6 @@ module.exports = {
             return matchStructure;
         };
         const matchList = await createRoundsWithMatches(participantList);
-        console.log("matchList: ", matchList);
 
         return res.status(200).json(matchList);
     },
@@ -315,7 +314,6 @@ module.exports = {
         const db = req.app.get("db");
         const bracket_id = req.params.id;
         db.get_bracket_structure([bracket_id]).then(response => {
-            console.log(response);
             // Determine number of rounds in bracket
             const numRounds =
                 response.length > 0

@@ -17,7 +17,6 @@
 }
 .card-match-info {
     flex-grow: 5;
-    border-right: 1px solid #222222;
 }
 .card-match-controls-container {
     display: flex;
@@ -32,10 +31,9 @@
     align-items: center;
     height: 92px;
     width: 50%;
+    border-left: 1px solid #222222;
 }
-.card-match-control:first-child {
-    border-right: 1px solid #222222;
-}
+
 .card-match-control:first-child:hover {
     background-color: #7986cb;
 }

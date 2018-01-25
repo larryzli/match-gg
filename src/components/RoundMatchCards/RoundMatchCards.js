@@ -10,11 +10,11 @@ import "./RoundMatchCards.css";
 
 // COMPONENT
 const RoundMatchCards = ({
-    bracketStructure,
-    showControls,
-    infoClick,
-    editClick,
-    confirmClick
+    bracketStructure = {},
+    showControls = false,
+    infoClick = () => null,
+    editClick = () => null,
+    confirmClick = () => null
 }) => {
     console.log(bracketStructure);
     let roundCards;
@@ -36,7 +36,6 @@ const RoundMatchCards = ({
                     />
                     <CardText expandable={true}>
                         {round.matchArr.map((match, index2) => {
-                            console.log("match: ", match);
                             return (
                                 <div key={index2} className="card-match">
                                     <div
