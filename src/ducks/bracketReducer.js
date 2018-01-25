@@ -35,6 +35,9 @@ const initialState = {
     // BRACKET STRUCTURE DELETE
     bracketStructureDeleting: false,
     bracketStructureDeleteError: false,
+    // RESOLVE BYES
+    bracketResolvingByes: false,
+    bracketResolveByesError: false,
 
     // BRACKET PARTICIPANTS
     bracketParticipants: [],
@@ -110,6 +113,7 @@ const START_BRACKET = "START_BRACKET";
 const GENERATE_BRACKET_STRUCTURE = "GENERATE_BRACKET_STRUCTURE";
 const RETRIEVE_BRACKET_STRUCTURE = "RETRIEVE_BRACKET_STRUCTURE";
 const DELETE_BRACKET_STRUCTURE = "DELETE_BRACKET_STRUCTURE";
+const RESOLVE_BYES = "RESOLVE_BYES";
 
 // MANAGE PARTICIPANTS
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
@@ -243,6 +247,20 @@ export function deleteBracketStructure(bracketID) {
             .delete(`/api/bracket/${bracketID}/structure`)
             .then(response => response)
             .catch(console.log)
+    };
+}
+// RESOLVE BYES
+export function resolveByes(matchIDArr) {
+    return {
+        type: RESOLVE_BYES,
+        payload: Promise.all(
+            matchIDArr.map(async matchID => {
+                return await axios
+                    .put(`/api/match/${matchID}/autocomplete`)
+                    .then(response => response)
+                    .catch(console.log);
+            })
+        ).then(response => response)
     };
 }
 
@@ -528,6 +546,16 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 bracketStructureDeleteError: true
             });
+
+        // RESOLVE ROUND 1 BYES
+        case `${RESOLVE_BYES}_PENDING`:
+            return Object.assign({}, state, { bracketResolvingByes: true });
+        case `${RESOLVE_BYES}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketResolvingByes: false
+            });
+        case `${RESOLVE_BYES}_REJECTED`:
+            return Object.assign({}, state, { bracketResolveByesError: true });
 
         // JOIN BRACKET AS PLAYER
         case `${PLAYER_JOIN_BRACKET}_PENDING`:

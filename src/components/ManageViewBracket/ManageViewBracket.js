@@ -34,7 +34,8 @@ import {
     bracketKickPlayer,
     generateBracketStructure,
     retrieveBracketStructure,
-    deleteBracketStructure
+    deleteBracketStructure,
+    resolveByes
 } from "./../../ducks/bracketReducer";
 import { matchAutoComplete } from "../../ducks/matchReducer";
 
@@ -91,9 +92,30 @@ class ManageViewBracket extends Component {
                         this.props.brackets.bracketParticipants
                     )
                     .then(() => {
-                        return this.props.retrieveBracketStructure(
-                            this.props.brackets.bracketID
-                        );
+                        this.props
+                            .retrieveBracketStructure(
+                                this.props.brackets.bracketID
+                            )
+                            .then(() => {
+                                if (
+                                    this.props.brackets.bracketStructure
+                                        .roundsArr
+                                ) {
+                                    this.props
+                                        .resolveByes(
+                                            this.props.brackets.bracketStructure.roundsArr[0].matchArr.map(
+                                                match => match.match_id
+                                            )
+                                        )
+                                        .then(() => {
+                                            this.props.retrieveBracketStructure(
+                                                this.props.brackets.bracketID
+                                            );
+                                        })
+                                        .catch(console.log);
+                                }
+                            })
+                            .catch(console.log);
                     })
                     .catch(console.log);
             })
@@ -462,5 +484,6 @@ export default connect(mapStateToProps, {
     generateBracketStructure,
     retrieveBracketStructure,
     deleteBracketStructure,
-    matchAutoComplete
+    matchAutoComplete,
+    resolveByes
 })(ManageViewBracket);

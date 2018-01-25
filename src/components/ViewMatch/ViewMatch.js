@@ -72,6 +72,14 @@ class ViewMatch extends Component {
                                 </div>
                             ) : null} */}
                         </div>
+                        <div className="view-match-info">
+                            <div className="view-match-bracket-name">
+                                {this.props.matches.matchBracketName}
+                            </div>
+                            <div className="view-match-round">
+                                {this.props.matches.matchRoundName}
+                            </div>
+                        </div>
                         <div className="view-match-name-score">
                             <div
                                 className={

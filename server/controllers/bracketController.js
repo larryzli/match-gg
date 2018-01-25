@@ -334,6 +334,7 @@ module.exports = {
                 numRounds,
                 roundsArr
             };
+
             return res.status(200).json(structure);
         });
     },
