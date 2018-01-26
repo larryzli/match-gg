@@ -24,6 +24,7 @@ class Sidebar extends Component {
         this.props.retrieveUser();
     }
     render() {
+        console.log(this.props);
         return (
             <div className="sidebar-container">
                 <div className="site-logo">
@@ -41,25 +42,32 @@ class Sidebar extends Component {
                         <FontAwesomeIcon className="nav-icon" icon={faSearch} />
                         Discover
                     </NavLink>
-                    <NavLink
-                        className="sidebar-link"
-                        activeClassName="active-link"
-                        to="/dashboard"
-                    >
-                        <FontAwesomeIcon className="nav-icon" icon={faListUl} />
-                        Dashboard
-                    </NavLink>
-                    <NavLink
-                        className="sidebar-link"
-                        activeClassName="active-link"
-                        to="/manage"
-                    >
-                        <FontAwesomeIcon
-                            className="nav-icon"
-                            icon={faClipboard}
-                        />
-                        Manage
-                    </NavLink>
+                    {this.props.users.user.user_id ? (
+                        <NavLink
+                            className="sidebar-link"
+                            activeClassName="active-link"
+                            to="/dashboard"
+                        >
+                            <FontAwesomeIcon
+                                className="nav-icon"
+                                icon={faListUl}
+                            />
+                            Dashboard
+                        </NavLink>
+                    ) : null}
+                    {this.props.users.user.user_id ? (
+                        <NavLink
+                            className="sidebar-link"
+                            activeClassName="active-link"
+                            to="/manage"
+                        >
+                            <FontAwesomeIcon
+                                className="nav-icon"
+                                icon={faClipboard}
+                            />
+                            Manage
+                        </NavLink>
+                    ) : null}
                     {/* <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
@@ -109,16 +117,29 @@ class Sidebar extends Component {
                         Logout
                     </NavLink>
                 </div>
-                <div className="user-info-container">
-                    <span>{this.props.users.user.alias}</span>
-                    <Link to="/" className="ui-link">
+                {this.props.users.user.user_id ? (
+                    <div className="user-info-container">
+                        <span>{this.props.users.user.alias}</span>
+                        <Link to="/discover" className="ui-link">
+                            <FontAwesomeIcon
+                                className="logout"
+                                icon={faSignOutAlt}
+                                onClick={e => this.props.userLogout()}
+                            />
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="user-info-container">
+                        <span>Guest</span>
                         <FontAwesomeIcon
-                            className="logout"
-                            icon={faSignOutAlt}
-                            onClick={e => this.props.userLogout()}
+                            className="login"
+                            icon={faSignInAlt}
+                            onClick={() =>
+                                (window.location = process.env.REACT_APP_LOGIN)
+                            }
                         />
-                    </Link>
-                </div>
+                    </div>
+                )}
             </div>
         );
     }

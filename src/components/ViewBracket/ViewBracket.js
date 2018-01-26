@@ -70,7 +70,10 @@ class ViewBracket extends Component {
             }
         ];
         let headerControls = null;
-        if (this.props.brackets.bracketStatus === "ready") {
+        if (
+            this.props.brackets.bracketStatus === "ready" &&
+            this.props.users.user.user_id
+        ) {
             headerControls =
                 this.props.brackets.bracketParticipants.findIndex(element => {
                     return element.id === this.props.users.user.user_id;

@@ -16,7 +16,7 @@ class Donate extends Component {
         super(props);
 
         this.state = {
-            value: parseFloat(Math.round(10 * 100) / 100).toFixed(2)
+            value: parseFloat(Math.round(5 * 100) / 100).toFixed(2)
         };
     }
     handleChange = event => {
@@ -39,7 +39,7 @@ class Donate extends Component {
                                 </div>
 
                                 <div className="ui-description">
-                                    If you're feeling generious and like what
+                                    If you're feeling generous and like what
                                     I've done, feel free to donate whatever
                                     amount you'd like to help keep the games
                                     going!

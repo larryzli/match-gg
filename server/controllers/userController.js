@@ -5,6 +5,7 @@ module.exports = {
         db
             .get_user_by_user_id([user_id])
             .then(response => {
+                // console.log(response);
                 return res.status(200).json(response);
             })
             .catch(console.log);

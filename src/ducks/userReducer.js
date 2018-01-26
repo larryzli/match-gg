@@ -21,9 +21,10 @@ export function retrieveUser() {
     return {
         type: RETRIEVE_USER,
         payload: axios
-            .get("/api/me")
+            .get("/api/me/")
             .then(response => response.data)
-            .catch(() => (window.location = process.env.REACT_APP_LOGIN))
+            .catch(console.log)
+        // .catch(() => (window.location = process.env.REACT_APP_LOGIN))
     };
 }
 
@@ -44,6 +45,7 @@ export default function reducer(state = initialState, action) {
         case `${RETRIEVE_USER}_PENDING`:
             return Object.assign({}, state, { userLoading: true });
         case `${RETRIEVE_USER}_FULFILLED`:
+            console.log(action.payload);
             return Object.assign({}, state, {
                 user: action.payload,
                 userLoading: false

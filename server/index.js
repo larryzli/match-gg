@@ -78,6 +78,7 @@ passport.use(
             scope: "openid profile"
         },
         (accessToken, refreshToken, extraParams, profile, done) => {
+            console.log(profile);
             app
                 .get("db")
                 .get_user_id_by_auth_id(profile.id)
@@ -125,13 +126,15 @@ app.get(
 
 // TEST FOR USER SESSION
 app.get("/api/me", (req, res) => {
-    console.log("Session: ", req.user);
     if (req.user) {
         return res.status(200).json(req.user);
     } else {
-        return res.redirect("/auth");
+        return res.status(200).json({});
     }
 });
+// GET USER DATA
+app.get("/api/me/data", userController.getUserInfo);
+
 // LOGOUT
 app.get("/logout", (req, res) => {
     req.logout();
