@@ -14,6 +14,12 @@ const massive = require("massive");
 const passport = require("passport");
 const Auth0Strategy = require("passport-auth0");
 
+// STRIPE DEPENDENCIES
+const SERVER_CONFIGS = require("./constants/server");
+
+const configureServer = require("./server");
+const configureRoutes = require("./routes");
+
 // IMPORT CONTROLLERS
 const userController = require("./controllers/userController");
 const bracketController = require("./controllers/bracketController");
@@ -39,6 +45,10 @@ massive(CONNECTION_STRING)
         app.set("db", db);
     })
     .catch(console.log);
+
+// STRIPE CONFIGURATION
+configureServer(app);
+configureRoutes(app);
 
 // SETUP MIDDLEWARES
 app.use(express.static(`${__dirname}/../build`));
@@ -127,6 +137,17 @@ app.get("/logout", (req, res) => {
     req.logout();
     req.session.destroy();
     res.redirect("http://localhost:3000/");
+});
+
+// STRIPE API
+app.post("api/donate", (req, res, next) => {
+    stripe.charges.create(req.body, (stripeErr, stripeRes) => {
+        if (stripeErr) {
+            res.status(500).send({ error: stripeErr });
+        } else {
+            res.status(200).send({ success: stripeRes });
+        }
+    });
 });
 
 // BRACKET LIST API

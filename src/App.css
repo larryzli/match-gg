@@ -51,7 +51,12 @@
     width: 100%;
     padding-bottom: 20px;
 }
-
+.ui-description {
+    width: 60%;
+    color: white;
+    padding-top: 40px;
+    padding-bottom: 15px;
+}
 .ui-subtitle-header {
     display: flex;
     justify-content: space-between;

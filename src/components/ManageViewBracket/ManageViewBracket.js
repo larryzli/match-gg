@@ -300,8 +300,6 @@ class ManageViewBracket extends Component {
                     </Dialog>
                 </div>
             );
-        } else {
-            null;
         }
         return (
             <div className="portal-container">
