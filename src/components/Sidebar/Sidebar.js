@@ -35,18 +35,18 @@ class Sidebar extends Component {
                     <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
-                        to="/dashboard"
-                    >
-                        <FontAwesomeIcon className="nav-icon" icon={faList} />
-                        Dashboard
-                    </NavLink>
-                    <NavLink
-                        className="sidebar-link"
-                        activeClassName="active-link"
                         to="/discover"
                     >
                         <FontAwesomeIcon className="nav-icon" icon={faSearch} />
                         Discover
+                    </NavLink>
+                    <NavLink
+                        className="sidebar-link"
+                        activeClassName="active-link"
+                        to="/dashboard"
+                    >
+                        <FontAwesomeIcon className="nav-icon" icon={faList} />
+                        Dashboard
                     </NavLink>
                     <NavLink
                         className="sidebar-link"
@@ -104,7 +104,7 @@ class Sidebar extends Component {
                     <span>{this.props.users.user.alias}</span>
                     <Link to="/" className="ui-link">
                         <FontAwesomeIcon
-                            className="nav-icon logout"
+                            className="logout"
                             icon={faSignOutAlt}
                             onClick={e => this.props.userLogout()}
                         />

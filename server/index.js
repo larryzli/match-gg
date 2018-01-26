@@ -108,7 +108,7 @@ passport.deserializeUser((user_id, done) => done(null, user_id));
 app.get(
     "/auth",
     passport.authenticate("auth0", {
-        successRedirect: "http://localhost:3000/dashboard",
+        successRedirect: "http://localhost:3000/discover",
         failureRedirect: REACT_APP_LOGIN
     })
 );

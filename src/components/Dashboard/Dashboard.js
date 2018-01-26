@@ -14,6 +14,9 @@ import {
     TableRow,
     TableRowColumn
 } from "material-ui/Table";
+// IMPORT ICONS
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./Dashboard.css";
 // IMPORT REDUX FUNCTIONS
@@ -21,6 +24,9 @@ import { retrieveUserBrackets } from "../../ducks/bracketReducer";
 
 // COMPONENT
 class Dashboard extends Component {
+    handleRowClick = bracketID => {
+        this.props.history.push(`/discover/view/${bracketID}`);
+    };
     componentDidMount() {
         this.props.retrieveUserBrackets();
     }
@@ -149,11 +155,35 @@ class Dashboard extends Component {
                         <div className="dashboard-container">
                             <div className="ui-title-header">
                                 <h2 className="ui-form-title">My Brackets</h2>
-                                <div className="ui-header-controls" />
+                                <div className="ui-header-controls">
+                                    <button className="ui-button-header button-main button-short">
+                                        <FontAwesomeIcon
+                                            icon={faSearch}
+                                            className="ui-button-icon"
+                                        />
+                                        Search
+                                    </button>
+                                </div>
                             </div>
-                            <div className="manage-brackets-list">
+                            <div className="dashboard-bracket-list">
                                 {myBrackets}
                             </div>
+                            <div
+                                className="ui-title-header"
+                                style={{ marginTop: "30px" }}
+                            >
+                                <h2 className="ui-form-title">My Matches</h2>
+                                <div className="ui-header-controls">
+                                    <button className="ui-button-header button-main button-short">
+                                        <FontAwesomeIcon
+                                            icon={faSearch}
+                                            className="ui-button-icon"
+                                        />
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="dashboard-bracket-list" />
                         </div>
                     </div>
                 </div>

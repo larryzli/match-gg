@@ -17,7 +17,8 @@ import Chip from "material-ui/Chip";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
     faPlus,
-    faExpandArrowsAlt
+    faExpandArrowsAlt,
+    faMinus
     // faEnvelope
 } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
@@ -27,7 +28,8 @@ import {
     retrieveBracketData,
     playerJoinBracket,
     retrieveBracketPlayers,
-    retrieveBracketStructure
+    retrieveBracketStructure,
+    bracketKickPlayer
 } from "./../../ducks/bracketReducer";
 
 class ViewBracket extends Component {
@@ -71,24 +73,45 @@ class ViewBracket extends Component {
         ];
         let headerControls = null;
         if (this.props.brackets.bracketStatus === "ready") {
-            headerControls = (
-                <div className="ui-header-controls">
-                    <button
-                        onClick={() =>
-                            this.props.playerJoinBracket(
-                                this.props.brackets.bracketID
-                            )
-                        }
-                        className="ui-button-header button-confirm button-short"
-                    >
-                        <FontAwesomeIcon
-                            icon={faPlus}
-                            className="ui-button-icon"
-                        />
-                        Join
-                    </button>
-                </div>
-            );
+            headerControls =
+                this.props.brackets.bracketParticipants.findIndex(element => {
+                    return element.id === this.props.users.user.user_id;
+                }) === -1 ? (
+                    <div className="ui-header-controls">
+                        <button
+                            onClick={() =>
+                                this.props.playerJoinBracket(
+                                    this.props.brackets.bracketID
+                                )
+                            }
+                            className="ui-button-header button-confirm button-short"
+                        >
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                className="ui-button-icon"
+                            />
+                            Join
+                        </button>
+                    </div>
+                ) : (
+                    <div className="ui-header-controls">
+                        <button
+                            onClick={() =>
+                                this.props.bracketKickPlayer(
+                                    this.props.brackets.bracketID,
+                                    this.props.users.user.user_id
+                                )
+                            }
+                            className="ui-button-header button-reject button-short"
+                        >
+                            <FontAwesomeIcon
+                                icon={faMinus}
+                                className="ui-button-icon"
+                            />
+                            Leave
+                        </button>
+                    </div>
+                );
         } else if (
             this.props.brackets.bracketStatus === "live" ||
             this.props.brackets.bracketStatus === "completed"
@@ -286,5 +309,6 @@ export default connect(mapStateToProps, {
     retrieveBracketData,
     playerJoinBracket,
     retrieveBracketPlayers,
-    retrieveBracketStructure
+    retrieveBracketStructure,
+    bracketKickPlayer
 })(ViewBracket);

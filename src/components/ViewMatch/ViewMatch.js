@@ -7,7 +7,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faEdit, faCheck, faTrophy } from "@fortawesome/fontawesome-free-solid";
+import { faPaperPlane, faTrophy } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./ViewMatch.css";
 // IMPORT REDUX FUNCTIONS
@@ -45,6 +45,28 @@ class ViewMatch extends Component {
                     <div className="manage-view-match-container">
                         <div className="ui-title-header">
                             <h2 className="ui-form-title">Match Details</h2>
+                            {(this.props.users.user.user_id ===
+                                this.props.matches.team1ID ||
+                                this.props.users.user.user_id ===
+                                    this.props.matches.team2ID) &&
+                            !this.props.matches.matchCompleted ? (
+                                <div className="ui-header-controls">
+                                    <Link
+                                        to={`/discover/view/${
+                                            this.props.matches.matchBracketID
+                                        }/${this.props.matches.matchID}/submit`}
+                                        className="ui-link"
+                                    >
+                                        <button className="ui-button-header button-main button-medium">
+                                            <FontAwesomeIcon
+                                                icon={faPaperPlane}
+                                                className="ui-button-icon"
+                                            />
+                                            Submit Scores
+                                        </button>
+                                    </Link>
+                                </div>
+                            ) : null}
                             {/* {this.props.matches.team1ID ||
                             this.props.matches.team2ID ? (
                                 <div className="ui-header-controls">
