@@ -21,10 +21,10 @@ class ViewMatch extends Component {
     render() {
         console.log(this.props);
         const breadcrumbs = [
-            { name: "Manage", link: "/manage" },
+            { name: "Discover", link: "/discover" },
             {
                 name: this.props.matches.matchBracketName,
-                link: `/manage/${this.props.matches.matchBracketID}`
+                link: `/discover/view/${this.props.matches.matchBracketID}`
             },
             {
                 name: `${this.props.matches.team1Name ||

@@ -33,7 +33,7 @@ class Manage extends Component {
     }
     render() {
         let userBrackets = (
-            <div className="manage-bracket-list-empty">No Brackets</div>
+            <div className="bracket-list-empty">No Brackets</div>
         );
         if (this.props.brackets.bracketList) {
             userBrackets = (

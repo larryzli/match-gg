@@ -70,6 +70,9 @@ const initialState = {
     bracketListLoading: false,
     bracketListError: false,
 
+    userBracketListLoading: false,
+    userBracketListError: false,
+
     // PLAYER JOINING BRACKET
     playerJoining: false,
     playerJoinError: false,
@@ -89,6 +92,9 @@ const RETRIEVE_BRACKETS_BY_CREATOR = "RETRIEVE_BRACKETS_BY_CREATOR";
 
 // GET PUBLIC BRACKET LIST
 const RETRIEVE_PUBLIC_BRACKETS = "RETRIEVE_PUBLIC_BRACKETS";
+
+// GET USER BRACKETS
+const RETRIEVE_USER_BRACKETS = "RETRIEVE_USER_BRACKETS";
 
 // LOAD SINGLE BRACKET
 const RETRIEVE_BRACKET_DATA = "RETRIEVE_BRACKET_DATA";
@@ -214,6 +220,17 @@ export function getCreatorBrackets() {
                 console.log(response.data);
                 return response.data;
             })
+            .catch(console.log)
+    };
+}
+
+// GET USERS BRACKETS
+export function retrieveUserBrackets() {
+    return {
+        type: RETRIEVE_USER_BRACKETS,
+        payload: axios
+            .get("/api/brackets/me")
+            .then(response => response.data)
             .catch(console.log)
     };
 }
@@ -465,6 +482,17 @@ export default function reducer(state = initialState, action) {
             });
         case `${RETRIEVE_BRACKETS_BY_CREATOR}_REJECTED`:
             return Object.assign({}, state, { bracketListError: true });
+
+        // GET BRACKETS BY USER
+        case `${RETRIEVE_USER_BRACKETS}_PENDING`:
+            return Object.assign({}, state, { userBracketListLoading: true });
+        case `${RETRIEVE_USER_BRACKETS}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketList: action.payload,
+                userBracketListLoading: false
+            });
+        case `${RETRIEVE_USER_BRACKETS}_REJECTED`:
+            return Object.assign({}, state, { userBracketListError: true });
 
         // GET PUBLIC BRACKETS
         case `${RETRIEVE_PUBLIC_BRACKETS}_PENDING`:

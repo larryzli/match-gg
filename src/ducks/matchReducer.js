@@ -64,7 +64,8 @@ export function updateMatchData(matchID, matchData) {
 }
 // CHANGE HANDLERS
 export function handleScore1Change(event, value) {
-    if (!value) {
+    value = parseInt(value, 10);
+    if (!value || isNaN(value)) {
         value = 0;
     }
     return {
@@ -73,7 +74,8 @@ export function handleScore1Change(event, value) {
     };
 }
 export function handleScore2Change(event, value) {
-    if (!value) {
+    value = parseInt(value, 10);
+    if (!value || isNaN(value)) {
         value = 0;
     }
     return {

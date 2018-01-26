@@ -97,7 +97,7 @@ class ManageEditMatch extends Component {
                                                 ? "BYE"
                                                 : "TBD")} Score`}
                                         value={this.props.matches.team1Score}
-                                        type="number"
+                                        type="text"
                                         onChange={this.props.handleScore1Change}
                                     />
                                 </div>
@@ -117,7 +117,7 @@ class ManageEditMatch extends Component {
                                                 ? "BYE"
                                                 : "TBD")} Score`}
                                         value={this.props.matches.team2Score}
-                                        type="number"
+                                        type="text"
                                         onChange={this.props.handleScore2Change}
                                     />
                                 </div>

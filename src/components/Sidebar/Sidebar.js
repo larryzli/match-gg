@@ -1,6 +1,6 @@
 // IMPORT DEPENDENCIES
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
@@ -16,15 +16,21 @@ import {
 // IMPORT STYLES
 import "./Sidebar.css";
 // IMPORT REDUX FUNCTIONS
-import { retrieveUser } from "../../ducks/userReducer";
+import { retrieveUser, userLogout } from "../../ducks/userReducer";
 
 class Sidebar extends Component {
+    componentDidMount() {
+        this.props.retrieveUser();
+    }
     render() {
         return (
             <div className="sidebar-container">
                 <div className="site-logo">
-                    MATCH.<span>GG</span>
+                    <Link to="/" className="ui-link">
+                        MATCH.<span>GG</span>
+                    </Link>
                 </div>
+
                 <div className="sidebar-links-container">
                     <NavLink
                         className="sidebar-link"
@@ -94,6 +100,16 @@ class Sidebar extends Component {
                         Logout
                     </NavLink>
                 </div>
+                <div className="user-info-container">
+                    <span>{this.props.users.user.alias}</span>
+                    <Link to="/" className="ui-link">
+                        <FontAwesomeIcon
+                            className="nav-icon logout"
+                            icon={faSignOutAlt}
+                            onClick={e => this.props.userLogout()}
+                        />
+                    </Link>
+                </div>
             </div>
         );
     }
@@ -102,4 +118,4 @@ class Sidebar extends Component {
 const mapStateToProps = state => {
     return state;
 };
-export default connect(mapStateToProps, { retrieveUser })(Sidebar);
+export default connect(mapStateToProps, { retrieveUser, userLogout })(Sidebar);

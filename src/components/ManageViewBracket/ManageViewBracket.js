@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import swal from "sweetalert";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
@@ -455,7 +456,15 @@ class ManageViewBracket extends Component {
                                                 ? true
                                                 : false
                                         }
-                                        infoClick={this.handleMatchRowClick}
+                                        infoClick={
+                                            this.props.brackets
+                                                .bracketStatus === "live"
+                                                ? this.handleMatchRowClick
+                                                : () =>
+                                                      swal(
+                                                          "Start the bracket to view a match"
+                                                      )
+                                        }
                                         editClick={this.handleMatchEditClick}
                                         confirmClick={
                                             this.handleMatchConfirmClick

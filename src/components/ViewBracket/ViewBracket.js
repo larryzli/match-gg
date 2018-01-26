@@ -61,12 +61,12 @@ class ViewBracket extends Component {
         console.log(this.props);
         const breadcrumbs = [
             {
-                name: "Manage",
-                link: "/manage"
+                name: "Discover",
+                link: "/Discover"
             },
             {
                 name: this.props.brackets.bracketName,
-                link: `/manage/${this.props.brackets.bracketID}`
+                link: `/discover/view/${this.props.brackets.bracketID}`
             }
         ];
         let headerControls = null;
@@ -254,7 +254,7 @@ class ViewBracket extends Component {
                                         bracketStructure={
                                             this.props.brackets.bracketStructure
                                         }
-                                        // matchClick={this.handleMatchRowClick}
+                                        matchClick={this.handleMatchRowClick}
                                     />
                                 </div>
                             </Tab>

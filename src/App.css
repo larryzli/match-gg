@@ -38,7 +38,12 @@
     min-width: fit-content;
     /* min-height: 100vh; */
 }
-
+.bracket-list-empty {
+    width: 100%;
+    padding: 20px;
+    background-color: #222222;
+    color: #d32f2f;
+}
 .ui-title-header {
     display: flex;
     justify-content: space-between;
@@ -58,6 +63,10 @@
 
 .ui-link {
     text-decoration: none;
+}
+
+.ui-link:visited {
+    color: white;
 }
 
 .ui-button {

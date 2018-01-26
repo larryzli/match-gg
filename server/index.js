@@ -113,7 +113,7 @@ app.get(
     })
 );
 
-// TEST API FOR USER SESSION
+// TEST FOR USER SESSION
 app.get("/api/me", (req, res) => {
     console.log("Session: ", req.user);
     if (req.user) {
@@ -122,10 +122,17 @@ app.get("/api/me", (req, res) => {
         return res.redirect("/auth");
     }
 });
+// LOGOUT
+app.get("/logout", (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect("http://localhost:3000/");
+});
 
 // BRACKET LIST API
 app.get("/api/manage/brackets", bracketController.getCreatorBrackets);
 app.get("/api/brackets", bracketController.getPublicBrackets);
+app.get("/api/brackets/me", userController.getUserBrackets);
 
 // SINGLE BRACKET API
 app.put("/api/bracket/:id/edit", bracketController.editBracket); // Edit bracket info

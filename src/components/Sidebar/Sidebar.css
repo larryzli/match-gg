@@ -38,6 +38,7 @@
     display: flex;
     flex-direction: column;
     min-height: fit-content;
+    flex-grow: 1;
 }
 .sidebar-link {
     color: rgb(170, 170, 170);
@@ -63,8 +64,18 @@
     border-left: 10px solid #7986cb;
     color: white;
 }
+.user-info-container {
+    padding: 20px;
+    display: flex;
+    background-color: #222222;
+    width: 100%;
+    color: white;
+    justify-content: space-between;
+    align-items: center;
+}
 .dev {
     background-color: black;
+    display: none;
 }
 .logout {
     color: rgb(238, 61, 55);

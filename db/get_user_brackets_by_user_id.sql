@@ -1,0 +1,2 @@
+SELECT b.bracket_name, b.bracket_id, b.subject, b.start_date, b.start_time, b.status, b.format FROM bracket_player bp
+JOIN bracket b ON bp.bracket_id = b.bracket_id WHERE bp.user_id = $1 ORDER BY b.start_date DESC;
