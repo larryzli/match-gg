@@ -21,18 +21,25 @@ import { faSearch } from "@fortawesome/fontawesome-free-solid";
 import "./Dashboard.css";
 // IMPORT REDUX FUNCTIONS
 import { retrieveUserBrackets } from "../../ducks/bracketReducer";
+import { retrieveUserMatches } from "../../ducks/matchReducer";
 
 // COMPONENT
 class Dashboard extends Component {
     handleRowClick = bracketID => {
         this.props.history.push(`/discover/view/${bracketID}`);
     };
+    handleMatchClick = (matchID, bracketID) => {
+        this.props.history.push(`/discover/view/${bracketID}/${matchID}`);
+    };
     componentDidMount() {
         this.props.retrieveUserBrackets();
+        this.props.retrieveUserMatches();
     }
     render() {
+        console.log(this.props);
         const breadcrumbs = [{ name: "Dashboard", link: "/dashboard" }];
         let myBrackets = <div className="bracket-list-empty">No Brackets</div>;
+        let myMatches = <div className="bracket-list-empty">No Brackets</div>;
         if (this.props.brackets.bracketList) {
             myBrackets = (
                 <Table height="100%" fixedHeader={true}>
@@ -146,6 +153,118 @@ class Dashboard extends Component {
                 </Table>
             );
         }
+        if (this.props.matches.matchList) {
+            myMatches = (
+                <Table height="100%" fixedHeader={true}>
+                    <TableHeader
+                        displaySelectAll={false}
+                        adjustForCheckbox={false}
+                        selectable={false}
+                    >
+                        <TableRow
+                            style={{
+                                backgroundColor: "#222222"
+                            }}
+                        >
+                            <TableHeaderColumn
+                                colSpan="6"
+                                tooltip="Bracket Name"
+                            >
+                                BRACKET NAME
+                            </TableHeaderColumn>
+                            <TableHeaderColumn
+                                colSpan="3"
+                                tooltip="Bracket Subject"
+                            >
+                                SUBJECT
+                            </TableHeaderColumn>
+                            <TableHeaderColumn
+                                colSpan="2"
+                                tooltip="Match Opponent"
+                                style={{
+                                    textAlign: "center"
+                                }}
+                            >
+                                OPPONENT
+                            </TableHeaderColumn>
+                            <TableHeaderColumn
+                                colSpan="3"
+                                tooltip="Bracket Round"
+                                style={{
+                                    textAlign: "center"
+                                }}
+                            >
+                                ROUND
+                            </TableHeaderColumn>
+                            <TableHeaderColumn
+                                colSpan="2"
+                                tooltip="Match Status"
+                                style={{
+                                    textAlign: "center"
+                                }}
+                            >
+                                STATUS
+                            </TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody
+                        displayRowCheckbox={false}
+                        showRowHover={true}
+                        stripedRows={false}
+                    >
+                        {this.props.matches.matchList.map((match, index) => (
+                            <TableRow
+                                key={index}
+                                selectable={false}
+                                style={{
+                                    backgroundColor: "#3a3a3a"
+                                }}
+                                onClick={e =>
+                                    this.handleMatchClick(
+                                        match.match_id,
+                                        match.bracket_id
+                                    )
+                                }
+                            >
+                                <TableRowColumn colSpan="6">
+                                    {match.bracket_name}
+                                </TableRowColumn>
+                                <TableRowColumn colSpan="3">
+                                    {match.subject}
+                                </TableRowColumn>
+                                <TableRowColumn
+                                    colSpan="2"
+                                    style={{
+                                        textAlign: "center"
+                                    }}
+                                >
+                                    {(this.props.users.user.user_id ===
+                                    match.team1_id
+                                        ? match.team2_name
+                                        : match.team1_name) || "TBD"}
+                                </TableRowColumn>
+                                <TableRowColumn
+                                    colSpan="3"
+                                    style={{
+                                        textAlign: "center"
+                                    }}
+                                >
+                                    {match.round_number}
+                                </TableRowColumn>
+                                <TableRowColumn
+                                    colSpan="2"
+                                    style={{
+                                        textAlign: "center"
+                                    }}
+                                >
+                                    {match.completed ? "Done" : "Pending"}
+                                </TableRowColumn>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            );
+        }
         return (
             <div>
                 <div className="portal-container">
@@ -183,7 +302,9 @@ class Dashboard extends Component {
                                     </button>
                                 </div>
                             </div>
-                            <div className="dashboard-bracket-list" />
+                            <div className="dashboard-bracket-list">
+                                {myMatches}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,4 +317,7 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
     return state;
 };
-export default connect(mapStateToProps, { retrieveUserBrackets })(Dashboard);
+export default connect(mapStateToProps, {
+    retrieveUserBrackets,
+    retrieveUserMatches
+})(Dashboard);

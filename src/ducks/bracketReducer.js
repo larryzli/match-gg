@@ -56,6 +56,8 @@ const initialState = {
     bracketPublishError: false,
     bracketStarting: false,
     bracketStartError: false,
+    bracketCompleting: false,
+    bracketCompleteError: false,
 
     // DELETE BRACKET
     bracketDeleting: false,
@@ -114,6 +116,7 @@ const HANDLE_HAS_PASSWORD_CHANGE = "HANDLE_HAS_PASSWORD_CHANGE";
 const HANDLE_PARTICIPANT_TYPE_CHANGE = "HANDLE_PARTICIPANT_TYPE_CHANGE";
 const PUBLISH_BRACKET = "PUBLISH_BRACKET";
 const START_BRACKET = "START_BRACKET";
+const COMPLETE_BRACKET = "COMPLETE_BRACKET";
 
 // BRACKET STRUCTURE
 const GENERATE_BRACKET_STRUCTURE = "GENERATE_BRACKET_STRUCTURE";
@@ -194,6 +197,16 @@ export function startBracket(bracketID) {
         type: START_BRACKET,
         payload: axios
             .put(`/api/bracket/${bracketID}/status`, { newStatus: "live" })
+            .then(response => response.data[0].status)
+            .catch(console.log)
+    };
+}
+// COMPLETE BRACKET
+export function completeBracket(bracketID) {
+    return {
+        type: COMPLETE_BRACKET,
+        payload: axios
+            .put(`/api/bracket/${bracketID}/status`, { newStatus: "completed" })
             .then(response => response.data[0].status)
             .catch(console.log)
     };
@@ -463,6 +476,17 @@ export default function reducer(state = initialState, action) {
             });
         case `${START_BRACKET}_REJECTED`:
             return Object.assign({}, state, { bracketStartError: true });
+
+        // COMPLETE BRACKET
+        case `${COMPLETE_BRACKET}_PENDING`:
+            return Object.assign({}, state, { bracketCompleting: true });
+        case `${COMPLETE_BRACKET}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketCompleting: false,
+                bracketStatus: action.payload
+            });
+        case `${COMPLETE_BRACKET}_REJECTED`:
+            return Object.assign({}, state, { bracketCompleteError: true });
 
         // DELETE BRACKET
         case `${DELETE_BRACKET}_PENDING`:

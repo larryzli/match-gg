@@ -49,7 +49,9 @@ class ViewMatch extends Component {
                                 this.props.matches.team1ID ||
                                 this.props.users.user.user_id ===
                                     this.props.matches.team2ID) &&
-                            !this.props.matches.matchCompleted ? (
+                            !this.props.matches.matchCompleted &&
+                            this.props.matches.team1ID &&
+                            this.props.matches.team2ID ? (
                                 <div className="ui-header-controls">
                                     <Link
                                         to={`/discover/view/${

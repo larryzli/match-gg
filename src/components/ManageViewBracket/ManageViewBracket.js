@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import swal from "sweetalert";
+// import swal from "sweetalert";
 // IMPORT COMPONENTS
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
@@ -31,6 +31,7 @@ import {
     retrieveBracketData,
     publishBracket,
     startBracket,
+    completeBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
     generateBracketStructure,
@@ -44,7 +45,8 @@ class ManageViewBracket extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDialog: false
+            startDialog: false,
+            completeDialog: false
         };
         this.openStart = this.openStart.bind(this);
         this.closeStart = this.closeStart.bind(this);
@@ -135,6 +137,16 @@ class ManageViewBracket extends Component {
         });
         this.setState({ startDialog: false });
     };
+    openComplete = () => {
+        this.setState({ completeDialog: true });
+    };
+    closeComplete = () => {
+        this.setState({ completeDialog: false });
+    };
+    completeHandler = () => {
+        this.props.completeBracket(this.props.brackets.bracketID);
+        this.setState({ completeDialog: false });
+    };
     render() {
         console.log(this.props);
         const breadcrumbs = [
@@ -161,6 +173,22 @@ class ManageViewBracket extends Component {
                 style={{ marginBottom: "10px" }}
             >
                 Start
+            </button>
+        ];
+        const completeActions = [
+            <button
+                onClick={this.closeComplete}
+                className="ui-button button-secondary button-medium"
+                style={{ marginBottom: "10px" }}
+            >
+                Cancel
+            </button>,
+            <button
+                onClick={this.completeHandler}
+                className="ui-button button-confirm button-medium"
+                style={{ marginBottom: "10px" }}
+            >
+                Complete
             </button>
         ];
         let headerControls = null;
@@ -246,31 +274,35 @@ class ManageViewBracket extends Component {
         } else if (this.props.brackets.bracketStatus === "live") {
             headerControls = (
                 <div className="ui-header-controls">
-                    <Link
-                        to={`/manage/${this.props.brackets.bracketID}/edit`}
-                        className="ui-link"
+                    <button
+                        className="ui-button-header button-confirm button-short"
+                        onClick={this.openComplete}
                     >
-                        <button className="ui-button-header button-main button-short">
-                            <FontAwesomeIcon
-                                icon={faEdit}
-                                className="ui-button-icon"
-                            />
-                            Edit
-                        </button>
-                    </Link>
+                        <FontAwesomeIcon
+                            icon={faCheck}
+                            className="ui-button-icon"
+                        />
+                        Complete
+                    </button>
+                    <Dialog
+                        title={`Complete ${this.props.brackets.bracketName}`}
+                        actions={completeActions}
+                        modal={false}
+                        open={this.state.completeDialog}
+                        onRequestClose={this.closeComplete}
+                        actionsContainerClassName="ui-form-controls"
+                    >
+                        {`Once a bracket has been completed, you will no longer be able to modify bracket information or bracket matches.`}
+                        <br />
+                        <br />
+                        {`Are you sure you
+                        want to complete this bracket?`}
+                    </Dialog>
                 </div>
             );
+        } else {
+            null;
         }
-        // const bracketTabLabel =
-        //     this.props.brackets.bracketStatus !== "live"
-        //         ? "BRACKET (PREVIEW)"
-        //         : "BRACKET";
-        // const matchesTabLabel =
-        //     this.props.brackets.bracketStatus !== "live"
-        //         ? "MATCHES (PREVIEW)"
-        //         : "MATCHES";
-        // const disableOtherTabs =
-        //     this.props.brackets.bracketStatus === "draft" ? true : false;
         return (
             <div className="portal-container">
                 <Sidebar />
@@ -374,18 +406,6 @@ class ManageViewBracket extends Component {
                                         <h2 className="ui-form-subtitle">
                                             Current
                                         </h2>
-                                        <Link
-                                            to="/manage/create"
-                                            className="ui-link"
-                                        >
-                                            <button className="ui-button-header button-main button-short">
-                                                <FontAwesomeIcon
-                                                    icon={faEnvelope}
-                                                    className="ui-button-icon"
-                                                />
-                                                Invite
-                                            </button>
-                                        </Link>
                                     </div>
                                     <ParticipantTable
                                         participantType={
@@ -395,32 +415,66 @@ class ManageViewBracket extends Component {
                                             this.props.brackets
                                                 .bracketParticipants
                                         }
-                                        showControls={true}
+                                        showControls={
+                                            this.props.brackets
+                                                .bracketStatus === "ready"
+                                        }
                                         kickParticipant={
                                             this.props.bracketKickPlayer
                                         }
                                     />
-                                    <div className="ui-subtitle-header">
-                                        <h2 className="ui-form-subtitle">
-                                            Invited
-                                        </h2>
-                                    </div>
-                                    <InvitedTable
-                                        participantType={
-                                            this.props.brackets
-                                                .bracketParticipantType
-                                        }
-                                        invitedList={
-                                            this.props.brackets.bracketInvited
-                                        }
-                                        showControls={true}
-                                    />
+                                    {this.props.brackets.bracketStatus ===
+                                    "ready" ? (
+                                        <div>
+                                            <div className="ui-subtitle-header">
+                                                <h2 className="ui-form-subtitle">
+                                                    Invited
+                                                </h2>
+
+                                                <button className="ui-button-header button-main button-short">
+                                                    <FontAwesomeIcon
+                                                        icon={faEnvelope}
+                                                        className="ui-button-icon"
+                                                    />
+                                                    Invite
+                                                </button>
+                                            </div>
+
+                                            <InvitedTable
+                                                participantType={
+                                                    this.props.brackets
+                                                        .bracketParticipantType
+                                                }
+                                                invitedList={
+                                                    this.props.brackets
+                                                        .bracketInvited
+                                                }
+                                                showControls={true}
+                                            />
+                                        </div>
+                                    ) : null}
                                 </div>
                             </Tab>
                             <Tab
-                                // disabled={disableOtherTabs}
-                                label="BRACKET"
-                                style={{ borderBottom: "2px solid #5a5a5a" }}
+                                disabled={
+                                    this.props.brackets.bracketStatus ===
+                                    "draft"
+                                }
+                                label={
+                                    this.props.brackets.bracketStatus ===
+                                    "ready"
+                                        ? "BRACKET PREVIEW"
+                                        : "BRACKET"
+                                }
+                                style={
+                                    this.props.brackets.bracketStatus ===
+                                    "draft"
+                                        ? {
+                                              color: "#5a5a5a",
+                                              borderBottom: "2px solid #333333"
+                                          }
+                                        : { borderBottom: "2px solid #5a5a5a" }
+                                }
                             >
                                 <div className="bracket-tab-content-container bracket-tab-content-fixed">
                                     <div className="bracket-tab-controls">
@@ -436,14 +490,35 @@ class ManageViewBracket extends Component {
                                         bracketStructure={
                                             this.props.brackets.bracketStructure
                                         }
-                                        matchClick={this.handleMatchRowClick}
+                                        matchClick={
+                                            this.props.brackets
+                                                .bracketStatus === "ready"
+                                                ? () => null
+                                                : this.handleMatchRowClick
+                                        }
                                     />
                                 </div>
                             </Tab>
                             <Tab
-                                // disabled={disableOtherTabs}
-                                label="MATCHES"
-                                style={{ borderBottom: "2px solid #5a5a5a" }}
+                                disabled={
+                                    this.props.brackets.bracketStatus ===
+                                    "draft"
+                                }
+                                label={
+                                    this.props.brackets.bracketStatus ===
+                                    "ready"
+                                        ? "MATCHES PREVIEW"
+                                        : "MATCHES"
+                                }
+                                style={
+                                    this.props.brackets.bracketStatus ===
+                                    "draft"
+                                        ? {
+                                              color: "#5a5a5a",
+                                              borderBottom: "2px solid #333333"
+                                          }
+                                        : { borderBottom: "2px solid #5a5a5a" }
+                                }
                             >
                                 <div className="bracket-tab-content-container">
                                     <RoundMatchCards
@@ -458,12 +533,13 @@ class ManageViewBracket extends Component {
                                         }
                                         infoClick={
                                             this.props.brackets
-                                                .bracketStatus === "live"
-                                                ? this.handleMatchRowClick
-                                                : () =>
-                                                      swal(
-                                                          "Start the bracket to view a match"
-                                                      )
+                                                .bracketStatus === "ready"
+                                                ? () => null
+                                                : this.handleMatchRowClick
+                                            // : () =>
+                                            //       swal(
+                                            //           "Start the bracket to view a match"
+                                            //       )
                                         }
                                         editClick={this.handleMatchEditClick}
                                         confirmClick={
@@ -488,6 +564,7 @@ export default connect(mapStateToProps, {
     retrieveBracketData,
     publishBracket,
     startBracket,
+    completeBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
     generateBracketStructure,

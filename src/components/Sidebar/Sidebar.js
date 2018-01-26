@@ -5,13 +5,14 @@ import { connect } from "react-redux";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
-    faList,
-    faUsers,
+    faListUl,
+    // faUsers,
     faSearch,
     faClipboard,
-    faInbox,
+    // faInbox,
     faSignInAlt,
-    faSignOutAlt
+    faSignOutAlt,
+    faGift
 } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLES
 import "./Sidebar.css";
@@ -45,7 +46,7 @@ class Sidebar extends Component {
                         activeClassName="active-link"
                         to="/dashboard"
                     >
-                        <FontAwesomeIcon className="nav-icon" icon={faList} />
+                        <FontAwesomeIcon className="nav-icon" icon={faListUl} />
                         Dashboard
                     </NavLink>
                     <NavLink
@@ -59,7 +60,7 @@ class Sidebar extends Component {
                         />
                         Manage
                     </NavLink>
-                    <NavLink
+                    {/* <NavLink
                         className="sidebar-link"
                         activeClassName="active-link"
                         to="/teams"
@@ -74,6 +75,14 @@ class Sidebar extends Component {
                     >
                         <FontAwesomeIcon className="nav-icon" icon={faInbox} />
                         Invites
+                    </NavLink> */}
+                    <NavLink
+                        className="sidebar-link"
+                        activeClassName="active-link"
+                        to="/donate"
+                    >
+                        <FontAwesomeIcon className="nav-icon" icon={faGift} />
+                        Donate
                     </NavLink>
                 </div>
                 <div className="sidebar-links-container dev">

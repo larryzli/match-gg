@@ -27,13 +27,19 @@ const initialState = {
     matchUpdatingError: false,
 
     matchAutoCompleting: false,
-    matchAutoCompleteError: false
+    matchAutoCompleteError: false,
+
+    matchList: [],
+    matchListLoading: false,
+    matchListError: false
 };
 
 // ----- ACTION TYPES ----- //
 // MATCH DATA
 const RETRIEVE_MATCH_DATA = "RETRIEVE_MATCH_DATA";
 const UPDATE_MATCH_DATA = "UPDATE_MATCH_DATA";
+// MATCH LIST
+const RETRIEVE_USER_MATCHES = "RETRIEVE_USER_MATCHES";
 // CHANGE HANDLERS
 const HANDLE_TEAM1_SCORE_CHANGE = "HANDLE_TEAM1_SCORE_CHANGE";
 const HANDLE_TEAM2_SCORE_CHANGE = "HANDLE_TEAM2_SCORE_CHANGE";
@@ -62,6 +68,18 @@ export function updateMatchData(matchID, matchData) {
             .catch(console.log)
     };
 }
+
+// GET MATCH LIST
+export function retrieveUserMatches() {
+    return {
+        type: RETRIEVE_USER_MATCHES,
+        payload: axios
+            .get("api/matches/me")
+            .then(response => response.data)
+            .catch(console.log)
+    };
+}
+
 // CHANGE HANDLERS
 export function handleScore1Change(event, value) {
     value = parseInt(value, 10);
@@ -155,6 +173,19 @@ export default function reducer(state = initialState, action) {
         case `${RETRIEVE_MATCH_DATA}_REJECTED`:
             return Object.assign({}, state, {
                 matchLoadingError: true
+            });
+
+        // RETRIEVE USER MATCHES
+        case `${RETRIEVE_USER_MATCHES}_PENDING`:
+            return Object.assign({}, state, { matchListLoading: true });
+        case `${RETRIEVE_USER_MATCHES}_FULFILLED`:
+            return Object.assign({}, state, {
+                matchList: action.payload,
+                matchListLoading: false
+            });
+        case `${RETRIEVE_USER_MATCHES}_REJECTED`:
+            return Object.assign({}, state, {
+                matchListError: true
             });
 
         // UPDATE MATCH DATA

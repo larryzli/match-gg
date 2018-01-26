@@ -56,9 +56,7 @@ class ViewBracket extends Component {
             `/discover/view/${this.props.brackets.bracketID}/${matchID}`
         );
     };
-    // handleRowClick = bracketID => {
-    //     this.props.history.push(`/manage/${bracketID}`);
-    // };
+
     render() {
         console.log(this.props);
         const breadcrumbs = [
@@ -243,25 +241,43 @@ class ViewBracket extends Component {
                                                 .bracketParticipants
                                         }
                                     />
-                                    <div className="ui-subtitle-header">
-                                        <h2 className="ui-form-subtitle">
-                                            Invited
-                                        </h2>
-                                    </div>
-                                    <InvitedTable
-                                        participantType={
-                                            this.props.brackets
-                                                .bracketParticipantType
-                                        }
-                                        invitedList={
-                                            this.props.brackets.bracketInvited
-                                        }
-                                    />
+                                    {this.props.brackets.bracketStatus ===
+                                    "ready" ? (
+                                        <div>
+                                            <div className="ui-subtitle-header">
+                                                <h2 className="ui-form-subtitle">
+                                                    Invited
+                                                </h2>
+                                            </div>
+                                            <InvitedTable
+                                                participantType={
+                                                    this.props.brackets
+                                                        .bracketParticipantType
+                                                }
+                                                invitedList={
+                                                    this.props.brackets
+                                                        .bracketInvited
+                                                }
+                                            />
+                                        </div>
+                                    ) : null}
                                 </div>
                             </Tab>
                             <Tab
                                 label="BRACKET"
-                                style={{ borderBottom: "2px solid #5a5a5a" }}
+                                style={
+                                    this.props.brackets.bracketStatus ===
+                                    "ready"
+                                        ? {
+                                              color: "#5a5a5a",
+                                              borderBottom: "2px solid #333333"
+                                          }
+                                        : { borderBottom: "2px solid #5a5a5a" }
+                                }
+                                disabled={
+                                    this.props.brackets.bracketStatus ===
+                                    "ready"
+                                }
                             >
                                 <div className="bracket-tab-content-container bracket-tab-content-fixed">
                                     <div className="bracket-tab-controls">
@@ -277,20 +293,42 @@ class ViewBracket extends Component {
                                         bracketStructure={
                                             this.props.brackets.bracketStructure
                                         }
-                                        matchClick={this.handleMatchRowClick}
+                                        matchClick={
+                                            this.props.brackets
+                                                .bracketStatus === "ready"
+                                                ? () => null
+                                                : this.handleMatchRowClick
+                                        }
                                     />
                                 </div>
                             </Tab>
                             <Tab
                                 label="MATCHES"
-                                style={{ borderBottom: "2px solid #5a5a5a" }}
+                                style={
+                                    this.props.brackets.bracketStatus ===
+                                    "ready"
+                                        ? {
+                                              color: "#5a5a5a",
+                                              borderBottom: "2px solid #333333"
+                                          }
+                                        : { borderBottom: "2px solid #5a5a5a" }
+                                }
+                                disabled={
+                                    this.props.brackets.bracketStatus ===
+                                    "ready"
+                                }
                             >
                                 <div className="bracket-tab-content-container">
                                     <RoundMatchCards
                                         bracketStructure={
                                             this.props.brackets.bracketStructure
                                         }
-                                        infoClick={this.handleMatchRowClick}
+                                        infoClick={
+                                            this.props.brackets
+                                                .bracketStatus === "ready"
+                                                ? () => null
+                                                : this.handleMatchRowClick
+                                        }
                                     />
                                     <p>Submit Scores</p>
                                 </div>

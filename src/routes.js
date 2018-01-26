@@ -10,6 +10,7 @@ import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Discover from "./components/Discover/Discover";
 import Manage from "./components/Manage/Manage";
+import Donate from "./components/Donate/Donate";
 import ManageCreateBracket from "./components/ManageCreateBracket/ManageCreateBracket";
 import ManageViewBracket from "./components/ManageViewBracket/ManageViewBracket";
 import ManageEditBracket from "./components/ManageEditBracket/ManageEditBracket";
@@ -29,6 +30,7 @@ const Routes = props => {
             <Route path="/about" component={About} />
             <Route path="/brackets" component={BracketViewer} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/donate" component={Donate} />
             <Route
                 path="/discover/view/:id/:matchid/submit"
                 component={SubmitMatch}

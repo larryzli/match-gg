@@ -133,6 +133,7 @@ app.get("/logout", (req, res) => {
 app.get("/api/manage/brackets", bracketController.getCreatorBrackets);
 app.get("/api/brackets", bracketController.getPublicBrackets);
 app.get("/api/brackets/me", userController.getUserBrackets);
+app.get("/api/matches/me", userController.getUserMatches);
 
 // SINGLE BRACKET API
 app.put("/api/bracket/:id/edit", bracketController.editBracket); // Edit bracket info
