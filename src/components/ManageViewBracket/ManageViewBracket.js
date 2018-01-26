@@ -393,11 +393,20 @@ class ManageViewBracket extends Component {
                                 </div>
                             </Tab>
                             <Tab
-                                // disabled={disableOtherTabs}
+                                disabled={
+                                    this.props.brackets.bracketStatus ===
+                                    "draft"
+                                }
                                 label="PARTICIPANTS"
-                                style={{
-                                    borderBottom: "2px solid #5a5a5a"
-                                }}
+                                style={
+                                    this.props.brackets.bracketStatus ===
+                                    "draft"
+                                        ? {
+                                              color: "#5a5a5a",
+                                              borderBottom: "2px solid #333333"
+                                          }
+                                        : { borderBottom: "2px solid #5a5a5a" }
+                                }
                             >
                                 <div className="bracket-tab-content-container">
                                     <div className="ui-subtitle-header">
@@ -475,7 +484,7 @@ class ManageViewBracket extends Component {
                                 }
                             >
                                 <div className="bracket-tab-content-container bracket-tab-content-fixed">
-                                    <div className="bracket-tab-controls">
+                                    {/* <div className="bracket-tab-controls">
                                         <button className="ui-button-header button-secondary button-medium">
                                             <FontAwesomeIcon
                                                 icon={faExpandArrowsAlt}
@@ -483,7 +492,7 @@ class ManageViewBracket extends Component {
                                             />
                                             Fullscreen
                                         </button>
-                                    </div>
+                                    </div> */}
                                     <Bracket
                                         bracketStructure={
                                             this.props.brackets.bracketStructure
@@ -544,8 +553,6 @@ class ManageViewBracket extends Component {
                                             this.handleMatchConfirmClick
                                         }
                                     />
-                                    <p>Edit / Submit Scores</p>
-                                    <p>Complete Match</p>
                                 </div>
                             </Tab>
                         </Tabs>
