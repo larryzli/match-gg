@@ -99,8 +99,8 @@ module.exports = {
     },
     getCreatorBrackets: (req, res) => {
         const db = req.app.get("db");
-        // const creator_id = req.user.user_id;
-        const creator_id = 11;
+        const creator_id = req.user.user_id;
+        // const creator_id = 11;
         db
             .get_brackets_by_creator_id([creator_id])
             .then(response => {

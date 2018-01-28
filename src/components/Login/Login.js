@@ -11,7 +11,10 @@ class Login extends Component {
         return (
             <div className="login-container">
                 <div className="login-welcome">
-                    Welcome to <div id="login-site-name">MATCH.GG</div>
+                    Welcome to{" "}
+                    <div id="login-site-name">
+                        [ BRACK<span> IT</span> ]
+                    </div>
                 </div>
                 <div className="login-box">
                     <div className="login-box-text">Ready to rumble?</div>

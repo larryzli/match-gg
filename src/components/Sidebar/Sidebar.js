@@ -29,7 +29,7 @@ class Sidebar extends Component {
             <div className="sidebar-container">
                 <div className="site-logo">
                     <Link to="/" className="ui-link">
-                        MATCH.<span>GG</span>
+                        [ BRACK<span> IT</span> ]
                     </Link>
                 </div>
 

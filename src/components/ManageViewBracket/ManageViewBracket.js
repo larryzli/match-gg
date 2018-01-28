@@ -21,8 +21,8 @@ import {
     faEdit,
     faCheck,
     faPlay,
-    faEnvelope,
-    faExpandArrowsAlt
+    faEnvelope
+    // faExpandArrowsAlt
 } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./ManageViewBracket.css";

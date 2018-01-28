@@ -1,4 +1,5 @@
 .manage-container {
+    /* height: calc(100vh - 75px); */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -8,6 +9,7 @@
 .manage-brackets-list {
     background-color: #222222;
     width: 100%;
+    /* height: 750px; */
     height: 100%;
     color: white;
     padding-left: 10px;
