@@ -183,6 +183,7 @@ app.delete(
     bracketController.kickBracketPlayer
 ); // Kick player from bracket participants
 app.get("/api/bracket/:id/players/", bracketController.getBracketPlayers); // Get all players for bracket
+app.put("/api/bracket/:id/players/swap", bracketController.swapPlayerSeeds);
 
 const path = require("path");
 app.get("*", (req, res) => {

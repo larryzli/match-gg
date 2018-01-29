@@ -34,6 +34,7 @@ import {
     completeBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
+    swapSeeds,
     generateBracketStructure,
     retrieveBracketStructure,
     deleteBracketStructure,
@@ -429,6 +430,7 @@ class ManageViewBracket extends Component {
                                         kickParticipant={
                                             this.props.bracketKickPlayer
                                         }
+                                        swapSeedsClick={this.props.swapSeeds}
                                     />
                                     {this.props.brackets.bracketStatus ===
                                     "ready" ? (
@@ -572,6 +574,7 @@ export default connect(mapStateToProps, {
     completeBracket,
     retrieveBracketPlayers,
     bracketKickPlayer,
+    swapSeeds,
     generateBracketStructure,
     retrieveBracketStructure,
     deleteBracketStructure,

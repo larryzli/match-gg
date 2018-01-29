@@ -153,15 +153,23 @@ module.exports = {
         const { user_id } = req.user;
         const bracket_id = req.params.id;
         db
-            .join_bracket_as_player([bracket_id, user_id])
-            .then(() =>
+            .count_bracket_players([bracket_id])
+            .then(response => {
+                const newSeed = parseInt(response[0].num_players) + 1;
+                console.log("newSeed: ", newSeed);
+
                 db
-                    .get_bracket_players_by_bracket_id([bracket_id])
-                    .then(response2 => {
-                        return res.status(200).json(response2);
-                    })
-                    .catch(console.log)
-            )
+                    .join_bracket_as_player([bracket_id, user_id, newSeed])
+                    .then(() =>
+                        db
+                            .get_bracket_players_by_bracket_id([bracket_id])
+                            .then(response2 => {
+                                return res.status(200).json(response2);
+                            })
+                            .catch(console.log)
+                    )
+                    .catch(console.log);
+            })
             .catch(console.log);
     },
     getBracketPlayers: (req, res) => {
@@ -173,6 +181,20 @@ module.exports = {
                 return res.status(200).json(response);
             })
             .catch(console.log);
+    },
+    swapPlayerSeeds: (req, res) => {
+        const db = req.app.get("db");
+        const bracket_id = req.params.id;
+        const { player1_id, player2_id } = req.body;
+        console.log(player1_id, player2_id);
+        db.swap_player_seeds([bracket_id, player1_id, player2_id]).then(() => {
+            db
+                .get_bracket_players_by_bracket_id([bracket_id])
+                .then(response => {
+                    return res.status(200).json(response);
+                })
+                .catch(console.log);
+        });
     },
     kickBracketPlayer: (req, res) => {
         const db = req.app.get("db");

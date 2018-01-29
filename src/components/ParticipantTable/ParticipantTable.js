@@ -11,7 +11,11 @@ import {
 } from "material-ui/Table";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/fontawesome-free-solid";
+import {
+    faTimes,
+    faChevronUp,
+    faChevronDown
+} from "@fortawesome/fontawesome-free-solid";
 
 // COMPONENT
 const ParticipantTable = ({
@@ -19,8 +23,10 @@ const ParticipantTable = ({
     participantType = "player",
     rowClick = () => null,
     kickParticipant = () => null,
+    swapSeedsClick = () => null,
     showControls = false
 }) => {
+    console.log(participantList);
     let TableHeaders;
     let TableContent;
     if (showControls === true) {
@@ -43,18 +49,27 @@ const ParticipantTable = ({
                     >
                         SEED
                     </TableHeaderColumn>
+                    <TableHeaderColumn
+                        colSpan="2"
+                        style={{
+                            textAlign: "center"
+                        }}
+                    >
+                        CHANGE SEED
+                    </TableHeaderColumn>
                     <TableHeaderColumn colSpan="6">
                         {participantType === "player"
                             ? "PLAYER ALIAS"
                             : "TEAM NAME"}
                     </TableHeaderColumn>
+
                     <TableHeaderColumn
                         colSpan="1"
                         style={{
                             textAlign: "center"
                         }}
                     >
-                        REMOVE
+                        KICK
                     </TableHeaderColumn>
                 </TableRow>
             </TableHeader>
@@ -84,11 +99,61 @@ const ParticipantTable = ({
                                 textAlign: "center"
                             }}
                         >
-                            {index + 1}
+                            {participant.seed}
+                        </TableRowColumn>
+                        <TableRowColumn
+                            colSpan="2"
+                            style={{
+                                textAlign: "center"
+                            }}
+                        >
+                            {index === 0 ? (
+                                <FontAwesomeIcon
+                                    style={{
+                                        color: "#222",
+                                        marginRight: "20px"
+                                    }}
+                                    icon={faChevronUp}
+                                />
+                            ) : (
+                                <FontAwesomeIcon
+                                    onClick={() =>
+                                        swapSeedsClick(
+                                            participant.bracket_id,
+                                            participant.id,
+                                            participantList[index - 1].id
+                                        )
+                                    }
+                                    style={{
+                                        color: "white",
+                                        marginRight: "20px"
+                                    }}
+                                    icon={faChevronUp}
+                                />
+                            )}
+                            {index === participantList.length - 1 ? (
+                                <FontAwesomeIcon
+                                    style={{ color: "#222" }}
+                                    icon={faChevronDown}
+                                />
+                            ) : (
+                                <FontAwesomeIcon
+                                    onClick={() =>
+                                        swapSeedsClick(
+                                            participant.bracket_id,
+                                            participant.id,
+                                            participantList[index + 1].id
+                                        )
+                                    }
+                                    style={{ color: "white" }}
+                                    icon={faChevronDown}
+                                />
+                            )}
                         </TableRowColumn>
                         <TableRowColumn colSpan="6">
                             {participant.name}
                         </TableRowColumn>
+
                         <TableRowColumn
                             colSpan="1"
                             style={{

@@ -85,7 +85,11 @@ const initialState = {
 
     // BRACKET PLAYERS
     bracketPlayersLoading: false,
-    bracketPlayersError: false
+    bracketPlayersError: false,
+
+    // SWAP PLAYER SEEDS
+    bracketSeedSwapping: false,
+    bracketSeedSwapError: false
 };
 
 // ----- ACTION TYPES ----- //
@@ -128,6 +132,7 @@ const RESOLVE_BYES = "RESOLVE_BYES";
 const PLAYER_JOIN_BRACKET = "PLAYER_JOIN_BRACKET";
 const BRACKET_KICK_PLAYER = "BRACKET_KICK_PLAYER";
 const RETRIEVE_BRACKET_PLAYERS = "RETRIEVE_BRACKET_PLAYERS";
+const SWAP_SEEDS = "SWAP_SEEDS";
 
 // ------ ACTION CREATORS ----- //
 // GET PUBLIC BRACKETS
@@ -206,7 +211,7 @@ export function completeBracket(bracketID) {
     return {
         type: COMPLETE_BRACKET,
         payload: axios
-            .put(`/api/bracket/${bracketID}/status`, { newStatus: "completed" })
+            .put(`/api/bracket/${bracketID}/status`, { newStatus: "done" })
             .then(response => response.data[0].status)
             .catch(console.log)
     };
@@ -304,7 +309,6 @@ export function playerJoinBracket(bracketID) {
             .catch(console.log)
     };
 }
-
 // KICK BRACKET PLAYER
 export function bracketKickPlayer(bracketID, user_id) {
     return {
@@ -315,13 +319,23 @@ export function bracketKickPlayer(bracketID, user_id) {
             .catch(console.log)
     };
 }
-
 // RETRIEVE ALL PLAYERS
 export function retrieveBracketPlayers(bracketID) {
     return {
         type: RETRIEVE_BRACKET_PLAYERS,
         payload: axios
             .get(`/api/bracket/${bracketID}/players`)
+            .then(response => response.data)
+            .catch(console.log)
+    };
+}
+// SWAP SEEDS FOR 2 PLAYERS
+export function swapSeeds(bracketID, player1_id, player2_id) {
+    const playersToSwap = { player1_id, player2_id };
+    return {
+        type: SWAP_SEEDS,
+        payload: axios
+            .put(`/api/bracket/${bracketID}/players/swap`, playersToSwap)
             .then(response => response.data)
             .catch(console.log)
     };
@@ -641,6 +655,17 @@ export default function reducer(state = initialState, action) {
             });
         case `${RETRIEVE_BRACKET_PLAYERS}_REJECTED`:
             return Object.assign({}, state, { bracketPlayersError: true });
+
+        // SWAP PLAYER SEEDS
+        case `${SWAP_SEEDS}_PENDING`:
+            return Object.assign({}, state, { bracketSeedSwapping: true });
+        case `${SWAP_SEEDS}_FULFILLED`:
+            return Object.assign({}, state, {
+                bracketParticipants: action.payload,
+                bracketSeedSwapping: false
+            });
+        case `${SWAP_SEEDS}_REJECTED`:
+            return Object.assign({}, state, { bracketSeedSwapError: true });
 
         default:
             return state;

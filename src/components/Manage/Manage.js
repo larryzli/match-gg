@@ -12,6 +12,10 @@ import {
     TableRow,
     TableRowColumn
 } from "material-ui/Table";
+import TextField from "material-ui/TextField";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import { Card, CardHeader, CardText } from "material-ui/Card";
 // IMPORT ICONS
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/fontawesome-free-solid";
@@ -25,12 +29,33 @@ import { getCreatorBrackets } from "../../ducks/bracketReducer";
 
 // COMPONENT
 class Manage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            searchNameInput: "",
+            searchSubjectInput: "",
+            searchStatusInput: null
+        };
+    }
     handleRowClick = bracketID => {
         this.props.history.push(`/manage/${bracketID}`);
     };
     componentDidMount() {
         this.props.getCreatorBrackets();
     }
+    searchNameChange = event => {
+        this.setState({
+            searchNameInput: event.target.value
+        });
+    };
+    searchSubjectChange = event => {
+        this.setState({
+            searchSubjectInput: event.target.value
+        });
+    };
+    searchStatusChange = (event, index, value) =>
+        this.setState({ searchStatusInput: value });
     render() {
         let userBrackets = (
             <div className="bracket-list-empty">No Brackets</div>
@@ -95,54 +120,71 @@ class Manage extends Component {
                         stripedRows={false}
                     >
                         {this.props.brackets.bracketList.map(
-                            (bracket, index) => (
-                                <TableRow
-                                    key={index}
-                                    selectable={false}
-                                    style={{
-                                        backgroundColor: "#3a3a3a"
-                                    }}
-                                    onClick={e =>
-                                        this.handleRowClick(bracket.bracket_id)
-                                    }
-                                >
-                                    <TableRowColumn colSpan="6">
-                                        {bracket.bracket_name}
-                                    </TableRowColumn>
-                                    <TableRowColumn colSpan="4">
-                                        {bracket.subject}
-                                    </TableRowColumn>
-                                    <TableRowColumn
-                                        colSpan="2"
+                            (bracket, index) =>
+                                bracket.bracket_name
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchNameInput.toLowerCase()
+                                    ) &&
+                                bracket.subject
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchSubjectInput.toLowerCase()
+                                    ) &&
+                                bracket.status
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchStatusInput || ""
+                                    ) ? (
+                                    <TableRow
+                                        key={index}
+                                        selectable={false}
                                         style={{
-                                            textAlign: "center"
+                                            backgroundColor: "#3a3a3a"
                                         }}
+                                        onClick={e =>
+                                            this.handleRowClick(
+                                                bracket.bracket_id
+                                            )
+                                        }
                                     >
-                                        {moment(bracket.start_date).format(
-                                            "MM/DD/YY"
-                                        )}
-                                    </TableRowColumn>
-                                    <TableRowColumn
-                                        colSpan="2"
-                                        style={{
-                                            textAlign: "center"
-                                        }}
-                                    >
-                                        {moment(bracket.start_time).format(
-                                            "hh:mmA"
-                                        )}
-                                    </TableRowColumn>
-                                    <TableRowColumn
-                                        colSpan="2"
-                                        style={{
-                                            textAlign: "center",
-                                            textTransform: "capitalize"
-                                        }}
-                                    >
-                                        {bracket.status}
-                                    </TableRowColumn>
-                                </TableRow>
-                            )
+                                        <TableRowColumn colSpan="6">
+                                            {bracket.bracket_name}
+                                        </TableRowColumn>
+                                        <TableRowColumn colSpan="4">
+                                            {bracket.subject}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            {moment(bracket.start_date).format(
+                                                "MM/DD/YY"
+                                            )}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            {moment(bracket.start_time).format(
+                                                "hh:mmA"
+                                            )}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center",
+                                                textTransform: "capitalize"
+                                            }}
+                                        >
+                                            {bracket.status}
+                                        </TableRowColumn>
+                                    </TableRow>
+                                ) : null
                         )}
                     </TableBody>
                 </Table>
@@ -169,6 +211,79 @@ class Manage extends Component {
                                         Create
                                     </button>
                                 </Link>
+                            </div>
+                            <div className="search-container">
+                                <Card style={{ backgroundColor: "#222" }}>
+                                    <CardHeader
+                                        title="Search Filters"
+                                        // subtitle="Subtitle"
+                                        actAsExpander={true}
+                                        showExpandableButton={true}
+                                        style={{ textAlign: "left" }}
+                                    />
+                                    <CardText expandable={true}>
+                                        <div className="ui-form-container">
+                                            <div className="ui-form-half-container">
+                                                <TextField
+                                                    value={
+                                                        this.state
+                                                            .searchNameInput
+                                                    }
+                                                    onChange={
+                                                        this.searchNameChange
+                                                    }
+                                                    hintText="Bracket Name"
+                                                    floatingLabelText="Search by Name"
+                                                    fullWidth={true}
+                                                />
+                                            </div>
+                                            <div className="ui-form-divider" />
+                                            <div className="ui-form-half-container">
+                                                <TextField
+                                                    value={
+                                                        this.state
+                                                            .searchSubjectInput
+                                                    }
+                                                    onChange={
+                                                        this.searchSubjectChange
+                                                    }
+                                                    hintText="Bracket Subject"
+                                                    floatingLabelText="Search by Subject"
+                                                    fullWidth={true}
+                                                />
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <SelectField
+                                            floatingLabelText="Filter by Status"
+                                            value={this.state.searchStatusInput}
+                                            onChange={this.searchStatusChange}
+                                            style={{ textAlign: "left" }}
+                                            fullWidth={true}
+                                        >
+                                            <MenuItem
+                                                value={null}
+                                                primaryText=""
+                                            />
+                                            <MenuItem
+                                                value={"draft"}
+                                                primaryText="Draft"
+                                            />
+                                            <MenuItem
+                                                value={"ready"}
+                                                primaryText="Ready"
+                                            />
+                                            <MenuItem
+                                                value={"live"}
+                                                primaryText="Live"
+                                            />
+                                            <MenuItem
+                                                value={"done"}
+                                                primaryText="Done"
+                                            />
+                                        </SelectField>
+                                    </CardText>
+                                </Card>
                             </div>
                             <div className="manage-brackets-list">
                                 {userBrackets}
