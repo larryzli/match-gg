@@ -78,6 +78,7 @@ passport.use(
             scope: "openid profile"
         },
         (accessToken, refreshToken, extraParams, profile, done) => {
+            // console.log(profile);
             app
                 .get("db")
                 .get_user_id_by_auth_id(profile.id)

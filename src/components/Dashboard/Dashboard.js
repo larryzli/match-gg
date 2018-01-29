@@ -358,14 +358,14 @@ class Dashboard extends Component {
                                         borderBottom: "2px solid #5a5a5a"
                                     }}
                                 >
-                                    <div
+                                    {/* <div
                                         className="ui-title-header"
                                         style={{ marginTop: "30px" }}
                                     >
                                         <h2 className="ui-form-title">
                                             My Brackets
                                         </h2>
-                                        {/* <div className="ui-header-controls">
+                                        <div className="ui-header-controls">
                                             <button className="ui-button-header button-main button-short">
                                                 <FontAwesomeIcon
                                                     icon={faSearch}
@@ -373,9 +373,12 @@ class Dashboard extends Component {
                                                 />
                                                 Search
                                             </button>
-                                        </div> */}
-                                    </div>
-                                    <div className="search-container">
+                                        </div>
+                                    </div> */}
+                                    <div
+                                        className="search-container"
+                                        style={{ paddingTop: "15px" }}
+                                    >
                                         <Card
                                             style={{ backgroundColor: "#222" }}
                                         >
@@ -466,14 +469,14 @@ class Dashboard extends Component {
                                         borderBottom: "2px solid #5a5a5a"
                                     }}
                                 >
-                                    <div
+                                    {/* <div
                                         className="ui-title-header"
                                         style={{ marginTop: "30px" }}
                                     >
                                         <h2 className="ui-form-title">
                                             My Matches
                                         </h2>
-                                        {/* <div className="ui-header-controls">
+                                        <div className="ui-header-controls">
                                             <button className="ui-button-header button-main button-short">
                                                 <FontAwesomeIcon
                                                     icon={faSearch}
@@ -481,9 +484,12 @@ class Dashboard extends Component {
                                                 />
                                                 Search
                                             </button>
-                                        </div> */}
-                                    </div>
-                                    <div className="search-container">
+                                        </div>
+                                    </div> */}
+                                    <div
+                                        className="search-container"
+                                        style={{ paddingTop: "15px" }}
+                                    >
                                         <Card
                                             style={{ backgroundColor: "#222" }}
                                         >

@@ -137,7 +137,12 @@ const RoundMatchCards = ({
             );
         });
     } else {
-        roundCards = <div>Bracket has not started</div>;
+        roundCards = (
+            <div>
+                Generate a preview to see what the current match list would look
+                like.
+            </div>
+        );
     }
 
     return <div>{roundCards}</div>;

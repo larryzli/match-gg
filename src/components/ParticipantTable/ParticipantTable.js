@@ -239,7 +239,7 @@ const ParticipantTable = ({
     }
     return (
         <div className="ui-table-container">
-            <Table height="100%" fixedHeader={true}>
+            <Table height="500px" fixedHeader={true}>
                 {TableHeaders}
                 {TableContent}
             </Table>

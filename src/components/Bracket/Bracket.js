@@ -39,6 +39,15 @@ const Bracket = ({
                                         onClick={() =>
                                             matchClick(match.match_id)
                                         }
+                                        style={{
+                                            margin: `${Math.pow(
+                                                match.round_number,
+                                                2
+                                            ) *
+                                                22.5 -
+                                                match.round_number * 22.5 +
+                                                10}px 0`
+                                        }}
                                     >
                                         <div
                                             className={
@@ -101,6 +110,7 @@ const Bracket = ({
                             })}
                         </div>
                     </div>
+
                     <div className="bracket-column-divider" />
                 </div>
             );

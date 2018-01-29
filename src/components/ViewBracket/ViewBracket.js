@@ -160,7 +160,7 @@ class ViewBracket extends Component {
                                             {moment(
                                                 this.props.brackets
                                                     .bracketStartDate
-                                            ).format("dddd, MMMM do, YYYY")}
+                                            ).format("dddd, MMMM Do, YYYY")}
                                             {" at "}
                                             {moment(
                                                 this.props.brackets
@@ -281,7 +281,7 @@ class ViewBracket extends Component {
                                     "ready"
                                 }
                             >
-                                <div className="bracket-tab-content-container bracket-tab-content-fixed">
+                                <div className="bracket-tab-content-container">
                                     {/* <div className="bracket-tab-controls">
                                         <button className="ui-button-header button-secondary button-medium">
                                             <FontAwesomeIcon

@@ -156,7 +156,6 @@ module.exports = {
             .count_bracket_players([bracket_id])
             .then(response => {
                 const newSeed = parseInt(response[0].num_players) + 1;
-                console.log("newSeed: ", newSeed);
 
                 db
                     .join_bracket_as_player([bracket_id, user_id, newSeed])
