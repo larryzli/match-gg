@@ -235,7 +235,6 @@ export function getCreatorBrackets() {
         payload: axios
             .get("/api/manage/brackets")
             .then(response => {
-                console.log(response.data);
                 return response.data;
             })
             .catch(console.log)

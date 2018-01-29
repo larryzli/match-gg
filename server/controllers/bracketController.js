@@ -186,7 +186,6 @@ module.exports = {
         const db = req.app.get("db");
         const bracket_id = req.params.id;
         const { player1_id, player2_id } = req.body;
-        console.log(player1_id, player2_id);
         db.swap_player_seeds([bracket_id, player1_id, player2_id]).then(() => {
             db
                 .get_bracket_players_by_bracket_id([bracket_id])

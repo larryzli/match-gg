@@ -26,7 +26,6 @@ const ParticipantTable = ({
     swapSeedsClick = () => null,
     showControls = false
 }) => {
-    console.log(participantList);
     let TableHeaders;
     let TableContent;
     if (showControls === true) {

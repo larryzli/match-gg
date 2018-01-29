@@ -24,7 +24,6 @@ class Sidebar extends Component {
         this.props.retrieveUser();
     }
     render() {
-        console.log(this.props);
         return (
             <div className="sidebar-container">
                 <div className="site-logo">

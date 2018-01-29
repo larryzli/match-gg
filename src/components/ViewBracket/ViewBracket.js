@@ -7,7 +7,7 @@ import moment from "moment";
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import ParticipantTable from "../ParticipantTable/ParticipantTable";
-import InvitedTable from "../InvitedTable/InvitedTable";
+// import InvitedTable from "../InvitedTable/InvitedTable";
 import RoundMatchCards from "../RoundMatchCards/RoundMatchCards";
 import Bracket from "../Bracket/Bracket";
 // MATERIAL UI
@@ -17,7 +17,7 @@ import Chip from "material-ui/Chip";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
     faPlus,
-    faExpandArrowsAlt,
+    // faExpandArrowsAlt,
     faMinus
     // faEnvelope
 } from "@fortawesome/fontawesome-free-solid";
@@ -58,7 +58,6 @@ class ViewBracket extends Component {
     };
 
     render() {
-        console.log(this.props);
         const breadcrumbs = [
             {
                 name: "Discover",
@@ -244,7 +243,7 @@ class ViewBracket extends Component {
                                                 .bracketParticipants
                                         }
                                     />
-                                    {this.props.brackets.bracketStatus ===
+                                    {/* {this.props.brackets.bracketStatus ===
                                     "ready" ? (
                                         <div>
                                             <div className="ui-subtitle-header">
@@ -263,7 +262,7 @@ class ViewBracket extends Component {
                                                 }
                                             />
                                         </div>
-                                    ) : null}
+                                    ) : null} */}
                                 </div>
                             </Tab>
                             <Tab
@@ -283,7 +282,7 @@ class ViewBracket extends Component {
                                 }
                             >
                                 <div className="bracket-tab-content-container bracket-tab-content-fixed">
-                                    <div className="bracket-tab-controls">
+                                    {/* <div className="bracket-tab-controls">
                                         <button className="ui-button-header button-secondary button-medium">
                                             <FontAwesomeIcon
                                                 icon={faExpandArrowsAlt}
@@ -291,7 +290,7 @@ class ViewBracket extends Component {
                                             />
                                             Fullscreen
                                         </button>
-                                    </div>
+                                    </div> */}
                                     <Bracket
                                         bracketStructure={
                                             this.props.brackets.bracketStructure

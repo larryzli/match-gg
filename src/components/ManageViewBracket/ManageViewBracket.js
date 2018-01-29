@@ -8,7 +8,7 @@ import moment from "moment";
 import Sidebar from "../Sidebar/Sidebar";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import ParticipantTable from "../ParticipantTable/ParticipantTable";
-import InvitedTable from "../InvitedTable/InvitedTable";
+// import InvitedTable from "../InvitedTable/InvitedTable";
 import RoundMatchCards from "../RoundMatchCards/RoundMatchCards";
 import Bracket from "../Bracket/Bracket";
 // MATERIAL UI
@@ -20,8 +20,8 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
     faEdit,
     faCheck,
-    faPlay,
-    faEnvelope
+    faPlay
+    // faEnvelope
     // faExpandArrowsAlt
 } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
@@ -149,7 +149,6 @@ class ManageViewBracket extends Component {
         this.setState({ completeDialog: false });
     };
     render() {
-        console.log(this.props);
         const breadcrumbs = [
             {
                 name: "Manage",
@@ -432,7 +431,7 @@ class ManageViewBracket extends Component {
                                         }
                                         swapSeedsClick={this.props.swapSeeds}
                                     />
-                                    {this.props.brackets.bracketStatus ===
+                                    {/* {this.props.brackets.bracketStatus ===
                                     "ready" ? (
                                         <div>
                                             <div className="ui-subtitle-header">
@@ -461,7 +460,7 @@ class ManageViewBracket extends Component {
                                                 showControls={true}
                                             />
                                         </div>
-                                    ) : null}
+                                    ) : null} */}
                                 </div>
                             </Tab>
                             <Tab

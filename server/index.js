@@ -97,13 +97,13 @@ passport.use(
                                 createdDate
                             ])
                             .then(created => {
-                                console.log("New User: ", created);
+                                // console.log("New User: ", created);
                                 return done(null, created[0]);
                             })
                             .catch(console.log);
                     } else {
                         // Else return existing user
-                        console.log("Existing User: ", response);
+                        // console.log("Existing User: ", response);
                         return done(null, response[0]);
                     }
                 })

@@ -35,7 +35,6 @@ class ManageCreateBracket extends Component {
         this.props.resetInitial();
     }
     render() {
-        console.log(this.props);
         const breadcrumbs = [
             {
                 name: "Manage",

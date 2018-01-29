@@ -16,12 +16,14 @@ const RoundMatchCards = ({
     editClick = () => null,
     confirmClick = () => null
 }) => {
-    console.log(bracketStructure);
     let roundCards;
     if (bracketStructure.numRounds > 0) {
         roundCards = bracketStructure.roundsArr.map((round, index) => {
             return (
-                <Card key={index} style={{ marginBottom: "15px" }}>
+                <Card
+                    key={index}
+                    style={{ marginBottom: "15px", backgroundColor: "#222" }}
+                >
                     <CardHeader
                         title={`${round.roundName}`}
                         subtitle={

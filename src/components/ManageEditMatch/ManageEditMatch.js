@@ -44,7 +44,6 @@ class ManageEditMatch extends Component {
             });
     }
     render() {
-        console.log(this.props);
         const breadcrumbs = [
             { name: "Manage", link: "/manage" },
             {

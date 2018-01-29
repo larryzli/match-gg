@@ -19,7 +19,6 @@ class ViewMatch extends Component {
         this.props.retrieveMatchData(this.props.match.params.matchid);
     }
     render() {
-        console.log(this.props);
         const breadcrumbs = [
             { name: "Discover", link: "/discover" },
             {

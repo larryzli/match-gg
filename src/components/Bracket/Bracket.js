@@ -106,7 +106,12 @@ const Bracket = ({
             );
         });
     } else {
-        bracketView = <div>Bracket has not started</div>;
+        bracketView = (
+            <div>
+                Generate a preview to see what the current bracket would look
+                like.
+            </div>
+        );
     }
 
     return <div className="bracket-tab-viewer">{bracketView}</div>;

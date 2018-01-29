@@ -20,8 +20,8 @@ import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 // IMPORT ICONS
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/fontawesome-free-solid";
+// import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+// import { faSearch } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./Discover.css";
 // IMPORT REDUX FUNCTIONS

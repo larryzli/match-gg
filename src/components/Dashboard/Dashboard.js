@@ -14,9 +14,14 @@ import {
     TableRow,
     TableRowColumn
 } from "material-ui/Table";
+import { Tabs, Tab } from "material-ui/Tabs";
+import TextField from "material-ui/TextField";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import { Card, CardHeader, CardText } from "material-ui/Card";
 // IMPORT ICONS
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/fontawesome-free-solid";
+// import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+// import { faSearch } from "@fortawesome/fontawesome-free-solid";
 // IMPORT STYLING
 import "./Dashboard.css";
 // IMPORT REDUX FUNCTIONS
@@ -25,6 +30,43 @@ import { retrieveUserMatches } from "../../ducks/matchReducer";
 
 // COMPONENT
 class Dashboard extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            searchNameInput: "",
+            searchSubjectInput: "",
+            searchStatusInput: null,
+
+            searchMatchNameInput: "",
+            searchMatchSubjectInput: "",
+            searchMatchStatusInput: false
+        };
+    }
+    searchMatchNameChange = event => {
+        this.setState({
+            searchMatchNameInput: event.target.value
+        });
+    };
+    searchMatchSubjectChange = event => {
+        this.setState({
+            searchMatchSubjectInput: event.target.value
+        });
+    };
+    searchMatchStatusChange = (event, index, value) =>
+        this.setState({ searchMatchStatusInput: value });
+    searchNameChange = event => {
+        this.setState({
+            searchNameInput: event.target.value
+        });
+    };
+    searchSubjectChange = event => {
+        this.setState({
+            searchSubjectInput: event.target.value
+        });
+    };
+    searchStatusChange = (event, index, value) =>
+        this.setState({ searchStatusInput: value });
     handleRowClick = bracketID => {
         this.props.history.push(`/discover/view/${bracketID}`);
     };
@@ -36,10 +78,14 @@ class Dashboard extends Component {
         this.props.retrieveUserMatches();
     }
     render() {
-        console.log(this.props);
+        // console.log(this.props);
         const breadcrumbs = [{ name: "Dashboard", link: "/dashboard" }];
-        let myBrackets = <div className="bracket-list-empty">No Brackets</div>;
-        let myMatches = <div className="bracket-list-empty">No Brackets</div>;
+        let myBrackets = (
+            <div className="bracket-list-empty">No Brackets Found</div>
+        );
+        let myMatches = (
+            <div className="bracket-list-empty">No Matches Found</div>
+        );
         if (this.props.brackets.bracketList) {
             myBrackets = (
                 <Table height="100%" fixedHeader={true}>
@@ -100,54 +146,71 @@ class Dashboard extends Component {
                         stripedRows={false}
                     >
                         {this.props.brackets.bracketList.map(
-                            (bracket, index) => (
-                                <TableRow
-                                    key={index}
-                                    selectable={false}
-                                    style={{
-                                        backgroundColor: "#3a3a3a"
-                                    }}
-                                    onClick={e =>
-                                        this.handleRowClick(bracket.bracket_id)
-                                    }
-                                >
-                                    <TableRowColumn colSpan="6">
-                                        {bracket.bracket_name}
-                                    </TableRowColumn>
-                                    <TableRowColumn colSpan="4">
-                                        {bracket.subject}
-                                    </TableRowColumn>
-                                    <TableRowColumn
-                                        colSpan="2"
+                            (bracket, index) =>
+                                bracket.bracket_name
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchNameInput.toLowerCase()
+                                    ) &&
+                                bracket.subject
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchSubjectInput.toLowerCase()
+                                    ) &&
+                                bracket.status
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchStatusInput || ""
+                                    ) ? (
+                                    <TableRow
+                                        key={index}
+                                        selectable={false}
                                         style={{
-                                            textAlign: "center"
+                                            backgroundColor: "#3a3a3a"
                                         }}
+                                        onClick={e =>
+                                            this.handleRowClick(
+                                                bracket.bracket_id
+                                            )
+                                        }
                                     >
-                                        {moment(bracket.start_date).format(
-                                            "MM/DD/YY"
-                                        )}
-                                    </TableRowColumn>
-                                    <TableRowColumn
-                                        colSpan="2"
-                                        style={{
-                                            textAlign: "center"
-                                        }}
-                                    >
-                                        {moment(bracket.start_time).format(
-                                            "hh:mmA"
-                                        )}
-                                    </TableRowColumn>
-                                    <TableRowColumn
-                                        colSpan="2"
-                                        style={{
-                                            textAlign: "center",
-                                            textTransform: "capitalize"
-                                        }}
-                                    >
-                                        {bracket.status}
-                                    </TableRowColumn>
-                                </TableRow>
-                            )
+                                        <TableRowColumn colSpan="6">
+                                            {bracket.bracket_name}
+                                        </TableRowColumn>
+                                        <TableRowColumn colSpan="4">
+                                            {bracket.subject}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            {moment(bracket.start_date).format(
+                                                "MM/DD/YY"
+                                            )}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            {moment(bracket.start_time).format(
+                                                "hh:mmA"
+                                            )}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center",
+                                                textTransform: "capitalize"
+                                            }}
+                                        >
+                                            {bracket.status}
+                                        </TableRowColumn>
+                                    </TableRow>
+                                ) : null
                         )}
                     </TableBody>
                 </Table>
@@ -212,55 +275,71 @@ class Dashboard extends Component {
                         showRowHover={true}
                         stripedRows={false}
                     >
-                        {this.props.matches.matchList.map((match, index) => (
-                            <TableRow
-                                key={index}
-                                selectable={false}
-                                style={{
-                                    backgroundColor: "#3a3a3a"
-                                }}
-                                onClick={e =>
-                                    this.handleMatchClick(
-                                        match.match_id,
-                                        match.bracket_id
-                                    )
-                                }
-                            >
-                                <TableRowColumn colSpan="6">
-                                    {match.bracket_name}
-                                </TableRowColumn>
-                                <TableRowColumn colSpan="3">
-                                    {match.subject}
-                                </TableRowColumn>
-                                <TableRowColumn
-                                    colSpan="2"
-                                    style={{
-                                        textAlign: "center"
-                                    }}
-                                >
-                                    {(this.props.users.user.user_id ===
-                                    match.team1_id
-                                        ? match.team2_name
-                                        : match.team1_name) || "TBD"}
-                                </TableRowColumn>
-                                <TableRowColumn
-                                    colSpan="3"
-                                    style={{
-                                        textAlign: "center"
-                                    }}
-                                >
-                                    {match.round_number}
-                                </TableRowColumn>
-                                <TableRowColumn
-                                    colSpan="2"
-                                    style={{
-                                        textAlign: "center"
-                                    }}
-                                >
-                                    {match.completed ? "Done" : "Pending"}
-                                </TableRowColumn>
-                            </TableRow>
-                        ))}
+                        {this.props.matches.matchList.map(
+                            (match, index) =>
+                                match.bracket_name
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchMatchNameInput.toLowerCase()
+                                    ) &&
+                                match.subject
+                                    .toLowerCase()
+                                    .includes(
+                                        this.state.searchMatchSubjectInput.toLowerCase()
+                                    ) &&
+                                match.completed ===
+                                    this.state.searchMatchStatusInput ? (
+                                    <TableRow
+                                        key={index}
+                                        selectable={false}
+                                        style={{
+                                            backgroundColor: "#3a3a3a"
+                                        }}
+                                        onClick={e =>
+                                            this.handleMatchClick(
+                                                match.match_id,
+                                                match.bracket_id
+                                            )
+                                        }
+                                    >
+                                        <TableRowColumn colSpan="6">
+                                            {match.bracket_name}
+                                        </TableRowColumn>
+                                        <TableRowColumn colSpan="3">
+                                            {match.subject}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            {(this.props.users.user.user_id ===
+                                            match.team1_id
+                                                ? match.team2_name
+                                                : match.team1_name) || "TBD"}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="3"
+                                            style={{
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            {match.round_number}
+                                        </TableRowColumn>
+                                        <TableRowColumn
+                                            colSpan="2"
+                                            style={{
+                                                textAlign: "center"
+                                            }}
+                                        >
+                                            {match.completed
+                                                ? "Done"
+                                                : "Pending"}
+                                        </TableRowColumn>
+                                    </TableRow>
+                                ) : null
+                        )}
                     </TableBody>
                 </Table>
             );
@@ -272,39 +351,216 @@ class Dashboard extends Component {
                     <div className="content-container">
                         <Breadcrumb crumbsArray={breadcrumbs} />
                         <div className="dashboard-container">
-                            <div className="ui-title-header">
-                                <h2 className="ui-form-title">My Brackets</h2>
-                                <div className="ui-header-controls">
-                                    <button className="ui-button-header button-main button-short">
-                                        <FontAwesomeIcon
-                                            icon={faSearch}
-                                            className="ui-button-icon"
-                                        />
-                                        Search
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="dashboard-bracket-list">
-                                {myBrackets}
-                            </div>
-                            <div
-                                className="ui-title-header"
-                                style={{ marginTop: "30px" }}
-                            >
-                                <h2 className="ui-form-title">My Matches</h2>
-                                <div className="ui-header-controls">
-                                    <button className="ui-button-header button-main button-short">
-                                        <FontAwesomeIcon
-                                            icon={faSearch}
-                                            className="ui-button-icon"
-                                        />
-                                        Search
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="dashboard-bracket-list">
-                                {myMatches}
-                            </div>
+                            <Tabs style={{ width: "100%" }}>
+                                <Tab
+                                    label="MY BRACKETS"
+                                    style={{
+                                        borderBottom: "2px solid #5a5a5a"
+                                    }}
+                                >
+                                    <div
+                                        className="ui-title-header"
+                                        style={{ marginTop: "30px" }}
+                                    >
+                                        <h2 className="ui-form-title">
+                                            My Brackets
+                                        </h2>
+                                        {/* <div className="ui-header-controls">
+                                            <button className="ui-button-header button-main button-short">
+                                                <FontAwesomeIcon
+                                                    icon={faSearch}
+                                                    className="ui-button-icon"
+                                                />
+                                                Search
+                                            </button>
+                                        </div> */}
+                                    </div>
+                                    <div className="search-container">
+                                        <Card
+                                            style={{ backgroundColor: "#222" }}
+                                        >
+                                            <CardHeader
+                                                title="Search Filters"
+                                                // subtitle="Subtitle"
+                                                actAsExpander={true}
+                                                showExpandableButton={true}
+                                                style={{ textAlign: "left" }}
+                                            />
+                                            <CardText expandable={true}>
+                                                <div className="ui-form-container">
+                                                    <div className="ui-form-half-container">
+                                                        <TextField
+                                                            value={
+                                                                this.state
+                                                                    .searchNameInput
+                                                            }
+                                                            onChange={
+                                                                this
+                                                                    .searchNameChange
+                                                            }
+                                                            hintText="Bracket Name"
+                                                            floatingLabelText="Search by Name"
+                                                            fullWidth={true}
+                                                        />
+                                                    </div>
+                                                    <div className="ui-form-divider" />
+                                                    <div className="ui-form-half-container">
+                                                        <TextField
+                                                            value={
+                                                                this.state
+                                                                    .searchSubjectInput
+                                                            }
+                                                            onChange={
+                                                                this
+                                                                    .searchSubjectChange
+                                                            }
+                                                            hintText="Bracket Subject"
+                                                            floatingLabelText="Search by Subject"
+                                                            fullWidth={true}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <SelectField
+                                                    floatingLabelText="Filter by Status"
+                                                    value={
+                                                        this.state
+                                                            .searchStatusInput
+                                                    }
+                                                    onChange={
+                                                        this.searchStatusChange
+                                                    }
+                                                    style={{
+                                                        textAlign: "left"
+                                                    }}
+                                                    fullWidth={true}
+                                                >
+                                                    <MenuItem
+                                                        value={null}
+                                                        primaryText=""
+                                                    />
+                                                    <MenuItem
+                                                        value={"ready"}
+                                                        primaryText="Ready"
+                                                    />
+                                                    <MenuItem
+                                                        value={"live"}
+                                                        primaryText="Live"
+                                                    />
+                                                    <MenuItem
+                                                        value={"done"}
+                                                        primaryText="Done"
+                                                    />
+                                                </SelectField>
+                                            </CardText>
+                                        </Card>
+                                    </div>
+                                    <div className="manage-brackets-list">
+                                        {myBrackets}
+                                    </div>
+                                </Tab>
+
+                                <Tab
+                                    label="MY MATCHES"
+                                    style={{
+                                        borderBottom: "2px solid #5a5a5a"
+                                    }}
+                                >
+                                    <div
+                                        className="ui-title-header"
+                                        style={{ marginTop: "30px" }}
+                                    >
+                                        <h2 className="ui-form-title">
+                                            My Matches
+                                        </h2>
+                                        {/* <div className="ui-header-controls">
+                                            <button className="ui-button-header button-main button-short">
+                                                <FontAwesomeIcon
+                                                    icon={faSearch}
+                                                    className="ui-button-icon"
+                                                />
+                                                Search
+                                            </button>
+                                        </div> */}
+                                    </div>
+                                    <div className="search-container">
+                                        <Card
+                                            style={{ backgroundColor: "#222" }}
+                                        >
+                                            <CardHeader
+                                                title="Search Filters"
+                                                // subtitle="Subtitle"
+                                                actAsExpander={true}
+                                                showExpandableButton={true}
+                                                style={{ textAlign: "left" }}
+                                            />
+                                            <CardText expandable={true}>
+                                                <div className="ui-form-container">
+                                                    <div className="ui-form-half-container">
+                                                        <TextField
+                                                            value={
+                                                                this.state
+                                                                    .searchMatchNameInput
+                                                            }
+                                                            onChange={
+                                                                this
+                                                                    .searchMatchNameChange
+                                                            }
+                                                            hintText="Bracket Name"
+                                                            floatingLabelText="Search by Name"
+                                                            fullWidth={true}
+                                                        />
+                                                    </div>
+                                                    <div className="ui-form-divider" />
+                                                    <div className="ui-form-half-container">
+                                                        <TextField
+                                                            value={
+                                                                this.state
+                                                                    .searchMatchSubjectInput
+                                                            }
+                                                            onChange={
+                                                                this
+                                                                    .searchMatchSubjectChange
+                                                            }
+                                                            hintText="Bracket Subject"
+                                                            floatingLabelText="Search by Subject"
+                                                            fullWidth={true}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <SelectField
+                                                    floatingLabelText="Filter by Status"
+                                                    value={
+                                                        this.state
+                                                            .searchMatchStatusInput
+                                                    }
+                                                    onChange={
+                                                        this
+                                                            .searchMatchStatusChange
+                                                    }
+                                                    style={{
+                                                        textAlign: "left"
+                                                    }}
+                                                    fullWidth={true}
+                                                >
+                                                    <MenuItem
+                                                        value={false}
+                                                        primaryText="Pending"
+                                                    />
+                                                    <MenuItem
+                                                        value={true}
+                                                        primaryText="Done"
+                                                    />
+                                                </SelectField>
+                                            </CardText>
+                                        </Card>
+                                    </div>
+                                    <div className="manage-brackets-list">
+                                        {myMatches}
+                                    </div>
+                                </Tab>
+                            </Tabs>
                         </div>
                     </div>
                 </div>
