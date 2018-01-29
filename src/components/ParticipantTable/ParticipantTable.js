@@ -123,8 +123,9 @@ const ParticipantTable = ({
                                             participantList[index - 1].id
                                         )
                                     }
+                                    className="ui-table-control"
                                     style={{
-                                        color: "white",
+                                        // color: "white",
                                         marginRight: "20px"
                                     }}
                                     icon={faChevronUp}
@@ -144,7 +145,8 @@ const ParticipantTable = ({
                                             participantList[index + 1].id
                                         )
                                     }
-                                    style={{ color: "white" }}
+                                    className="ui-table-control"
+                                    // style={{ color: "white" }}
                                     icon={faChevronDown}
                                 />
                             )}
@@ -166,7 +168,8 @@ const ParticipantTable = ({
                                         participant.id
                                     )
                                 }
-                                style={{ color: "#d32f2f" }}
+                                className="ui-table-control-kick"
+                                // style={{ color: "#d32f2f" }}
                                 icon={faTimes}
                             />
                         </TableRowColumn>

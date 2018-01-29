@@ -155,6 +155,18 @@
     width: 500px;
     min-width: 500px;
 } */
+.ui-table-control {
+    color: #7986cb;
+}
+.ui-table-control:hover {
+    color: white;
+}
+.ui-table-control-kick {
+    color: white;
+}
+.ui-table-control-kick:hover {
+    color: #d32f2f;
+}
 .ui-form-half-container {
     width: 47%;
     display: inline-block;
